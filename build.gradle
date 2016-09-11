@@ -24,8 +24,12 @@ apply plugin: 'spring-boot'
 apply plugin: 'eclipse'
 apply plugin: 'idea'
 
+// custom properties
+apply from: "$projectDir/gradle/properties/custom_properties.gradle"
+
 // plugins
-apply from: "$projectDir/gradle/custom/checkstyle_plugin.gradle"
+apply from: "$projectDir/gradle/plugins/checkstyle_plugin.gradle"
+apply from: "$projectDir/gradle/plugins/pmd_plugin.gradle"
 
 // default project definition
 group = "inspectit.rocks"

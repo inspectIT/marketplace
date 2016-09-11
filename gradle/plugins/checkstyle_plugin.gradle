@@ -1,0 +1,24 @@
+/**
+ * Apply checkstyle plugin.
+ *
+ * @author Nikita Kolytschew
+ * @version %I%, %G%
+ * @since 1.0.0-SNAPSHOT
+ */
+
+
+apply plugin: 'checkstyle'
+
+
+/** Task for the Checkstyle. */
+checkstyle {
+	sourceSets = [sourceSets.main]
+	configFile = file(checkstyleConfigFile)
+	reportsDir = file(exportCheckstyleAnalysis)
+	toolVersion = '7.1.1'
+}
+
+task checkstyleHtmlReport << {
+	ant.xslt(in: "${exportCheckstyleAnalysis}/main.xml", style: "${checkstyleReportFile}", out: "${exportCheckstyleAnalysis}/checkstyle.html")
+}
+checkstyleMain.finalizedBy checkstyleHtmlReport

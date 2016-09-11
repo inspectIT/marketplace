@@ -1,0 +1,28 @@
+/**
+ * Apply pmd plugin.
+ *
+ * @author Nikita Kolytschew
+ * @version %I%, %G%
+ * @since 1.0.0-SNAPSHOT
+ */
+
+
+apply plugin: 'pmd'
+
+
+/** Task for the PMD. */
+pmd {
+	sourceSets = [sourceSets.main]
+	ruleSetFiles = files(pmdRulesFile)
+	ruleSets = []
+	reportsDir = file(exportPMDAnalysis)
+	toolVersion = '5.5.1'
+}
+
+
+task pmdHtmlReport << {
+	ant.xslt(in: "${exportPMDAnalysis}/main.xml", style: "${pmdReportFile}", out: "${exportPMDAnalysis}/sortable_report.html")
+	ant.copy(todir: exportPMDAnalysis, file: pmdSortableFile)
+	new File(exportPMDAnalysis, "pmd.html").text = "<meta http-equiv=\"refresh\" content=\"0; url=pmd/sortable_report.html\" >"
+}
+pmdMain.finalizedBy pmdHtmlReport
