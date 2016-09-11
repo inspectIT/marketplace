@@ -1,0 +1,64 @@
+/**
+ * @author Nikita Kolytschew
+ * @version %I%, %G%
+ * @since 1.0.0-SNAPSHOT
+ */
+
+// default spring-boot build-script
+buildscript {
+	ext {
+		springBootVersion = '1.4.0.RELEASE'
+	}
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+	}
+}
+
+apply plugin: 'java'
+apply plugin: 'spring-boot'
+
+// IDE Plugins
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+
+// default project definition
+group = "inspectit.rocks"
+version = "1.0.0-SNAPSHOT"
+
+description = "TODO"
+
+// Java Version
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+// add jar information
+jar {
+	baseName = 'marketplace'
+	version = '1.0.0-SNAPSHOT'
+}
+
+// define repo to obtain dependencies from
+repositories {
+	mavenCentral()
+	// jcenter()
+}
+
+// set dependencies
+dependencies {
+	// default
+	compile('org.springframework.boot:spring-boot-starter-actuator')
+	compile('org.springframework.boot:spring-boot-starter-web')
+
+	// test dependencies
+	testCompile('org.springframework.boot:spring-boot-starter-test')
+}
+
+
+// define wrapper version to 3.0
+task wrapper(type: Wrapper) {
+	description = 'Generates gradlew[.bat] scripts'
+	gradleVersion = '3.0'
+}
