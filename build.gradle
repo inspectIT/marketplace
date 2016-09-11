@@ -30,6 +30,7 @@ apply from: "$projectDir/gradle/properties/custom_properties.gradle"
 // plugins
 apply from: "$projectDir/gradle/plugins/checkstyle_plugin.gradle"
 apply from: "$projectDir/gradle/plugins/pmd_plugin.gradle"
+apply from: "$projectDir/gradle/plugins/findbugs_plugin.gradle"
 
 // default project definition
 group = "inspectit.rocks"

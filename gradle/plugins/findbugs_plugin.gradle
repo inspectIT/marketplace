@@ -1,0 +1,39 @@
+/**
+ * Apply findbugs plugin.
+ *
+ * @author Nikita Kolytschew
+ * @version %I%, %G%
+ * @since 1.0.0-SNAPSHOT
+ */
+
+
+apply plugin: 'findbugs'
+
+
+/** Task for FindBugs. */
+tasks.withType(FindBugs) {
+	includeFilter file(findbugsConfigInclude)
+	excludeFilter file(findbugsConfigExclude)
+	reports {
+		xml.enabled false
+		html.enabled true
+		html.stylesheet resources.text.fromFile("${findbugsConfigFancyHist}")
+		html.destination "${exportFindBugsAnalysis}/findbugs.html"
+	}
+}
+
+/** obsolete ? */
+/*
+ findbugs {
+	sourceSets = [sourceSets.main]
+	includeFilter = file(findbugsConfigInclude)
+	excludeFilter = file(findbugsConfigExclude)
+	reportsDir = file(exportFindBugsAnalysis)
+	toolVersion = '3.0.1'
+}
+
+task findbugsHtmlReport << {
+	ant.xslt(in: "${exportFindBugsAnalysis}/main.xml", style: findbugsConfigFancyHist, out: "${exportFindBugsAnalysis}/findbugs.html")
+}
+findbugsMain.finalizedBy findbugsHtmlReport
+*/

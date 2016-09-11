@@ -1,6 +1,4 @@
 /**
- * Apply pmd plugin.
- *
  * @author Nikita Kolytschew
  * @version %I%, %G%
  * @since 1.0.0-SNAPSHOT
@@ -14,6 +12,7 @@ ext {
 	/** export destinations */
 	exportCheckstyleAnalysis = "${buildQAMainExportDir}/static_analysis/checkstyle"
 	exportPMDAnalysis = "${buildQAMainExportDir}/static_analysis/pmd"
+	exportFindBugsAnalysis = "${buildQAMainExportDir}/findbugs"
 
 	/** Shared resources settings. */
 	sharedResourcesConfig = "$projectDir/src/main/resources/gradle/plugin/config/"
@@ -26,4 +25,9 @@ ext {
 	pmdRulesFile = "${sharedResourcesConfig}/pmd/pmd_rules.xml"
 	pmdReportFile = "${sharedResourcesConfig}/pmd/pmd-report.xslt"
 	pmdSortableFile = "${sharedResourcesConfig}/pmd/sorttable.js"
+
+	/** FindBugs settings */
+	findbugsConfigFancyHist = "${sharedResourcesConfig}/findbugs/fancy-hist.xsl"
+	findbugsConfigInclude = "${sharedResourcesConfig}/findbugs/findBugsIncludeFilter.xml"
+	findbugsConfigExclude = "${sharedResourcesConfig}/findbugs/findBugsExcludeFilter.xml"
 }

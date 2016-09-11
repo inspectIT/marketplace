@@ -10,7 +10,20 @@
 apply plugin: 'pmd'
 
 
-/** Task for the PMD. */
+/** Task for the Pmd. */
+tasks.withType(Pmd) {
+	setRuleSetFiles(files(pmdRulesFile))
+
+	reports {
+		xml.enabled false
+		html.enabled true
+		// html.stylesheet resources.text.fromFile("${pmdReportFile}")
+		html.destination "${exportPMDAnalysis}/sortable_report.html"
+	}
+}
+
+/** obsolete ? */
+/*
 pmd {
 	sourceSets = [sourceSets.main]
 	ruleSetFiles = files(pmdRulesFile)
@@ -18,10 +31,10 @@ pmd {
 	reportsDir = file(exportPMDAnalysis)
 	toolVersion = '5.5.1'
 }
-
+*/
 
 task pmdHtmlReport << {
-	ant.xslt(in: "${exportPMDAnalysis}/main.xml", style: "${pmdReportFile}", out: "${exportPMDAnalysis}/sortable_report.html")
+//	ant.xslt(in: "${exportPMDAnalysis}/main.xml", style: "${pmdReportFile}", out: "${exportPMDAnalysis}/sortable_report.html")
 	ant.copy(todir: exportPMDAnalysis, file: pmdSortableFile)
 	new File(exportPMDAnalysis, "pmd.html").text = "<meta http-equiv=\"refresh\" content=\"0; url=pmd/sortable_report.html\" >"
 }

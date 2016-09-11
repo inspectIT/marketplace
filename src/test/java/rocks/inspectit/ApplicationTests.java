@@ -18,7 +18,8 @@ public class ApplicationTests {
 
 	@Test
 	public void contextLoads() {
-		assertTrue(true);
+		final String empty = "";
+		assertTrue(empty.isEmpty());
 	}
 
 }
