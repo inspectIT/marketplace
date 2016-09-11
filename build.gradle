@@ -24,6 +24,9 @@ apply plugin: 'spring-boot'
 apply plugin: 'eclipse'
 apply plugin: 'idea'
 
+// plugins
+apply from: "$projectDir/gradle/custom/checkstyle_plugin.gradle"
+
 // default project definition
 group = "inspectit.rocks"
 version = "1.0.0-SNAPSHOT"
