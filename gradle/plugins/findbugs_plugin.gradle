@@ -20,19 +20,3 @@ tasks.withType(FindBugs) {
 		html.destination "${exportFindBugsAnalysis}/findbugs.html"
 	}
 }
-
-/** obsolete ? */
-/*
- findbugs {
-	sourceSets = [sourceSets.main]
-	includeFilter = file(findbugsConfigInclude)
-	excludeFilter = file(findbugsConfigExclude)
-	reportsDir = file(exportFindBugsAnalysis)
-	toolVersion = '3.0.1'
-}
-
-task findbugsHtmlReport << {
-	ant.xslt(in: "${exportFindBugsAnalysis}/main.xml", style: findbugsConfigFancyHist, out: "${exportFindBugsAnalysis}/findbugs.html")
-}
-findbugsMain.finalizedBy findbugsHtmlReport
-*/
