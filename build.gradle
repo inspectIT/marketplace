@@ -17,6 +17,13 @@ buildscript {
 	}
 }
 
+/** apply cpd to the root project, as this was how the plugin is intended to be used
+ * using new Gradle plugins DSL see: https://github.com/aaschmid/gradle-cpd-plugin
+ **/
+plugins {
+	id "de.aaschmid.cpd" version "1.0"
+}
+
 apply plugin: 'java'
 apply plugin: 'spring-boot'
 
@@ -31,6 +38,7 @@ apply from: "$projectDir/gradle/properties/custom_properties.gradle"
 apply from: "$projectDir/gradle/plugins/checkstyle_plugin.gradle"
 apply from: "$projectDir/gradle/plugins/pmd_plugin.gradle"
 apply from: "$projectDir/gradle/plugins/findbugs_plugin.gradle"
+apply from: "$projectDir/gradle/plugins/cpd_plugin.gradle"
 
 // default project definition
 group = "inspectit.rocks"

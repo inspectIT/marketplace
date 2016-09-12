@@ -9,7 +9,7 @@
 
 apply plugin: 'checkstyle'
 
-/** Task for the Checkstyle. */
+/** Task for Checkstyle. */
 tasks.withType(Checkstyle) {
 	configFile file(checkstyleConfigFile)
 

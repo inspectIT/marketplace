@@ -12,7 +12,8 @@ ext {
 	/** export destinations */
 	exportCheckstyleAnalysis = "${buildQAMainExportDir}/static_analysis/checkstyle"
 	exportPMDAnalysis = "${buildQAMainExportDir}/static_analysis/pmd"
-	exportFindBugsAnalysis = "${buildQAMainExportDir}/findbugs"
+	exportFindBugsAnalysis = "${buildQAMainExportDir}/static_analysis/findbugs"
+	exportCPDAnalysis =  "${buildQAMainExportDir}/static_analysis/cpd"
 
 	/** Shared resources settings. */
 	sharedResourcesConfig = "$projectDir/src/main/resources/gradle/plugin/config/"
@@ -30,4 +31,7 @@ ext {
 	findbugsConfigFancyHist = "${sharedResourcesConfig}/findbugs/fancy-hist.xsl"
 	findbugsConfigInclude = "${sharedResourcesConfig}/findbugs/findBugsIncludeFilter.xml"
 	findbugsConfigExclude = "${sharedResourcesConfig}/findbugs/findBugsExcludeFilter.xml"
+
+	/** CPD settings */
+	cpdReportFile ="${sharedResourcesConfig}/cpd/cpdhtml.xslt"
 }

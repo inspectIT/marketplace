@@ -9,7 +9,6 @@
 
 apply plugin: 'findbugs'
 
-
 /** Task for FindBugs. */
 tasks.withType(FindBugs) {
 	includeFilter file(findbugsConfigInclude)

@@ -1,0 +1,29 @@
+/**
+ * Apply checkstyle plugin.
+ *
+ * @author Nikita Kolytschew
+ * @version %I%, %G%
+ * @since 1.0.0-SNAPSHOT
+ */
+
+/** Task for CPD. */
+cpd {
+	skipLexicalErrors = true
+	minimumTokenCount = 100
+}
+
+cpdCheck {
+	// ignoring CPD failures on purpose
+	ignoreFailures = true
+	reports {
+		xml {
+			enabled = true
+			destination = file("${exportCPDAnalysis}/main.xml")
+		}
+	}
+}
+
+task cpdHtmlReport << {
+	ant.xslt(in: "${exportCPDAnalysis}/main.xml", style: cpdReportFile, out: "${exportCPDAnalysis}/cpd.html")
+}
+cpdCheck.finalizedBy cpdHtmlReport
