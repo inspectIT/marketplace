@@ -69,3 +69,9 @@ gradle-app.setting
 
 ### Java template
 *.class
+
+
+### Exclude Node Folders
+/src/main/resources/frontend/angular2/npm-debug.log
+/src/main/resources/frontend/angular2/node_modules/
+/src/main/resources/frontend/angular2/typings/

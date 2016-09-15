@@ -13,10 +13,11 @@ ext {
 	exportCheckstyleAnalysis = "${buildQAMainExportDir}/static_analysis/checkstyle"
 	exportPMDAnalysis = "${buildQAMainExportDir}/static_analysis/pmd"
 	exportFindBugsAnalysis = "${buildQAMainExportDir}/static_analysis/findbugs"
-	exportCPDAnalysis =  "${buildQAMainExportDir}/static_analysis/cpd"
+	exportCPDAnalysis = "${buildQAMainExportDir}/static_analysis/cpd"
 
 	/** Shared resources settings. */
-	sharedResourcesConfig = "$projectDir/src/main/resources/gradle/plugin/config/"
+	sharedResourcesMain = "$projectDir/src/main/resources"
+	sharedResourcesConfig = "${sharedResourcesMain}/gradle/plugin/config/"
 
 	/** Checkstyle settings */
 	checkstyleConfigFile = "${sharedResourcesConfig}/checkstyle/inspectit-checkstyle.xml"
@@ -33,5 +34,11 @@ ext {
 	findbugsConfigExclude = "${sharedResourcesConfig}/findbugs/findBugsExcludeFilter.xml"
 
 	/** CPD settings */
-	cpdReportFile ="${sharedResourcesConfig}/cpd/cpdhtml.xslt"
+	cpdReportFile = "${sharedResourcesConfig}/cpd/cpdhtml.xslt"
+
+
+	// Random Properties
+	/** gradle node plugin - set version to current */
+	nodeVersion = '6.5.0'
+	npmVersion = '3.10.3'
 }

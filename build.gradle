@@ -22,6 +22,7 @@ buildscript {
  **/
 plugins {
 	id "de.aaschmid.cpd" version "1.0"
+	id "com.moowork.node" version "0.13"
 }
 
 apply plugin: 'java'
@@ -39,6 +40,7 @@ apply from: "$projectDir/gradle/plugins/checkstyle_plugin.gradle"
 apply from: "$projectDir/gradle/plugins/pmd_plugin.gradle"
 apply from: "$projectDir/gradle/plugins/findbugs_plugin.gradle"
 apply from: "$projectDir/gradle/plugins/cpd_plugin.gradle"
+apply from: "$projectDir/gradle/plugins/node_plugin.gradle"
 
 // default project definition
 group = "inspectit.rocks"
@@ -61,6 +63,10 @@ repositories {
 	mavenCentral()
 	// jcenter()
 }
+
+// tasks
+apply from: "$projectDir/gradle/tasks/gradle_node_tasks.gradle"
+
 
 // set dependencies
 dependencies {

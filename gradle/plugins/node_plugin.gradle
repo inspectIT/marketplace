@@ -1,0 +1,21 @@
+/**
+ * Configure Node Plugin
+ *
+ * @author Nikita Kolytschew
+ * @version %I%, %G%
+ * @since 1.0.0-SNAPSHOT
+ */
+
+
+node {
+	version = "$nodeVersion"
+	npmVersion = "$npmVersion"
+	download = true
+
+	// Set the work directory for unpacking node - use default: ${base}/build/nodejs
+	workDir = file("${project.buildDir}/nodejs")
+	// workDir = file("${sharedResourcesMain}/frontend/")
+
+	// Set the work directory where node_modules should be located
+	nodeModulesDir = file("${sharedResourcesMain}/frontend/angular2")
+}
