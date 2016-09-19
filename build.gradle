@@ -47,7 +47,7 @@ apply from: "$projectDir/gradle/plugins/cpd_plugin.gradle"
 apply from: "$projectDir/gradle/plugins/node_plugin.gradle"
 
 // default project definition
-// docker iamge prefix will be taken from group
+// docker image prefix will be taken from group
 group = "inspectit.rocks"
 version = "1.0.1-SNAPSHOT"
 description = "TODO"
@@ -59,7 +59,6 @@ targetCompatibility = 1.8
 // add jar information
 jar {
 	baseName = 'marketplace'
-	version = version
 }
 
 // define repo to obtain dependencies from

@@ -9,13 +9,20 @@
 
 task buildDocker(type: Docker) {
 	// push = true
-	// applicationName = "$jar.baseName.$version"
+	applicationName = "${jar.baseName}"
 	dockerfile = file("$sharedResourcesMain/docker/Dockerfile")
 	doFirst {
 		copy {
 			from jar
 			into stageDir
+
+			include "${jar.baseName}-${version}.jar"
+			rename("${jar.baseName}-${version}.jar", "marketplace.jar")
 		}
+	}
+
+	doLast {
+		println "Run the Docker Container\ndocker run -i -p 8080:8080 $project.group/$applicationName:$version"
 	}
 }
 
