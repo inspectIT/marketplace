@@ -30,3 +30,17 @@ Currently used:
 # Extend
 Front-End - Angular: [baseDir]/src/main/resources/frontend/angular2/app
 Back-End - Spring/Java: [baseDir]/src/main/java
+
+# Docker
+start local container 
+````
+docker run -p 8080:8080 -t inspectit.rocks/marketplace
+````
+
+access application (Marketplace - Who Am I) [http://192.168.99.100:8080/marketplace/whoami] You have to change URL IP to your local docker-ip or localhost on linux.
+
+stop and remove ALL local Container:
+````
+docker stop $(docker ps -a -q)
+docker rm $(docker ps -a -q)
+````

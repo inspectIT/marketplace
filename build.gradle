@@ -14,6 +14,7 @@ buildscript {
 	}
 	dependencies {
 		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+		classpath "se.transmode.gradle:gradle-docker:1.2"
 	}
 }
 
@@ -32,6 +33,9 @@ apply plugin: 'spring-boot'
 apply plugin: 'eclipse'
 apply plugin: 'idea'
 
+// Docker
+apply plugin: 'docker'
+
 // custom properties
 apply from: "$projectDir/gradle/properties/custom_properties.gradle"
 
@@ -43,9 +47,9 @@ apply from: "$projectDir/gradle/plugins/cpd_plugin.gradle"
 apply from: "$projectDir/gradle/plugins/node_plugin.gradle"
 
 // default project definition
+// docker iamge prefix will be taken from group
 group = "inspectit.rocks"
-version = "1.0.0-SNAPSHOT"
-
+version = "1.0.1-SNAPSHOT"
 description = "TODO"
 
 // Java Version
@@ -55,7 +59,7 @@ targetCompatibility = 1.8
 // add jar information
 jar {
 	baseName = 'marketplace'
-	version = '1.0.0-SNAPSHOT'
+	version = version
 }
 
 // define repo to obtain dependencies from
@@ -66,6 +70,7 @@ repositories {
 
 // tasks
 apply from: "$projectDir/gradle/tasks/gradle_node_tasks.gradle"
+apply from: "$projectDir/gradle/tasks/docker_tasks.gradle"
 
 
 // set dependencies

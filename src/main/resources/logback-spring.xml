@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+	<!-- use default template -->
+	<include resource="org/springframework/boot/logging/logback/base.xml"/>
+
+	<!-- extend template -->
+	<logger name="rocks.inspectit" level="DEBUG"/>
+
+	<!-- log following only if an error occurs -->
+	<logger name="org.springframework" level="ERROR"/>
+
+</configuration>

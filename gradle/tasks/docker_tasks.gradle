@@ -1,0 +1,23 @@
+/**
+ * Add Docker tasks.
+ *
+ * @author Nikita Kolytschew
+ * @version %I%, %G%
+ * @since 1.0.1-SNAPSHOT
+ */
+
+
+task buildDocker(type: Docker) {
+	// push = true
+	// applicationName = "$jar.baseName.$version"
+	dockerfile = file("$sharedResourcesMain/docker/Dockerfile")
+	doFirst {
+		copy {
+			from jar
+			into stageDir
+		}
+	}
+}
+
+// execute on build
+build.dependsOn(buildDocker)
