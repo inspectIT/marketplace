@@ -8,7 +8,7 @@ build:
     - ./gradlew build
   post_ci:
       # DockerHub
-      - docker build -t="inspectit/marketplace:$BRANCH.$BUILD_NUMBER" .
+      - ./gradlew buildDocker
       - docker push inspectit/marketplace:$BRANCH.$BUILD_NUMBER
 
 integrations:

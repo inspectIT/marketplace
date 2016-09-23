@@ -9,7 +9,7 @@
 
 task buildDocker(type: Docker) {
 	// push = true
-	applicationName = "${jar.baseName}"
+	tag = "inspectit/marketplace:${System.env.BRANCH}.${System.env.BUILD_NUMBER}"
 	dockerfile = file("docker/Dockerfile")
 	doFirst {
 		copy {
