@@ -1,0 +1,26 @@
+language: java
+
+build:
+  ci:
+    - echo 'CI is running'
+    - ./gradlew build
+  post_ci:
+      # DockerHub
+      - docker build -t="inspectit/marketplace:$BRANCH.$BUILD_NUMBER" .
+      - docker push inspectit/marketplace:$BRANCH.$BUILD_NUMBER
+
+integrations:
+  deploy:
+    - integrationName: "aws-eb-docker"
+      type: aws
+      target: eb_docker
+      application_name: "inspectIT Marketplace"
+      env_name: "Marketplace-Environment"
+      bucket_name: "elasticbeanstalk-eu-west-1-673228311227"
+      region: "eu-west-1"
+      image_name: "inspectit/marketplace"
+      image_tag: "$BRANCH.$BUILD_NUMBER"
+
+hub:
+    - integrationName: "dockerhub"
+      type: docker
