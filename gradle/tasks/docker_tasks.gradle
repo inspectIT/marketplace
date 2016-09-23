@@ -9,7 +9,8 @@
 
 task buildDocker(type: Docker) {
 	// push = true
-	tag = "inspectit/marketplace:${System.env.BRANCH}.${System.env.BUILD_NUMBER}"
+	tagVersion = "${System.env.BRANCH}.${System.env.BUILD_NUMBER}"
+	tag = "inspectit/marketplace"
 	dockerfile = file("docker/Dockerfile")
 	doFirst {
 		copy {
