@@ -23,6 +23,6 @@ integrations:
       image_name: "inspectit/marketplace"
       image_tag: "$BRANCH.$BUILD_NUMBER"
 
-hub:
-    - integrationName: "inspectit-dockerhub"
+  hub:
+    - integrationName: "dockerhub"
       type: docker
