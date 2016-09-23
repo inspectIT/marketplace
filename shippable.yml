@@ -5,6 +5,9 @@ jdk:
 build:
   ci:
     - echo 'CI is running'
+    # need to install python dev for later EBS push
+    - apt-get update
+    - apt-get install python-dev
     - ./gradlew build
   post_ci:
       # DockerHub
