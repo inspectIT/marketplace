@@ -5,14 +5,17 @@ jdk:
 build:
   ci:
     - echo 'CI is running'
+    - ./gradlew build
+  post_ci:
+    # DockerHub
+    - ./gradlew buildDocker
+    - docker push inspectit/marketplace:$BRANCH.$BUILD_NUMBER
     # need to install python dev for later EBS push
     - apt-get update
     - apt-get install python-dev
-    - ./gradlew build
-  post_ci:
-      # DockerHub
-      - ./gradlew buildDocker
-      - docker push inspectit/marketplace:$BRANCH.$BUILD_NUMBER
+    # need to upgrade botocore due to a problem with ebs
+    - pip install --upgrade botocore
+
 
 integrations:
   deploy:
