@@ -1,3 +1,5 @@
+ [![Run Status](https://api.shippable.com/projects/57bfdf1d2345db10004fe95a/badge?branch=master)](https://app.shippable.com/projects/57bfdf1d2345db10004fe95a)  [![Coverage Badge](https://api.shippable.com/projects/57bfdf1d2345db10004fe95a/coverageBadge?branch=master)](https://app.shippable.com/projects/57bfdf1d2345db10004fe95a) 
+
 # marketplace
 The marketplace website of inspectIT
 
@@ -9,10 +11,10 @@ Run Project without Gradle with:
 - ./gradlew build (on Unix-like platforms such as Linux and Mac OS X)
 - gradlew.bat build (on Windows using the gradlew.bat batch file)
 
-For more information read (Gradle docs: Gradle Wrapper) [https://docs.gradle.org/3.0/userguide/gradle_wrapper.html]
+For more information read [Gradle docs: Gradle Wrapper](https://docs.gradle.org/3.0/userguide/gradle_wrapper.html)
 
 # Build
-Execute command ``` gradlew.bat build ``` in Windows command prompt (Strg + R -> cmd) will fail with ``` Unable to process incoming event 'ProgressComplete ' (ProgressCompleteEvent) ``` Exception. This may be caused by Issue (GRADLE-3527) [https://issues.gradle.org/browse/GRADLE-3527]. For further Information check following discussion (Discuss Gradle) [https://discuss.gradle.org/t/build-fails-with-unable-to-process-incoming-event-progresscomplete-progresscompleteevent/18434/17] 
+Execute command ``` gradlew.bat build ``` in Windows command prompt (Strg + R -> cmd) will fail with ``` Unable to process incoming event 'ProgressComplete ' (ProgressCompleteEvent) ``` Exception. This may be caused by Issue [GRADLE-3527](https://issues.gradle.org/browse/GRADLE-3527). For further Information check following discussion [Discuss Gradle](https://discuss.gradle.org/t/build-fails-with-unable-to-process-incoming-event-progresscomplete-progresscompleteevent/18434/17) 
 To avoid this error use your IDE to build. 
 In IntelliJ IDEA 2016.2.4 build completes successfully. Tested on different Laptops with Windows 10, Ubuntu 16.04, Ubuntu 14.10 and Linux Mint 18 (KDE). 
 
@@ -37,7 +39,7 @@ start local container
 docker run -p 8080:8080 -t inspectit.rocks/marketplace
 ````
 
-access application (Marketplace - Who Am I) [http://192.168.99.100:8080/marketplace/whoami] You have to change URL IP to your local docker-ip or localhost on linux.
+access application [Marketplace - Who Am I](http://192.168.99.100:8080/marketplace/whoami) You have to change URL IP to your local docker-ip or localhost on linux.
 
 stop and remove ALL local Container:
 ````
