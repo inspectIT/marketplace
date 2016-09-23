@@ -24,5 +24,5 @@ integrations:
       image_tag: "$BRANCH.$BUILD_NUMBER"
 
 hub:
-    - integrationName: "dockerhub"
+    - integrationName: "inspectit-dockerhub"
       type: docker
