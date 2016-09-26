@@ -21,10 +21,8 @@ integrations:
   deploy:
     - integrationName: "aws-eb-docker"
       type: aws
-      target: eb_docker
       application_name: "inspectIT Marketplace"
       env_name: "Marketplace-Environment"
-      bucket_name: "elasticbeanstalk-eu-west-1-673228311227"
       region: "eu-west-1"
       image_name: "inspectit/marketplace"
       image_tag: "$BRANCH.$BUILD_NUMBER"
