@@ -41,4 +41,7 @@ ext {
 	/** gradle node plugin - set version to current */
 	nodeVersion = '6.5.0'
 	npmVersion = '3.10.3'
+
+	prodProfiles = 'prod'
+	devProfiles = 'dev'
 }

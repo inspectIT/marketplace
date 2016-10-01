@@ -5,10 +5,10 @@ jdk:
 build:
   ci:
     - echo 'CI is running'
-    - ./gradlew build
+    - ./gradlew build -Pprod
   post_ci:
     # DockerHub
-    - ./gradlew buildDocker
+    - ./gradlew buildDocker -Pprod
     - docker push inspectit/marketplace:$BRANCH.$BUILD_NUMBER
     # need to install python dev for later EBS push
     - apt-get update

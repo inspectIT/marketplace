@@ -17,12 +17,12 @@ import static org.junit.Assert.assertTrue;
 /**
  * @author Nikita Kolytschew
  * @version %I%, %G%
- * @since 1.0.0-SNAPSHOT
+ * @since 1.0.1-SNAPSHOT
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest
-@ActiveProfiles(ActiveProfile.PROD)
-public class ApplicationTests {
+@ActiveProfiles(ActiveProfile.DEV)
+public class ApplicationDevTests {
 
 	@Autowired
 	private Environment env;
@@ -39,7 +39,7 @@ public class ApplicationTests {
 	 */
 	@Test
 	public void testEnvironment() {
-		assertThat(env.getActiveProfiles(), is(new String[] { ActiveProfile.PROD }));
+		assertThat(env.getActiveProfiles(), is(new String[] { ActiveProfile.DEV }));
 
 	}
 }

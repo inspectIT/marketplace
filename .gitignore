@@ -75,3 +75,11 @@ gradle-app.setting
 /src/main/resources/frontend/angular2/npm-debug.log
 /src/main/resources/frontend/angular2/node_modules/
 /src/main/resources/frontend/angular2/typings/
+
+## Exclude compiled JS and Map Files
+/src/main/resources/frontend/angular2/app/app.module.js
+/src/main/resources/frontend/angular2/app/main.js
+/src/main/resources/frontend/angular2/app/main.js.map
+/src/main/resources/frontend/angular2/app/app.component.js
+/src/main/resources/frontend/angular2/app/app.component.js.map
+/src/main/resources/frontend/angular2/app/app.module.js.map

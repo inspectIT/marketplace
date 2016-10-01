@@ -1,0 +1,20 @@
+/**
+ * Add apllication Task to set Spring Profile.
+ *
+ * @author Nikita Kolytschew
+ * @version %I%, %G%
+ * @since 1.0.1-SNAPSHOT
+ */
+
+
+// bootRun will rely on the -P profile argument,
+// defaulting to the "dev" profile if no -P arguments are provided
+bootRun {
+	systemProperties = [
+			'spring.profiles.active': activeProfile
+	]
+
+	// execute build before bootRun task
+	dependsOn build
+}
+

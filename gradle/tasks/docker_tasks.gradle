@@ -23,9 +23,7 @@ task buildDocker(type: Docker) {
 	}
 
 	doLast {
-		println "Run the Docker Container\ndocker run -i -p 8080:8080 $project.group/$applicationName:$version"
+		println "Run the Docker Container:"
+		println "docker run -i -p ${activeProfile == 'prod' ? '80:80' : '8080:8080'} $tag"
 	}
 }
-
-// execute on build
-build.dependsOn(buildDocker)
