@@ -72,15 +72,36 @@ gradle-app.setting
 *.class
 
 
-### Exclude Node Folders
-/src/main/resources/frontend/angular2/npm-debug.log
-/src/main/resources/frontend/angular2/node_modules/
-/src/main/resources/frontend/angular2/typings/
+### Angular-Cli
+# compiled output
+frontend/marketplace/dist
+frontend/marketplace/tmp
 
-## Exclude compiled JS and Map Files
-/src/main/resources/frontend/angular2/app/app.module.js
-/src/main/resources/frontend/angular2/app/main.js
-/src/main/resources/frontend/angular2/app/main.js.map
-/src/main/resources/frontend/angular2/app/app.component.js
-/src/main/resources/frontend/angular2/app/app.component.js.map
-/src/main/resources/frontend/angular2/app/app.module.js.map
+# dependencies
+frontend/marketplace/node_modules
+frontend/marketplace/bower_components
+
+# IDEs and editors
+/.idea
+/.vscode
+**/.project
+**/.classpath
+**/*.launch
+**/.settings/
+
+# misc
+**/.sass-cache
+**/connect.lock
+**/coverage/*
+**/libpeerconnection.log
+**/npm-debug.log
+**/testem.log
+**/typings
+
+# e2e
+**/e2e/*.js
+**/e2e/*.map
+
+#System Files
+**/.DS_Store
+**/Thumbs.db

@@ -8,13 +8,14 @@
 buildscript {
 	ext {
 		springBootVersion = '1.4.1.RELEASE'
+		gradleDockerVersion = '1.2'
 	}
 	repositories {
 		mavenCentral()
 	}
 	dependencies {
 		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-		classpath "se.transmode.gradle:gradle-docker:1.2"
+		classpath("se.transmode.gradle:gradle-docker:${gradleDockerVersion}")
 	}
 }
 
@@ -23,7 +24,6 @@ buildscript {
  **/
 plugins {
 	id "de.aaschmid.cpd" version "1.0"
-	id "com.moowork.node" version "0.13"
 }
 
 apply plugin: 'java'
@@ -33,23 +33,32 @@ apply plugin: 'spring-boot'
 apply plugin: 'eclipse'
 apply plugin: 'idea'
 
+/**
+ * make sure, all sub project have at least the basic tasks*/
+subprojects {
+	apply plugin: 'base'
+}
+
 // Docker
 apply plugin: 'docker'
 
 // custom properties
 apply from: "$projectDir/gradle/properties/custom_properties.gradle"
 
+// set spring profile
+def activeProfile = project.ext.activeProfile = project.hasProperty('prod') ? prodProfiles : devProfiles
+
 // plugins
 apply from: "$projectDir/gradle/plugins/checkstyle_plugin.gradle"
 apply from: "$projectDir/gradle/plugins/pmd_plugin.gradle"
 apply from: "$projectDir/gradle/plugins/findbugs_plugin.gradle"
 apply from: "$projectDir/gradle/plugins/cpd_plugin.gradle"
-apply from: "$projectDir/gradle/plugins/node_plugin.gradle"
+apply from: "$projectDir/gradle/plugins/jacoco_plugin.gradle"
 
 // default project definition
 // docker image prefix will be taken from group
 group = "inspectit.rocks"
-version = "1.0.1-SNAPSHOT"
+version = "1.0.2-SNAPSHOT"
 description = "Open Source Marketplace"
 project.ext.finalName = jar.baseName
 
@@ -62,16 +71,16 @@ jar {
 	baseName = 'marketplace'
 }
 
-
-// set spring profile
-def activeProfile = project.ext.activeProfile = project.hasProperty('prod') ? prodProfiles : devProfiles
-println "\nUsing profile: $project.ext.activeProfile - $activeProfile for $project.name\n"
-
 // tasks
 apply from: "$projectDir/gradle/tasks/spring_boot_task.gradle"
-apply from: "$projectDir/gradle/tasks/gradle_node_tasks.gradle"
 apply from: "$projectDir/gradle/tasks/docker_tasks.gradle"
 
+task testJavadoc(type: Javadoc) {
+	source = sourceSets.test.allJava
+	classpath = sourceSets.test.compileClasspath
+	destinationDir = file("${buildQAMainExportDir}/javadoc")
+	println(title == null ? '<null>' : title)
+}
 
 // define repo to obtain dependencies from
 repositories {
@@ -91,10 +100,10 @@ dependencies {
 
 }
 
-// define wrapper version to 3.0
+// define wrapper version to 3.1
 task wrapper(type: Wrapper) {
 	description = 'Generates gradlew[.bat] scripts'
-	gradleVersion = '3.0'
+	gradleVersion = '3.1'
 }
 
 // replace placeholder in application.properties only, since application-dev.properties container hard coded values

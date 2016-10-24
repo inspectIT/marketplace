@@ -14,6 +14,7 @@ ext {
 	exportPMDAnalysis = "${buildQAMainExportDir}/static_analysis/pmd"
 	exportFindBugsAnalysis = "${buildQAMainExportDir}/static_analysis/findbugs"
 	exportCPDAnalysis = "${buildQAMainExportDir}/static_analysis/cpd"
+	exportJaCoCoAnalysis = "${buildQAMainExportDir}/static_analysis/jacoco"
 
 	/** Shared resources settings. */
 	sharedResourcesMain = "$projectDir/src/main/resources"

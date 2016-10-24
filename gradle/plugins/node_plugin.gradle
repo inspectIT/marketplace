@@ -6,16 +6,21 @@
  * @since 1.0.0-SNAPSHOT
  */
 
+def final extWorkDir = file("${project.rootProject.buildDir}/nodejs")
+def final extNodeModulesDir = file("${project.projectDir}")
 
 node {
 	version = "$nodeVersion"
 	npmVersion = "$npmVersion"
+
+	// If true, it will download node using above parameters.
+	// If false, it will try to use globally installed node.
 	download = true
 
 	// Set the work directory for unpacking node - use default: ${base}/build/nodejs
-	workDir = file("${project.buildDir}/nodejs")
+	workDir = extWorkDir
 	// workDir = file("${sharedResourcesMain}/frontend/")
 
 	// Set the work directory where node_modules should be located
-	nodeModulesDir = file("${sharedResourcesMain}/frontend/angular2")
+	nodeModulesDir = extNodeModulesDir
 }

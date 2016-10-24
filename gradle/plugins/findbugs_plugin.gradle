@@ -10,13 +10,15 @@
 apply plugin: 'findbugs'
 
 /** Task for FindBugs. */
-tasks.withType(FindBugs) {
+findbugsMain {
 	includeFilter file(findbugsConfigInclude)
 	excludeFilter file(findbugsConfigExclude)
 	reports {
 		xml.enabled false
-		html.enabled true
-		html.stylesheet resources.text.fromFile("${findbugsConfigFancyHist}")
-		html.destination "${exportFindBugsAnalysis}/findbugs.html"
+		html {
+			enabled true
+			stylesheet resources.text.fromFile("${findbugsConfigFancyHist}")
+			destination "${exportFindBugsAnalysis}/findbugs.html"
+		}
 	}
 }

@@ -15,8 +15,10 @@ tasks.withType(Checkstyle) {
 
 	reports {
 		xml.enabled false
-		html.enabled true
-		html.stylesheet resources.text.fromFile("${checkstyleReportFile}")
-		html.destination "${exportCheckstyleAnalysis}/checkstyle.html"
+		html {
+			enabled true
+			stylesheet resources.text.fromFile("${checkstyleReportFile}")
+			destination "${exportCheckstyleAnalysis}/checkstyle.html"
+		}
 	}
 }

@@ -1,0 +1,38 @@
+/**
+ * Apply JaCoco plugin.
+ *
+ * @author Nikita Kolytschew
+ * @version %I%, %G%
+ * @since 1.0.2-SNAPSHOT
+ */
+
+
+apply plugin: 'jacoco'
+
+/** Tasks for JaCoCo. **/
+jacoco {
+	toolVersion = "0.7.6.201602180812"
+	reportsDir = file("${exportJaCoCoAnalysis}/reportDir")
+}
+
+jacocoTestReport {
+	group = "Reporting"
+	reports {
+		xml.enabled false
+		csv.enabled false
+		html {
+			enabled true
+			destination "${exportJaCoCoAnalysis}/coverage"
+		}
+	}
+	test {
+		jacoco {
+			append = false
+			destinationFile = file("${exportJaCoCoAnalysis}/jacocoTest.exec")
+			classDumpFile = file("${exportJaCoCoAnalysis}/classpathdumps")
+
+		}
+	}
+}
+
+check.dependsOn(jacocoTestReport)

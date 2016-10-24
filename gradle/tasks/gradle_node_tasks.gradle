@@ -7,9 +7,9 @@
  */
 
 
+final def nodeJSMain = "${project.projectDir}"
 // clean node/node_modules/dist
 task npmClean(type: Delete) {
-	final def nodeJSMain = "${sharedResourcesMain}/frontend/angular2"
 	// delete "${nodeJSMain}/node"
 	delete "${nodeJSMain}/node_modules"
 	delete "${nodeJSMain}/dist"

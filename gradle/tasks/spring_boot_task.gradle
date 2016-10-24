@@ -13,8 +13,5 @@ bootRun {
 	systemProperties = [
 			'spring.profiles.active': activeProfile
 	]
-
-	// execute build before bootRun task
-	dependsOn build
 }
 

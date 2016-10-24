@@ -1,0 +1,54 @@
+import org.gradle.internal.os.OperatingSystem;
+
+def final activeProfile = project.activeProfile
+
+final def mainDir = "$projectDir/marketplace";
+
+// start project
+task startAngular2Project(type: Exec) {
+	workingDir mainDir
+	if (OperatingSystem.current().isWindows()) {
+		commandLine 'cmd', '/c', 'ng serve'
+	} else if (OperatingSystem.current().isUnix()) {
+		commandLine 'ng serve'
+	}
+}
+
+// delete dist dir
+final def nodeJSMain = "$mainDir"
+task angularClean(type: Delete) {
+	// delete "${nodeJSMain}/node"
+	delete "${nodeJSMain}/dist"
+	// delete "${nodeJSMain}/node_modules"
+}
+clean.dependsOn(angularClean)
+
+// check if necessary angular-cli is installed
+task buildAngular2(type: Exec) {
+	workingDir mainDir
+	if (activeProfile == 'prod') {
+		if (OperatingSystem.current().isWindows()) {
+			commandLine 'cmd', '/c', 'ng build -prod --aot'
+		} else {
+			println 'Todo: implement!\nExiting now!'
+			System.exit(-1)
+		}
+	} else {
+		if (OperatingSystem.current().isWindows()) {
+			commandLine 'cmd', '/c', 'ng build -dev --aot'
+		} else {
+			println 'Todo: implement!\nExiting now!'
+			System.exit(-1)
+		}
+	}
+
+	doLast {
+		final def mainSource = "$mainDir/dist/"
+		final def mainDestination = "$rootDir/src/main/resources/static"
+		copy {
+			into "$mainDestination"
+			from "$mainSource"
+		}
+	}
+}
+build.dependsOn(buildAngular2)
