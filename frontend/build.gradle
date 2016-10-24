@@ -24,35 +24,35 @@ task angularClean(type: Delete) {
 clean.dependsOn(angularClean)
 
 // run ng-build only on local builds
-task buildAngular2(type: Exec) {
-	workingDir mainDir
-	if (activeProfile == 'prod') {
-		if (OperatingSystem.current().isWindows()) {
-			commandLine 'cmd', '/c', 'ng build -prod --aot'
-		} else {
-			println 'Todo: implement!\nExiting now!'
-			System.exit(-1)
-		}
-	} else {
-		if (OperatingSystem.current().isWindows()) {
-			commandLine 'cmd', '/c', 'ng build -dev --aot'
-		} else {
-			println 'Todo: implement!\nExiting now!'
-			System.exit(-1)
-		}
-	}
-
-	doLast {
-		final def mainSource = "$mainDir/dist/"
-		final def mainDestination = "$rootDir/src/main/resources/static"
-		copy {
-			into "$mainDestination"
-			from "$mainSource"
-		}
-	}
-}
-
 final def isLocal = project.hasProperty('local')
 if (isLocal) {
+	task buildAngular2(type: Exec) {
+		workingDir mainDir
+		if (activeProfile == 'prod') {
+			if (OperatingSystem.current().isWindows()) {
+				commandLine 'cmd', '/c', 'ng build -prod --aot'
+			} else {
+				println 'Todo: implement!\nExiting now!'
+				System.exit(-1)
+			}
+		} else {
+			if (OperatingSystem.current().isWindows()) {
+				commandLine 'cmd', '/c', 'ng build -dev --aot'
+			} else {
+				println 'Todo: implement!\nExiting now!'
+				System.exit(-1)
+			}
+		}
+
+		doLast {
+			final def mainSource = "$mainDir/dist/"
+			final def mainDestination = "$rootDir/src/main/resources/static"
+			copy {
+				into "$mainDestination"
+				from "$mainSource"
+			}
+		}
+	}
+
 	build.dependsOn(buildAngular2)
 }
