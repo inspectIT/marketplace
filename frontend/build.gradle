@@ -23,7 +23,7 @@ task angularClean(type: Delete) {
 }
 clean.dependsOn(angularClean)
 
-// check if necessary angular-cli is installed
+// run ng-build only on local builds
 task buildAngular2(type: Exec) {
 	workingDir mainDir
 	if (activeProfile == 'prod') {
@@ -51,4 +51,8 @@ task buildAngular2(type: Exec) {
 		}
 	}
 }
-build.dependsOn(buildAngular2)
+
+final def isLocal = project.hasProperty('local')
+if (isLocal) {
+	build.dependsOn(buildAngular2)
+}
