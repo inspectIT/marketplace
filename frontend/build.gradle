@@ -46,8 +46,11 @@ if (isLocal) {
 
 		doLast {
 			final def mainSource = "$mainDir/dist/"
-			final def mainDestination = "$rootDir/src/main/resources/static"
+			final def mainDestination = "$rootDir/src/main/resources/public"
 			copy {
+				// first clean resources/public folder and remove old files
+				delete "$mainDestination"
+				// copy after
 				into "$mainDestination"
 				from "$mainSource"
 			}
