@@ -5,7 +5,16 @@ jdk:
 build:
   ci:
     - echo 'CI is running'
-    - ./gradlew build -Pprod
+    # create folder for test and coverage results
+    - mkdir -p shippable/testresults
+	- mkdir -p shippable/codecoverage
+	# run tests and jacoco coverage
+    - ./gradlew clean check -Pprod
+    # copy results
+	- cp -r build/test-results/* shippable/testresults/
+	- cp -r build/QA/static_analysis/jacoco/* shippable/codecoverage/
+	# clean and build
+    - ./gradlew clean build -Pprod
   post_ci:
     # DockerHub
     - ./gradlew buildDocker -Pprod
@@ -15,6 +24,10 @@ build:
     - apt-get install python-dev
     # need to upgrade botocore due to a problem with ebs
     - pip install --upgrade botocore
+  notifications:
+	email:
+      recipients:
+	    - nikita.kolytschew@novatec-gmbh.de
 
 
 integrations:
