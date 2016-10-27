@@ -1,4 +1,8 @@
- [![Run Status](https://api.shippable.com/projects/57bfdf1d2345db10004fe95a/badge?branch=master)](https://app.shippable.com/projects/57bfdf1d2345db10004fe95a)  [![Coverage Badge](https://api.shippable.com/projects/57bfdf1d2345db10004fe95a/coverageBadge?branch=master)](https://app.shippable.com/projects/57bfdf1d2345db10004fe95a) 
+[![license](https://img.shields.io/badge/License-Apache%20v2-brightgreen.svg)](https://github.com/inspectIT/marketplace/blob/master/LICENSE)
+
+[![Run Status](https://api.shippable.com/projects/57bfdf1d2345db10004fe95a/badge?branch=master)](https://app.shippable.com/projects/57bfdf1d2345db10004fe95a)  [![Coverage Badge](https://api.shippable.com/projects/57bfdf1d2345db10004fe95a/coverageBadge?branch=master)](https://app.shippable.com/projects/57bfdf1d2345db10004fe95a) 
+
+[![Documentation Badge](http://inch-ci.org/github/inspectIT/marketplace.svg?branch=master)](http://inch-ci.org/github/inspectIT/marketplace/history?branch=master) [![GitHub version](https://img.shields.io/github/release/inspectIT/marketplace.svg)](https://github.com/inspectIT/marketplace) ![SE number of downloads](https://img.shields.io/github/downloads/inspectIT/marketplace/latest/total.svg)
 
 # marketplace
 The marketplace website of inspectIT

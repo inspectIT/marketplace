@@ -12,7 +12,7 @@ build:
     - ./gradlew clean check -Pprod
     # copy results
     - cp -r build/test-results/* shippable/testresults/
-    - cp -r build/QA/static_analysis/jacoco/* shippable/codecoverage/
+    - cp -r build/QA/static_analysis/cobertura/* shippable/codecoverage/
     # clean and build
     - ./gradlew clean build -Pprod
   post_ci:
@@ -24,11 +24,11 @@ build:
     - apt-get install python-dev
     # need to upgrade botocore due to a problem with ebs
     - pip install --upgrade botocore
-  notifications:
-    email:
-      recipients:
-        - nikita.kolytschew@novatec-gmbh.de
 
+notifications:
+  email:
+    recipients:
+      - nikita.kolytschew@novatec-gmbh.de
 
 integrations:
   deploy:

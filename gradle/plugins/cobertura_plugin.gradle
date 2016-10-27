@@ -1,0 +1,17 @@
+/**
+ * Apply Cobertura plugin.
+ *
+ * @author Nikita Kolytschew
+ * @version %I%, %G%
+ * @since 1.0.2-SNAPSHOT
+ */
+
+
+apply plugin: 'net.saliman.cobertura'
+
+cobertura {
+	coverageFormats = ['html', 'xml']
+	coverageIgnores = ['org.slf4j.Logger.*']
+	coverageReportDir = new File("${exportCoberturaAnalysis}/reportDir")
+}
+test.finalizedBy(project.tasks.cobertura)
