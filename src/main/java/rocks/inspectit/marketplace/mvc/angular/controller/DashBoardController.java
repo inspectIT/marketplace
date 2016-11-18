@@ -33,9 +33,9 @@ public class DashBoardController {
 	}
 
 	/**
-	 * ##TODO: add documentation
-	 * ##TODO: use bean mapper to map from service-domain to model
-	 * {@link PathVariable} will be uses to create a {@link ResultFilter} to limit Dashboard Result Objects
+	 * ##TODO: add documentation.
+	 * ##TODO: use bean mapper to map from service-domain to model.
+	 * {@link PathVariable} will be uses to create a {@link ResultFilter} to limit Dashboard Result Objects.
 	 *
 	 * @param size  {@link String}; {@link PathVariable} represents {@link rocks.inspectit.marketplace.enums.ItemSize} Enum
 	 * @param order {@link String}; {@link PathVariable} represents {@link rocks.inspectit.marketplace.enums.OrderBy} Enum
@@ -48,7 +48,7 @@ public class DashBoardController {
 			@PathVariable final String size,
 			@PathVariable final String order,
 			@PathVariable final String sort) {
-		final ResultFilter filter = new ResultFilter.Builder().order(order).resultSize(size).sort(sort).create();
+		final ResultFilter filter = new ResultFilter.Builder().orderBy(order).resultSize(size).sortBy(sort).create();
 		return this.service.getFilteredDashBoardOverview(filter);
 	}
 }

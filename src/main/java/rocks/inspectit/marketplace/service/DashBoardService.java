@@ -12,5 +12,11 @@ import rocks.inspectit.marketplace.mvc.domain.ResultFilter;
  */
 public interface DashBoardService {
 
+	/**
+	 * ##TODO.
+	 *
+	 * @param filter {@link ResultFilter}
+	 * @return List {@link List} of {@link DashBoardModel} Items
+	 */
 	List<DashBoardModel> getFilteredDashBoardOverview(final ResultFilter filter);
 }

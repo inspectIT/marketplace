@@ -17,7 +17,7 @@
 			<property name="allowMissingPropertyJavadoc" value="true" />
 		</module>
 		<module name="JavadocType" />
-		<module name="JavadocVariable" />
+		<!--<module name="JavadocVariable" />-->
 		<module name="JavadocStyle" />
 		<module name="ConstantName" />
 		<module name="LocalFinalVariableName" />
@@ -89,6 +89,8 @@
 		<property name="checkFormat" value=".*" />
 		<property name="influenceFormat" value="0" />
 	</module>
+
+	<module name="SuppressWarningsFilter"/>
 
 	<!-- For wider ranged suppressions one can also use // NOCHKALL to disable it for a whole file. -->
 	<module name="SuppressionCommentFilter">

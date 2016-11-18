@@ -23,7 +23,7 @@ import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import javax.servlet.Filter;
 
 /**
- * Custom Security Configuration, to override default Spring-Security behavior
+ * Custom Security Configuration, to override default Spring-Security behavior.
  *
  * @author NKO
  * @version %I%, %G%
@@ -35,12 +35,12 @@ import javax.servlet.Filter;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	/**
-	 * use to create a custom authentication filter, which will be added to the security configuration
+	 * use to create a custom authentication filter, which will be added to the security configuration.
 	 */
 	private final OAuth2ClientContext oauth2ClientContext;
 
 	/**
-	 * Constructor injection
+	 * Constructor injection.
 	 *
 	 * @param oauth2ClientContext {@link OAuth2ClientContext}
 	 */
@@ -50,7 +50,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	}
 
 	/**
-	 * Security Config, to allow following requests without authorization
+	 * Security Config, to allow following requests without authorization.
 	 * <ul>
 	 * <li>show index.html Landing page</li>
 	 * <li>allow loading of compiled JS and CSS</li>
@@ -91,7 +91,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	}
 
 	/**
-	 * Create custom SSO Filter for GitHub
+	 * Create custom SSO Filter for GitHub.
 	 *
 	 * @return Filter {@link Filter}
 	 */
@@ -117,7 +117,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	}
 
 	/**
-	 * Use {@link ConfigurationProperties} Annotation to inject configuration with prefix <i>github.resource</i>
+	 * Use {@link ConfigurationProperties} Annotation to inject configuration with prefix <i>github.resource</i>.
 	 *
 	 * @return ResourceServerProperties {@link ResourceServerProperties}
 	 */

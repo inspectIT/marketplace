@@ -14,14 +14,28 @@ public enum SortBy {
 
 	private final String value;
 
+	/**
+	 * Simple Constructor.
+	 * @param value {@link String}
+	 */
 	SortBy(final String value) {
 		this.value = value;
 	}
 
+	/**
+	 * Simple Getter.
+	 * @return String {@link String}
+	 */
 	public String getValue() {
 		return value;
 	}
 
+	/**
+	 * ##TODO.
+	 *
+	 * @param value {@link String}
+	 * @return SortBy {@link SortBy}
+	 */
 	public static SortBy getEnumByString(final String value) {
 		return Arrays.asList(SortBy.values()).stream().filter(f -> f.getValue().equalsIgnoreCase(value)).findFirst().orElse(SortBy.ASC);
 	}

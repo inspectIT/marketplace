@@ -6,12 +6,15 @@
  * @since 1.0.2-SNAPSHOT
  */
 
+/**
+ * exclude cobertura plugin, since it can't handle Java 1.8
+ * @see <a href="https://github.com/cobertura/cobertura/issues/176">Cobertura Issue 176</a>
+ * @since 1.0.3-SNAPSHOT
+ *
+ *
+ apply plugin: 'net.saliman.cobertura'
 
-apply plugin: 'net.saliman.cobertura'
-
-cobertura {
-	coverageFormats = ['html', 'xml']
-	coverageIgnores = ['org.slf4j.Logger.*']
-	coverageReportDir = new File("${exportCoberturaAnalysis}/reportDir")
-}
-test.finalizedBy(project.tasks.cobertura)
+ cobertura {coverageFormats = ['html', 'xml']
+ coverageIgnores = ['org.slf4j.Logger.*']
+ coverageReportDir = new File("${exportCoberturaAnalysis}/reportDir")}test.finalizedBy(project.tasks.cobertura)
+ */

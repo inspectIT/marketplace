@@ -5,7 +5,7 @@ import rocks.inspectit.marketplace.enums.OrderBy;
 import rocks.inspectit.marketplace.enums.SortBy;
 
 /**
- * Modify selects with predicates
+ * Modify selects with predicates.
  *
  * @author NKO
  * @version %I%, %G%
@@ -17,6 +17,13 @@ public class ResultFilter {
 	private final OrderBy order;
 	private final SortBy sort;
 
+	/**
+	 * Simple Constructor.
+	 *
+	 * @param resultSize {@link ItemSize}
+	 * @param order {@link OrderBy}
+	 * @param sort {@link SortBy}
+	 */
 	public ResultFilter(final ItemSize resultSize, final OrderBy order, final SortBy sort) {
 		this.resultSize = resultSize;
 		this.order = order;
@@ -35,44 +42,51 @@ public class ResultFilter {
 		return sort;
 	}
 
+
+	/**
+	 * Simple Builder.
+	 * Supress all CheckStyle Warnings.
+	 *
+	 */
+	// NOCHKALL
 	public static final class Builder {
 
-		private ItemSize resultSize = ItemSize.SMALL;
+		private ItemSize size = ItemSize.SMALL;
 		private OrderBy order = OrderBy.DATE;
 		private SortBy sort = SortBy.ASC;
 
-		public Builder resultSize(final ItemSize resultSize) {
-			this.resultSize = resultSize;
+		public Builder resultSize(final ItemSize size) {
+			this.size = size;
 			return this;
 		}
 
-		public Builder resultSize(final String resultSize) {
-			this.resultSize = ItemSize.valueOf(resultSize.toUpperCase());
+		public Builder resultSize(final String size) {
+			this.size = ItemSize.valueOf(size.toUpperCase());
 			return this;
 		}
 
-		public Builder order(final OrderBy order) {
+		public Builder orderBy(final OrderBy order) {
 			this.order = order;
 			return this;
 		}
 
-		public Builder order(final String order) {
+		public Builder orderBy(final String order) {
 			this.order = OrderBy.getEnumByString(order);
 			return this;
 		}
 
-		public Builder sort(final SortBy sort) {
+		public Builder sortBy(final SortBy sort) {
 			this.sort = sort;
 			return this;
 		}
 
-		public Builder sort(final String sort) {
+		public Builder sortBy(final String sort) {
 			this.sort = SortBy.getEnumByString(sort);
 			return this;
 		}
 
 		public ResultFilter create() {
-			return new ResultFilter(resultSize, order, sort);
+			return new ResultFilter(size, order, sort);
 		}
 	}
 }

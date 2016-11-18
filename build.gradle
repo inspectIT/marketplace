@@ -9,7 +9,7 @@ buildscript {
 	ext {
 		springBootVersion = '1.4.1.RELEASE'
 		gradleDockerVersion = '1.2'
-		coberturaVersion = '2.3.2'
+		// coberturaVersion = '2.3.2'
 	}
 	repositories {
 		mavenCentral()
@@ -17,7 +17,7 @@ buildscript {
 	dependencies {
 		classpath "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}"
 		classpath "se.transmode.gradle:gradle-docker:${gradleDockerVersion}"
-		classpath "net.saliman:gradle-cobertura-plugin:${coberturaVersion}"
+		// classpath "net.saliman:gradle-cobertura-plugin:${coberturaVersion}"
 	}
 }
 
@@ -56,7 +56,7 @@ apply from: "$projectDir/gradle/plugins/pmd_plugin.gradle"
 apply from: "$projectDir/gradle/plugins/findbugs_plugin.gradle"
 apply from: "$projectDir/gradle/plugins/cpd_plugin.gradle"
 apply from: "$projectDir/gradle/plugins/jacoco_plugin.gradle"
-apply from: "$projectDir/gradle/plugins/cobertura_plugin.gradle"
+// apply from: "$projectDir/gradle/plugins/cobertura_plugin.gradle"
 
 // default project definition
 // docker image prefix will be taken from group

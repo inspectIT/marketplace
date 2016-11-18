@@ -21,7 +21,7 @@ public class DashBoardServiceImpl implements DashBoardService {
 	private final MockRepository repository;
 
 	/**
-	 * use constructor injection
+	 * use constructor injection.
 	 *
 	 * @param repository {@link MockRepository}
 	 * @version %I%, %G%

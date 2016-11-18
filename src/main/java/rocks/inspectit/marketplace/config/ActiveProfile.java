@@ -9,7 +9,7 @@ package rocks.inspectit.marketplace.config;
  */
 public class ActiveProfile {
 
-	public final static String PROD = "prod";
-	public final static String DEV = "dev";
+	public static final String PROD = "prod";
+	public static final String DEV = "dev";
 
 }

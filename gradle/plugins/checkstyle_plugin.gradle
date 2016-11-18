@@ -9,6 +9,10 @@
 
 apply plugin: 'checkstyle'
 
+checkstyle{
+	toolVersion = "7.2"
+}
+
 /** Task for Checkstyle. */
 tasks.withType(Checkstyle) {
 	configFile file(checkstyleConfigFile)

@@ -20,10 +20,10 @@ import rocks.inspectit.marketplace.mvc.advice.model.ErrorMessage;
 @ControllerAdvice
 public class GeneralControllerAdvice {
 
-	private final static Logger LOG = LoggerFactory.getLogger(GeneralControllerAdvice.class);
+	private static final Logger LOG = LoggerFactory.getLogger(GeneralControllerAdvice.class);
 
 	/**
-	 * Main Exception handler
+	 * Main Exception handler.
 	 *
 	 * @param request default {@link HttpServletRequest} object
 	 * @param ex      default {@link Exception} object

@@ -43,7 +43,7 @@ if (isLocal) {
 			}
 		} else {
 			if (OperatingSystem.current().isWindows()) {
-				commandLine 'cmd', '/c', 'ng build -dev --aot'
+				commandLine 'cmd', '/c', 'ng build -dev'
 			} else {
 				println 'Todo: implement!\nExiting now!'
 				System.exit(-1)

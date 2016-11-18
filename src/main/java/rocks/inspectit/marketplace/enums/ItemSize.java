@@ -14,10 +14,18 @@ public enum ItemSize {
 
 	private final int size;
 
+	/**
+	 * Simple Constructor.
+	 * @param size {@link Integer}
+	 */
 	ItemSize(final int size) {
 		this.size = size;
 	}
 
+	/**
+	 * Simple getter.
+	 * @return int
+	 */
 	public int getSize() {
 		return size;
 	}

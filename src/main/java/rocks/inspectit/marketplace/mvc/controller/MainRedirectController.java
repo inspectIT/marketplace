@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * Simple redirect controller to load static index.html
+ * Simple redirect controller to load static index.html.
  *
  * @author NKO
  * @version %I%, %G%
@@ -19,7 +19,7 @@ public class MainRedirectController {
 	private static final String LANDING_PAGE_VIEW = "index.html";
 
 	/**
-	 * Build the application context path
+	 * Build the application context path.
 	 *
 	 * @param request {@link HttpServletRequest} to obtain the scheme, server name, server port and a possible context path
 	 * @return a {@link String} representation of the application context path
