@@ -1,7 +1,7 @@
 package rocks.inspectit.marketplace.config;
 
 /**
- * Use Enum to set Spring-Profile in annotation.
+ * Use to set Spring-Profiles in {@link org.springframework.context.annotation.Profile} annotation.
  *
  * @author NKO
  * @version %I%, %G%

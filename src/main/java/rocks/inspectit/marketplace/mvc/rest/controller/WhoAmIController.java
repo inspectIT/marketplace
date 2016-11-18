@@ -18,7 +18,7 @@ import rocks.inspectit.marketplace.mvc.rest.model.WhoAmIResponseModel;
  * @version %I%, %G%
  * @since 1.0.1-SNAPSHOT
  */
-@RestController
+@RestController("/api")
 public class WhoAmIController {
 
 	/**
@@ -29,6 +29,12 @@ public class WhoAmIController {
 	private final String applicationName;
 	private final String applicationVersion;
 
+	/**
+	 * Simple Constructor. Inject values from application.properties with springs {@link Value} Annotation.
+	 *
+	 * @param applicationName    {@link String}
+	 * @param applicationVersion {@link String}
+	 */
 	@Autowired
 	public WhoAmIController(
 			@Value("${marketplace.application.name}")
@@ -39,6 +45,11 @@ public class WhoAmIController {
 		this.applicationVersion = applicationVersion;
 	}
 
+	/**
+	 * Print App Name and App Version as JSON.
+	 *
+	 * @return {@link WhoAmIResponseModel}
+	 */
 	@RequestMapping(value = URL_MAPPING, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<WhoAmIResponseModel> get() {
 		return new ResponseEntity<>(new WhoAmIResponseModel(applicationName, applicationVersion), HttpStatus.OK);

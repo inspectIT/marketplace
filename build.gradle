@@ -61,7 +61,7 @@ apply from: "$projectDir/gradle/plugins/cobertura_plugin.gradle"
 // default project definition
 // docker image prefix will be taken from group
 group = "inspectit.rocks"
-version = "1.0.2-SNAPSHOT"
+version = "1.0.3-SNAPSHOT"
 description = "Open Source Marketplace"
 project.ext.finalName = jar.baseName
 
@@ -92,10 +92,22 @@ repositories {
 }
 
 // set dependencies
+ext {
+	securityOauthVersion = '2.0.11.RELEASE'
+}
 dependencies {
-	// default
+	// spring boot starter
 	compile('org.springframework.boot:spring-boot-starter-actuator',
-			'org.springframework.boot:spring-boot-starter-web')
+			'org.springframework.boot:spring-boot-starter-web',
+			'org.springframework.boot:spring-boot-starter-security')
+
+	// security and OAuth
+	compile "org.springframework.security.oauth:spring-security-oauth2:${securityOauthVersion}"
+
+	// if dev, use embedded database
+	if(activeProfile == 'dev'){
+		runtime('com.h2database:h2')
+	}
 
 	// test dependencies
 	testCompile('org.springframework.boot:spring-boot-starter-test',

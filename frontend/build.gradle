@@ -1,3 +1,9 @@
+/**
+ * @author Nikita Kolytschew
+ * @version %I%, %G%
+ * @since 1.0.0-SNAPSHOT
+ */
+ 
 import org.gradle.internal.os.OperatingSystem;
 
 def final activeProfile = project.activeProfile

@@ -3,3 +3,7 @@ Make sure (Node)[https://nodejs.org/en/], (npm)[https://nodejs.org/en/] and (ang
 
 ## More
 Use Readme within project for further information on angular-cli
+
+## Tools 
+1. Bootstrap V3.XX
+2. jQuery latest

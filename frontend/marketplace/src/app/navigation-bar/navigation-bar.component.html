@@ -1,39 +1,14 @@
 <div class="navbar navbar-light navbar-static-top custom">
     <div class="navbar-header">
-        <a href="http://www.inspectit.rocks" title="inspectIT" class="logo">
-            <img src="http://www.inspectit.rocks/wp-content/themes/inspectit/assets/images/logo.png" alt="inspectIT - Logo" width="173" height="45">
+        <a href="http://www.inspectit.rocks" title="inspectIT" class="logo" target="_blank">
+            <img src="http://www.inspectit.rocks/wp-content/themes/inspectit/assets/images/logo.png" alt="inspectIT - Home">
         </a>
     </div>
     <div class="navbar-collapse collapse pull-right">
-        <ul class="nav navbar-nav">
-            <li class="active">
-                <a href="http://www.inspectit.rocks/#hero" onclick="trackLink('Navigation Menu', 'Home')">Home</a>
-            </li>
-
-
-            <li>
-                <a href="http://www.inspectit.rocks/#what-is" title="Learn about inspectIT." onclick="trackLink('Navigation Menu', 'What-Is')">InspectIT</a>
-            </li>
-
-            <li>
-                <a href="http://www.inspectit.rocks/#features" title="Discover the value of inspectIT." onclick="trackLink('Navigation Menu', 'Features')">Features</a>
-            </li>
-
-            <li>
-                <a href="http://www.inspectit.rocks/#downloads" title="Download the latest free version now!" onclick="trackLink('Navigation Menu', 'Download')">Download</a>
-            </li>
-
-            <li>
-                <a href="http://www.inspectit.rocks/#resources" title="Find links to user guide, source code and much more." onclick="trackLink('Navigation Menu', 'Resources')">Resources</a>
-            </li>
-
-            <li>
-                <a href="http://www.inspectit.rocks/#activities" title="Check news and activities around inspectIT." onclick="trackLink('Navigation Menu', 'Activities')">Activities</a>
-            </li>
-        </ul>
         <ul class="nav navbar-nav pull-right">
-            <li><a href="#" class="">Log In</a> </li>
-            <li><a href="#" class="">Sign In</a> </li>
+            <li><a href="dashboard" class="">Dashboard Overview</a></li>
+            <li *ngIf="!loggedIn"><a href="login" class="">Log In</a></li>
+            <li *ngIf="loggedIn"><a href="login" class="">Log Out (won't work yet!)</a></li>
         </ul>
     </div>
 </div>

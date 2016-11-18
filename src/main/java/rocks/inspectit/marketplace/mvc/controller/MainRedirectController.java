@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import javax.servlet.http.HttpServletRequest;
 
 /**
+ * Simple redirect controller to load static index.html
+ *
  * @author NKO
  * @version %I%, %G%
  * @since 1.0.2-SNAPSHOT
@@ -30,7 +32,7 @@ public class MainRedirectController {
 	/**
 	 * Render landing page view.
 	 *
-	 * @return index.html
+	 * @return redirect:index.html as {@link String}
 	 */
 	@RequestMapping("/")
 	public String getLandingPage() {

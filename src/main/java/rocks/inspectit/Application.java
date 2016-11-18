@@ -17,7 +17,7 @@ public class Application {
 	/**
 	 * Spring-Boot entry point.
 	 *
-	 * @param args arguments on startup. Usually empty.
+	 * @param args as {@link String} array - arguments on startup. Usually empty.
 	 */
 	public static void main(String[] args) {
 		SpringApplication.run(Application.class, args);

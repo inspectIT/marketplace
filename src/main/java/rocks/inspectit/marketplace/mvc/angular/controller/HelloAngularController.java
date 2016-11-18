@@ -5,21 +5,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
+ * For test purposes...
+ * Will be deleted in future version!
+ *
  * @author NKO
  * @version %I%, %G%
  * @since 1.0.2-SNAPSHOT
  */
 @RestController
 public class HelloAngularController {
-	private static final String CROSS_ORIGIN_RESOURCE = "http://localhost:3000";
 
-
-	@CrossOrigin(origins = CROSS_ORIGIN_RESOURCE)
+	@CrossOrigin(origins = { "http://localhost:3000", "http://localhost:4200" })
 	@RequestMapping("/test")
 	public MyTmpJson getDefault() {
 		return new MyTmpJson("test", "success");
 	}
-
 
 	private static class MyTmpJson {
 		private final String name;
