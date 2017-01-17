@@ -13,7 +13,6 @@ export class ApiService {
     this.applicationUrl = url;
   }
 
-
   getDashboardOverview(filter?): Observable<any> {
     let url: string = `${this.applicationUrl}/get/dashboard/simple/small/date/asc`
     let response = this.http.get(url)
@@ -21,7 +20,6 @@ export class ApiService {
       .catch(this.handleError);
     console.log("return response: " + response);
     return response;
-
   }
 
   private extractData(data: Response) {

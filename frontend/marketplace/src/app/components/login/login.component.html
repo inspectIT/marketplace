@@ -1,0 +1,21 @@
+<div class="container">
+  <h3>Login: </h3>
+
+  <div class="row">
+    <input placeholder="username" [(ngModel)]="user.username">
+    <input type="password" placeholder="password" [(ngModel)]="user.password">
+
+    <button (click)="login(user)">Login</button>
+  </div>
+
+  <button (click)="navigateBack()">Back</button>
+
+  <div class="container">
+    <button (click)="getUser()">
+      zeige userz
+    </button>
+    <div  class="row" *ngIf="awesomo">
+      {{awesomo | json}}
+    </div>
+  </div>
+</div>

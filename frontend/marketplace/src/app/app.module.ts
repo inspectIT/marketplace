@@ -1,46 +1,59 @@
+/**
+ * @author Nikita Kolytschew
+ * @version %I%, %G%
+ * @since 1.0.0-SNAPSHOT
+ */
 import {BrowserModule} from "@angular/platform-browser";
 import {NgModule} from "@angular/core";
 import {FormsModule} from "@angular/forms";
 import {Http, HttpModule} from "@angular/http";
 import {RouterModule} from "@angular/router";
 import {AppComponent} from "./app.component";
-import {NavigationBarComponent} from "./navigation-bar/navigation-bar.component";
-import {SubscribeNewsletterComponent} from "./landing-page/subscribe-newsletter/subscribe-newsletter.component";
-import {MarketplaceMainFeaturesComponent} from "./landing-page/marketplace-main-features/marketplace-main-features.component";
-import {DashboardComponent} from "./dashboard-page/dashboard/dashboard.component";
-import {LoginComponent} from "./login/login.component";
 import {GithubOAuthService} from "./services/auth/github.oauth.service";
 import {AuthManagerService} from "./services/auth/auth.manager.service";
 import {ApiService} from "./services/api/api.service";
 import {environment} from "../environments/environment";
-import {AppRouterProvider} from "./routes/main.app.router";
-import {MainComponent} from "./landing-page/main/main.component";
-
-// custom components
-
-// services
-
-// environment
-
-// custom routes
+import {FooterComponent} from "./components/footer/footer.component";
+import {NavigationComponent} from "./components/navigation/navigation.component";
+import {ProfileComponent} from "./pages/profile/profile.component";
+import {DashboardComponent} from "./pages/dashboard/dashboard.component";
+import {ErrorPageComponent} from "./pages/error-page/error-page.component";
+import {LoginComponent} from "./components/login/login.component";
+import {APP_ROUTES} from "./modules/routes/main.router.app";
+import {CarouselComponent} from "./components/carousel/carousel.component";
+import {FormatDownloadNumberPipe} from "./pipes/format-download-number.pipe";
+import {LimitCharactersToPipe} from "./pipes/limit-characters-to.pipe";
+import {SearchResultComponent} from "./pages/search-result/search-result.component";
+import {ItemDetailComponent} from "./pages/item-detail/item-detail.component";
+import {RemoveSpacesPipe} from "./pipes/remove.spaces.pipe";
+import {DynamicloaderComponent} from "./components/dynamicloader/dynamicloader.component";
+import {OverviewComponent} from "./pages/overview/overview.component";
 
 @NgModule({
   declarations: [
     AppComponent,
-    NavigationBarComponent,
-    SubscribeNewsletterComponent,
-    MarketplaceMainFeaturesComponent,
     DashboardComponent,
     LoginComponent,
-    MainComponent
+    FooterComponent,
+    NavigationComponent,
+    ProfileComponent,
+    DashboardComponent,
+    ErrorPageComponent,
+    LoginComponent,
+    CarouselComponent,
+    FormatDownloadNumberPipe,
+    LimitCharactersToPipe,
+    SearchResultComponent,
+    ItemDetailComponent,
+    RemoveSpacesPipe,
+    DynamicloaderComponent,
+    OverviewComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpModule,
-    RouterModule,
-
-    AppRouterProvider
+    RouterModule.forRoot(APP_ROUTES)
   ],
   providers: [
     // if dev; change behavior

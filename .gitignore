@@ -4,6 +4,7 @@
 
 .idea/
 *.iml
+node_modules/
 
 ## Plugin-specific files:
 # IntelliJ
