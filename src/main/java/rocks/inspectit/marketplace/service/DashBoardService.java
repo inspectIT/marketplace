@@ -19,4 +19,12 @@ public interface DashBoardService {
 	 * @return List {@link List} of {@link DashBoardModel} Items
 	 */
 	List<DashBoardModel> getFilteredDashBoardOverview(final ResultFilter filter);
+
+	/**
+	 *
+	 * @param tag
+	 * @param limit
+	 * @return
+	 */
+	List<DashBoardModel> getSimpleDashboardOverviewByType(final String tag, final boolean limit);
 }

@@ -51,4 +51,18 @@ public class DashBoardController {
 		final ResultFilter filter = new ResultFilter.Builder().orderBy(order).resultSize(size).sortBy(sort).create();
 		return this.service.getFilteredDashBoardOverview(filter);
 	}
+
+	/**
+	 *
+	 * Limit results to 20 items
+	 *
+	 * @return
+	 * @since 1.0.4-SNAPSHOT
+	 */
+	@CrossOrigin(origins = { "http://localhost:3000", "http://localhost:4200" })
+	@GetMapping(value = "/get/dashboard/simple/{type}")
+	public List<DashBoardModel> getSimpleDashboardOverview(
+			@PathVariable final String type) {
+		return this.service.getSimpleDashboardOverviewByType(type, true);
+	}
 }

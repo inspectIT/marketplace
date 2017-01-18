@@ -1,6 +1,8 @@
 package rocks.inspectit.marketplace.mvc.angular.model;
 
-import java.time.LocalDateTime;
+import java.sql.Blob;
+import java.util.Date;
+import java.util.UUID;
 
 /**
  * Displaying the filtered <i>inspectIT Configuration</i> to the dashboard.
@@ -10,14 +12,32 @@ import java.time.LocalDateTime;
  * @since 1.0.3-SNAPSHOT
  */
 public class DashBoardModel {
-	private String name;
-	private String description;
-	private String creationUser;
 
-	private LocalDateTime creationDate;
-	private LocalDateTime modificationDate;
+	/**
+	 * update all attributes:
+	 *
+	 * @since 1.0.4-SNAPSHOT
+	 */
+	private UUID id;
+
+	private String name;
+	private String author;
+
+	private Long numberDownloads;
 
 	private Double rating;
+
+	private Date creationDate;
+
+	private Blob previewImage;
+
+	public UUID getId() {
+		return id;
+	}
+
+	public void setId(UUID id) {
+		this.id = id;
+	}
 
 	public String getName() {
 		return name;
@@ -27,36 +47,20 @@ public class DashBoardModel {
 		this.name = name;
 	}
 
-	public String getDescription() {
-		return description;
+	public String getAuthor() {
+		return author;
 	}
 
-	public void setDescription(String description) {
-		this.description = description;
+	public void setAuthor(String author) {
+		this.author = author;
 	}
 
-	public String getCreationUser() {
-		return creationUser;
+	public Long getNumberDownloads() {
+		return numberDownloads;
 	}
 
-	public void setCreationUser(String creationUser) {
-		this.creationUser = creationUser;
-	}
-
-	public LocalDateTime getCreationDate() {
-		return creationDate;
-	}
-
-	public void setCreationDate(LocalDateTime creationDate) {
-		this.creationDate = creationDate;
-	}
-
-	public LocalDateTime getModificationDate() {
-		return modificationDate;
-	}
-
-	public void setModificationDate(LocalDateTime modificationDate) {
-		this.modificationDate = modificationDate;
+	public void setNumberDownloads(Long numberDownloads) {
+		this.numberDownloads = numberDownloads;
 	}
 
 	public Double getRating() {
@@ -65,5 +69,21 @@ public class DashBoardModel {
 
 	public void setRating(Double rating) {
 		this.rating = rating;
+	}
+
+	public Date getCreationDate() {
+		return creationDate;
+	}
+
+	public void setCreationDate(Date creationDate) {
+		this.creationDate = creationDate;
+	}
+
+	public Blob getPreviewImage() {
+		return previewImage;
+	}
+
+	public void setPreviewImage(Blob previewImage) {
+		this.previewImage = previewImage;
 	}
 }
