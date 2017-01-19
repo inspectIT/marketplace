@@ -64,7 +64,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(final HttpSecurity http) throws Exception {
 		http.antMatcher("/**")
 				.addFilterBefore(customSSOFilter(), BasicAuthenticationFilter.class)
-				.authorizeRequests().antMatchers("/", "/login**", "/index.html", "/**.js", "/assets/**", "/api**").permitAll()
+				.authorizeRequests().antMatchers("/**", "/login**", "/index.html", "/**.js", "/assets/**", "/api**").permitAll()
 				.anyRequest().authenticated()
 				.and().exceptionHandling()
 				.authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/"))

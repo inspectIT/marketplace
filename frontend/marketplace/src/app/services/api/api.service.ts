@@ -3,7 +3,7 @@ import {Http, Response} from "@angular/http";
 import {Observable} from "rxjs/Observable";
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/catch";
-// custom
+import {DashboardItemModel} from "../../pages/dashboard/model/dashboard.item.model";
 
 @Injectable()
 export class ApiService {
@@ -13,17 +13,17 @@ export class ApiService {
     this.applicationUrl = url;
   }
 
-  getDashboardOverview(filter?): Observable<any> {
-    let url: string = `${this.applicationUrl}/get/dashboard/simple/small/date/asc`
-    let response = this.http.get(url)
-      .map(this.extractData)
-      .catch(this.handleError);
-    console.log("return response: " + response);
-    return response;
+  getDashboardCarouselItem(tag: string): Observable<Array<DashboardItemModel>> {
+    const url: string = `${this.applicationUrl}/get/dashboard/simple/${tag}`;
+    // ...using get request
+    return this.http.get(url)
+    // ...and calling .json() on the response to return data
+      .map((res: Response) => this.extractData(res))
+      //...errors if any
+      .catch((error: any) => this.handleError(error));
   }
 
   private extractData(data: Response) {
-    console.log(`get successfull; pass json: ${data}`);
     let body = data.json();
     return body || {};
   }
@@ -38,6 +38,7 @@ export class ApiService {
       errMsg = error.message ? error.message : error.toString();
     }
     console.error(errMsg);
+    //return Observable.throw(errMsg);
     return Observable.throw(errMsg);
   }
 

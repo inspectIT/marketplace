@@ -44,7 +44,7 @@ describe('Component: Carousel', () => {
     const list: Array<DashboardItemModel> = [{
       id: 1,
       name: "123456789012345678901234567890",
-      thumbnailImage: "1",
+      previewImage: "1",
       author: "Nik",
       rating: 4.1,
       numberDownloads: 123991231,

@@ -1,6 +1,5 @@
 package rocks.inspectit.marketplace.mvc.angular.model;
 
-import java.sql.Blob;
 import java.util.Date;
 import java.util.UUID;
 
@@ -29,7 +28,7 @@ public class DashBoardModel {
 
 	private Date creationDate;
 
-	private Blob previewImage;
+	private String previewImage;
 
 	public UUID getId() {
 		return id;
@@ -79,11 +78,11 @@ public class DashBoardModel {
 		this.creationDate = creationDate;
 	}
 
-	public Blob getPreviewImage() {
+	public String getPreviewImage() {
 		return previewImage;
 	}
 
-	public void setPreviewImage(Blob previewImage) {
+	public void setPreviewImage(String previewImage) {
 		this.previewImage = previewImage;
 	}
 }

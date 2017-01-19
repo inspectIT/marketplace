@@ -5,17 +5,18 @@
 </div>
 
 <div class="container">
-  <app-carousel [itemList]="featuredList"></app-carousel>
+  <app-carousel [title]="'Featured'" [tag]="'featured'"></app-carousel>
 </div>
 
 <div class="container">
-  <app-carousel [itemList]="recentList"></app-carousel>
+  <app-carousel [title]="'Most Recent items'" [tag]="'recent'"></app-carousel>
 </div>
 
 <div class="container">
-  <app-carousel [itemList]="ratedList"></app-carousel>
+  <app-carousel [title]="'Highest Rated Items'" [tag]="'rated'"></app-carousel>
 </div>
 
 <div class="container">
-  <app-carousel [itemList]="promotedList"></app-carousel>
+  <app-carousel [title]="'Promoted Items'" [tag]="'promoted'"></app-carousel>
 </div>
+

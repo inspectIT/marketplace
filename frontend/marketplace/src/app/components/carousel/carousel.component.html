@@ -1,10 +1,10 @@
 <hr/>
 <div class="container">
   <div class="col-md-12">
-    <h4><a href="/list/{{itemList.tag}}">Template: {{itemList.title}}</a></h4>
+    <h4><a href="/list/{{tag}}">Template: {{title}}</a></h4>
     <hr/>
     <div class="well">
-      <div id="myCarousel_{{itemList.title | removeSpaces}}" class="carousel slide">
+      <div id="myCarousel_{{title | removeSpaces}}" class="carousel slide">
 
         <div class="carousel-inner">
 
@@ -15,14 +15,14 @@
                   <div class="col-md-2">
                     <div class="panel panel-default">
                       <div class="panel-heading">
-                        <h3>{{item.thumbnailImage}}</h3>
+                        <h3>{{item.previewImage | limitTo: 14}}</h3>
                       </div>
                       <div class="panel-body">
                         <div>
                           <h4>{{item.name | limitTo: 14}}</h4>
                         </div>
                         <div class="panel-itemInfo">
-                          <span class="pull-left">{{item.author}}</span>
+                          <span class="pull-left">{{item.author | limitTo:10}}</span>
                           <span class="pull-right">{{item.rating}}</span> <br/>
                           <span class="pull-left">{{item.numberDownloads | formatNumber}}</span>
                           <span class="pull-right">{{item.creationDate | date:"dd/MM/yyyy"}}</span>
@@ -37,8 +37,8 @@
 
         </div>
 
-        <a class="left carousel-control" href="#myCarousel_{{itemList.title | removeSpaces }}" data-slide="prev">‹</a>
-        <a class="right carousel-control" href="#myCarousel_{{itemList.title | removeSpaces }}" data-slide="next">›</a>
+        <a class="left carousel-control" href="#myCarousel_{{title | removeSpaces }}" data-slide="prev">‹</a>
+        <a class="right carousel-control" href="#myCarousel_{{title | removeSpaces }}" data-slide="next">›</a>
       </div>
     </div>
   </div>

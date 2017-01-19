@@ -45,12 +45,11 @@ public class DozerConfig {
 				mapping(ProductEntity.class, DashBoardModel.class)
 						.fields("productUuid", "id", FieldsMappingOptions.copyByReference())
 						.fields("name", "name")
-						.fields("previewImage", "previewimage")
 						.fields("UserEntity.userName", "author")
 						.fields("totalRating", "rating")
 						.fields("numberOfDownloads", "numberDownloads")
 						.fields("creationDate", "creationDate")
-				;
+						.exclude("previewImage");
 			}
 		};
 	}

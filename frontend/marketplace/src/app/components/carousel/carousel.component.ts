@@ -4,7 +4,8 @@
  * @since 1.0.4-SNAPSHOT
  */
 import {Component, OnInit, Input} from "@angular/core";
-import {DashboardModel, DashboardItemModel} from "../../pages/dashboard/model/dashboard.model";
+import {DashboardItemModel} from "../../pages/dashboard/model/dashboard.item.model";
+import {ApiService} from "../../services/api/api.service";
 
 @Component({
   selector: 'app-carousel',
@@ -16,8 +17,13 @@ export class CarouselComponent implements OnInit {
   /**
    * Contains the dashboard items, which will be rendered
    */
+  itemList: Array<DashboardItemModel>;
+
   @Input()
-  itemList: DashboardModel;
+  title: string;
+
+  @Input()
+  tag: string;
 
   // helper
   itemsToDisplay: number;
@@ -29,7 +35,7 @@ export class CarouselComponent implements OnInit {
    *
    * @param maxItemsToDisplay optional parameter, to indicate the carousel size. Default: 6
    */
-  constructor() {
+  constructor(private service: ApiService) {
     this.itemsToDisplay = 6;
   }
 
@@ -56,23 +62,34 @@ export class CarouselComponent implements OnInit {
    * </pre>
    * This carouselItemList will be used to generate the corresponding carousel within the template
    *
-   * @since 1.0.4-SNAPSHOT
+   * @since 1.0.5-SNAPSHOT
    */
   ngOnInit() {
-    const size = this.itemList.itemList.length;
-    this.numberOfCarousel = Math.ceil(size / this.itemsToDisplay);
+    console.log("init for : " + this.tag);
+    this.service.getDashboardCarouselItem(this.tag).subscribe(
+      items => {
+        this.itemList = items; //Bind to view
+        console.log(" dashboard items: " + items);
+        const size = this.itemList.length;
+        this.numberOfCarousel = Math.ceil(size / this.itemsToDisplay);
 
-    for (let i = 0; i < this.numberOfCarousel; i++) {
-      // check if array.length is reached
-      const begin = i * this.itemsToDisplay;
-      const limit = ((i + 1) * this.itemsToDisplay) > size ? size : ((i + 1) * this.itemsToDisplay);
+        for (let i = 0; i < this.numberOfCarousel; i++) {
+          // check if array.length is reached
+          const begin = i * this.itemsToDisplay;
+          const limit = ((i + 1) * this.itemsToDisplay) > size ? size : ((i + 1) * this.itemsToDisplay);
 
-      // slice elements of original array an safe in tmpList
-      const tmpArray: Array<DashboardItemModel> = this.itemList.itemList.slice(begin, limit);
+          // slice elements of original array an safe in tmpList
+          const tmpArray: Array<DashboardItemModel> = this.itemList.slice(begin, limit);
 
-      // safe tmp Array in carousel array
-      this.carouselItemList.push(tmpArray);
-    }
+          // safe tmp Array in carousel array
+          this.carouselItemList.push(tmpArray);
+        }
+      },
+      err => {
+        // Log errors if any
+        console.log(err);
+      }
+    );
   }
 
 }
