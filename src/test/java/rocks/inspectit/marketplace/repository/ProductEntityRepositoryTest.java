@@ -29,7 +29,7 @@ import static org.junit.Assert.assertThat;
  * @version %I%, %G%
  * @since 1.0.4-SNAPSHOT
  */
-@ActiveProfiles("h2")
+@ActiveProfiles("test,h2")
 @WebAppConfiguration
 @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
 @TestExecutionListeners({ DbUnitTestExecutionListener.class })
