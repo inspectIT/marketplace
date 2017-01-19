@@ -32,26 +32,7 @@ clean.dependsOn(angularClean)
 // run ng-build only on local builds
 final def isLocal = project.hasProperty('local')
 if (isLocal) {
-	task buildAngular2(type: Exec) {
-		workingDir mainDir
-		if (activeProfile == 'prod') {
-			if (OperatingSystem.current().isWindows()) {
-				commandLine 'cmd', '/c', 'ng build -prod --aot'
-			} else {
-				println 'Todo: implement!\nExiting now!'
-				System.exit(-1)
-			}
-		} else {
-			if (OperatingSystem.current().isWindows()) {
-				commandLine 'cmd', '/c', 'ng build -dev'
-			} else {
-				println 'Todo: implement!\nExiting now!'
-				System.exit(-1)
-			}
-		}
-	}
-	build.dependsOn(buildAngular2)
-
+	println "please make sure, you build your angular app first"
 	task copyGeneratedFiles(type: Copy) {
 		final def mainSource = "$mainDir/dist/"
 		final def mainDestination = "$rootDir/src/main/resources/public"
