@@ -66,7 +66,30 @@ export class CarouselComponent implements OnInit {
    */
   ngOnInit() {
     console.log("init for : " + this.tag);
+    this.service.getDashboardCarouselItem(this.tag).subscribe(
+      items => {
+        this.itemList = items; //Bind to view
+        console.log(" dashboard items: " + items);
+        const size = this.itemList.length;
+        this.numberOfCarousel = Math.ceil(size / this.itemsToDisplay);
 
+        for (let i = 0; i < this.numberOfCarousel; i++) {
+          // check if array.length is reached
+          const begin = i * this.itemsToDisplay;
+          const limit = ((i + 1) * this.itemsToDisplay) > size ? size : ((i + 1) * this.itemsToDisplay);
+
+          // slice elements of original array an safe in tmpList
+          const tmpArray: Array<DashboardItemModel> = this.itemList.slice(begin, limit);
+
+          // safe tmp Array in carousel array
+          this.carouselItemList.push(tmpArray);
+        }
+      },
+      err => {
+        // Log errors if any
+        console.log(err);
+      }
+    );
   }
 
 }

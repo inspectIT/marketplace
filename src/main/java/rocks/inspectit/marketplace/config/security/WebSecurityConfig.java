@@ -62,16 +62,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	 */
 	@Override
 	protected void configure(final HttpSecurity http) throws Exception {
-		http.antMatcher("/**")
-				.addFilterBefore(customSSOFilter(), BasicAuthenticationFilter.class)
-				.authorizeRequests().antMatchers("/**", "/login**", "/index.html", "/**.js", "/assets/**", "/api**").permitAll()
+		http
+				.antMatcher("/**").addFilterBefore(customSSOFilter(), BasicAuthenticationFilter.class).authorizeRequests()
+				.antMatchers("/**", "/login**", "/index.html", "/**.js", "/assets/**", "/api**").permitAll()
 				.anyRequest().authenticated()
-				.and().exceptionHandling()
-				.authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/"))
+				.and()
+				.exceptionHandling().authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/"))
 				.and()
 				.logout().logoutSuccessUrl("/").permitAll()
 				.and()
-				.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
+				.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+				.and()
+				.headers().frameOptions().sameOrigin();
 	}
 
 	/**
