@@ -10,8 +10,9 @@
 // bootRun will rely on the -P profile argument,
 // defaulting to the "dev" profile if no -P arguments are provided
 bootRun {
-	systemProperties = [
-			'spring.profiles.active': activeProfile
-	]
+	// pass command line options from gradle to bootRun
+	// usage: gradlew bootRun "-Dspring.profiles.active=local,protractor"
+	println 'usage: gradlew bootRun "-Dspring.profiles.active=local,protractor"'
+	systemProperty "spring.profiles.active", activeProfile
 }
 

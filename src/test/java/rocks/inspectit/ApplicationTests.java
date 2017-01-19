@@ -1,6 +1,5 @@
 package rocks.inspectit;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +19,6 @@ import static org.junit.Assert.assertTrue;
  * @version %I%, %G%
  * @since 1.0.0-SNAPSHOT
  */
-@Ignore("Test case will fail on prod due to jvm bind exception")
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @ActiveProfiles(ActiveProfile.PROD)

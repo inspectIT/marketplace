@@ -24,6 +24,6 @@ task buildDocker(type: Docker) {
 
 	doLast {
 		println "Run the Docker Container:"
-		println "docker run -i -p ${activeProfile == 'prod' ? '80:80' : '8080:8080'} $tag"
+		println "docker run -i -p ${activeProfile.contains('prod')? '80:80' : '8080:8080'} $tag"
 	}
 }

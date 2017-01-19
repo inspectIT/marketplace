@@ -1,10 +1,7 @@
 package rocks.inspectit.marketplace.config.web;
 
 import org.dbunit.DatabaseUnitException;
-import org.h2.tools.Server;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
@@ -20,7 +17,7 @@ import javax.sql.DataSource;
  * @version %I%, %G%
  * @since 1.0.4-SNAPSHOT
  */
-@Profile({"dev", "prod"})
+@Profile("h2")
 @Configuration
 public class H2DatabaseConfig {
 
@@ -31,10 +28,10 @@ public class H2DatabaseConfig {
 	@SuppressWarnings("PMD")
 	@Autowired
 	private DataSource dataSource;
-	@Value("${h2.database.web.port}")
-	private String webPort;
-	@Value("${h2.database.tcp.port}")
-	private String tcpPort;
+//	@Value("${h2.database.web.port}")
+//	private String webPort;
+//	@Value("${h2.database.tcp.port}")
+//	private String tcpPort;
 
 	/**
 	 * not needed yet!
@@ -64,14 +61,14 @@ public class H2DatabaseConfig {
 	 * DatabaseOperation.REFRESH.execute(connection, dataSet);
 	 * }
 	 */
-	@Bean(initMethod = "start", destroyMethod = "stop")
-	public Server h2WebServer() throws SQLException {
-		return Server.createWebServer("-web", "-webAllowOthers", "-webPort", webPort);
-	}
-
-	@Bean(initMethod = "start", destroyMethod = "stop")
-	public Server h2TcpServer() throws SQLException {
-		return Server.createWebServer("-tcp", "-tcpAllowOthers", "-tcpPort", tcpPort);
-	}
+//	@Bean(initMethod = "start", destroyMethod = "stop")
+//	public Server h2WebServer() throws SQLException {
+//		return Server.createWebServer("-web", "-webAllowOthers", "-webPort", webPort);
+//	}
+//
+//	@Bean(initMethod = "start", destroyMethod = "stop")
+//	public Server h2TcpServer() throws SQLException {
+//		return Server.createWebServer("-tcp", "-tcpAllowOthers", "-tcpPort", tcpPort);
+//	}
 
 }

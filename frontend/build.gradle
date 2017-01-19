@@ -6,22 +6,12 @@
 
 import org.gradle.internal.os.OperatingSystem;
 
-def final activeProfile = project.activeProfile
-
-final def mainDir = "$projectDir/marketplace";
-
-// start project
-task startAngular2Project(type: Exec) {
-	workingDir mainDir
-	if (OperatingSystem.current().isWindows()) {
-		commandLine 'cmd', '/c', 'ng serve'
-	} else if (OperatingSystem.current().isUnix()) {
-		commandLine 'ng serve'
-	}
-}
+// use native type string to avoid boxing
+final String activeProfile = activeProfile
+final mainDir = "$projectDir/marketplace"
 
 // delete dist dir
-final def nodeJSMain = "$mainDir"
+final nodeJSMain = "$mainDir"
 task angularClean(type: Delete) {
 	// delete "${nodeJSMain}/node"
 	delete "${nodeJSMain}/dist"
@@ -29,10 +19,9 @@ task angularClean(type: Delete) {
 }
 clean.dependsOn(angularClean)
 
-// run ng-build only on local builds
-final def isLocal = project.hasProperty('local')
-if (isLocal) {
-	println "please make sure, you build your angular app first"
+// run ng-build only on dev builds
+if (activeProfile.contains('copy')) {
+	println 'please make sure, you build your angular app first, by executing command "ng build -prod" in the frontend/marketplace folder'
 	task copyGeneratedFiles(type: Copy) {
 		final def mainSource = "$mainDir/dist/"
 		final def mainDestination = "$rootDir/src/main/resources/public"
@@ -45,4 +34,5 @@ if (isLocal) {
 		}
 	}
 
+	build.dependsOn(copyGeneratedFiles)
 }

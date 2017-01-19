@@ -74,6 +74,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
 				.and()
 				.headers().frameOptions().disable();
+		/**
+		 * limit access to amazonaws domain
+		 */
+		// .addHeaderWriter(new StaticHeadersWriter("X-FRAME-OPTIONS", "ALLOW-FROM amazonaws.com"));
 	}
 
 	/**

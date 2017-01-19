@@ -29,7 +29,7 @@ plugins {
 }
 
 apply plugin: 'java'
-apply plugin: 'spring-boot'
+apply plugin: 'org.springframework.boot'
 
 // IDE Plugins
 apply plugin: 'eclipse'
@@ -48,7 +48,9 @@ apply plugin: 'docker'
 apply from: "$projectDir/gradle/properties/custom_properties.gradle"
 
 // set spring profile
-def activeProfile = project.ext.activeProfile = project.hasProperty('prod') ? prodProfiles : devProfiles
+// use native type to avoid boxing
+ext.activeProfile = System.properties['spring.profiles.active'] ?: "dev,h2,copy"
+
 
 // plugins
 apply from: "$projectDir/gradle/plugins/checkstyle_plugin.gradle"

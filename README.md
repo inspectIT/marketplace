@@ -21,10 +21,14 @@ For more information read [Gradle docs: Gradle Wrapper](https://docs.gradle.org/
 
 ## Build
 Execute command ``` gradlew.bat build ``` in Windows command prompt (Strg + R -> cmd) will fail with ``` Unable to process incoming event 'ProgressComplete ' (ProgressCompleteEvent) ``` Exception. This may be caused by Issue [GRADLE-3527](https://issues.gradle.org/browse/GRADLE-3527). For further Information check following discussion [Discuss Gradle](https://discuss.gradle.org/t/build-fails-with-unable-to-process-incoming-event-progresscomplete-progresscompleteevent/18434/17) 
-To avoid this error use your IDE to build.
-In IntelliJ IDEA 2016.2.4 build completes successfully. Tested on different Laptops with Windows 10, Ubuntu 16.04, Ubuntu 14.10 and Linux Mint 18 (KDE). 
+Due to this Bug, they build don't work as excepted and will exit with an error. The current "hack" is to build the angular 2 frontend application first and then copy the created JS, CSS and HTML files to the backend.
+ ````
+ 1. build angular 2 app:     ng build -prod 
+ 2. build and copy backend:  gradlew build -Dspring.profiles.active=prod,h2,copy
+ 3. commit
+ ````
 
-Since Resource Filtering demands building the application first and running application with ``` gradlew.bat bootRun [-Pprod]``` (you don't have to specify a profile, since dev is default) we're using application-dev.properties with hard coded values, thus we can start the application by simple running the main Method within your IDE. In addition it's easier to run the test-cases within your IDE.
+Since Resource Filtering demands building the application first and running application with ``` gradlew.bat bootRun [-Dspring.profiles.active=dev,h2]``` (you don't have to specify a profile, since dev and h2 profile will be set by default) we're using application-dev.properties with hard coded values, thus we can start the application by simple running the main Method within your IDE. In addition it's easier to run the test-cases within your IDE. The embedded database is configured in application-h2.properties. Keep in mind that the H2 Database is a simple embedded database, which will be replaced in future releases.
 
 ## Additional Properties
 We're processing all project properties. To add properties and using it within the application, you could
@@ -36,7 +40,7 @@ If you're already using Spring Placeholder Properties, like java.io.tmpdir, you 
 
 ## Docker
 To create a docker container you have add ``` buildDocker ``` task to the build command. We avoid using ``` depends on [task] ```, since this may result in complicated builds.
-Full command: ``` gradlew.bat clean build buildDocker -Pprod ```
+Full command: ``` gradlew.bat clean build buildDocker -Dspring.profiles.active=prod,h2 ```
 
 Don't forget to add profile when executing a task separately.
 
@@ -44,12 +48,14 @@ Don't forget to add profile when executing a task separately.
 Currently used:
 - Gradle 3.0
 - Spring Boot 1.4.1
-- Angular 2
+- Angular 2 - Angular-Cli
 - CheckStyle
 - CPD - 1.0
 - PMD
 - FindBugs
 - Node Plugin - 0.13
+- H2 Database
+- JaCoCo
 
 # Extend - fixme
 Front-End - Angular: [baseDir]/src/main/resources/frontend/angular2/app
