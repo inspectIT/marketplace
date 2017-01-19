@@ -1,7 +1,7 @@
 <hr/>
 <div class="container">
   <div class="col-md-12">
-    <h4><a href="/list/{{tag}}">Template: {{title}}</a></h4>
+    <h4><a href="overview/{{tag}}">Template: {{title}}</a></h4>
     <hr/>
     <div class="well">
       <div id="myCarousel_{{title | removeSpaces}}" class="carousel slide">
@@ -11,7 +11,7 @@
           <div class="item" *ngFor="let items of carouselItemList; let myIndex = index" [class.active]="myIndex === 0">
             <div class="row">
               <div class="" *ngFor="let item of items">
-                <a routerLink="/details/{{item.id}}">
+                <a routerLink="details/{{item.id}}">
                   <div class="col-md-2">
                     <div class="panel panel-default">
                       <div class="panel-heading">

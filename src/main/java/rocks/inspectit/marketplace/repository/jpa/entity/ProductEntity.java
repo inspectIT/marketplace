@@ -5,7 +5,6 @@ import org.hibernate.validator.constraints.Length;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
-import java.io.Serializable;
 import java.sql.Blob;
 import java.sql.Clob;
 import java.util.Date;
@@ -29,17 +28,6 @@ import javax.validation.constraints.NotNull;
  * TODO: create relationship between UserEntity and RatingsEntity
  * TODO: make sure, to upload images or other media types, especially JSON/XML files
  * <p/>
- * <p/>
- * TODO
- * needs proper modelling and testing. Use this annotation for selects joining both entities
- * <p/>
- * not tested or needed, yet
- * </p>
- * {@link OneToOne} Annotation defines a many-to-one relationship between the {@link UserEntity}.
- * {@link JoinColumn} indicates the entity is the owner of the relationship, containing the foreign key to the referenced table
- * mappedBy indicates the Entity is the inverse of the relationship
- * <p/>
- * <p/>
  *
  * @author NKO
  * @version %I%, %G%
@@ -51,7 +39,7 @@ import javax.validation.constraints.NotNull;
  * @since 1.0.4-SNAPSHOT
  */
 @Entity
-public class ProductEntity implements Serializable {
+public class ProductEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

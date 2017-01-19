@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 
 import java.sql.SQLException;
 
@@ -19,7 +20,7 @@ import javax.sql.DataSource;
  * @version %I%, %G%
  * @since 1.0.4-SNAPSHOT
  */
-//@Profile("dev")
+@Profile({"dev", "prod"})
 @Configuration
 public class H2DatabaseConfig {
 
@@ -27,6 +28,7 @@ public class H2DatabaseConfig {
 	 * setter injection necessary,
 	 * because constructor injection fails with {@link NoSuchMethodException}
 	 */
+	@SuppressWarnings("PMD")
 	@Autowired
 	private DataSource dataSource;
 	@Value("${h2.database.web.port}")

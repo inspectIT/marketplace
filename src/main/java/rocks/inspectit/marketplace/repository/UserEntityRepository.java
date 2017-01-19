@@ -7,9 +7,8 @@ import java.util.UUID;
 import rocks.inspectit.marketplace.repository.jpa.entity.UserEntity;
 
 /**
- * FIXME
- * there are currently different methods returning exactly what the front-end expects, due to missing entities. please implement entities and rewrite functions properly
  * todo: write unit test
+ * there are currently different methods returning exactly what the front-end expects, due to missing entities. please implement entities and rewrite functions properly
  *
  * @author NKO
  * @version %I%, %G%

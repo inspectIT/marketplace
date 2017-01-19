@@ -23,8 +23,6 @@ export class LoginComponent implements OnInit {
   constructor(private service: GithubOAuthService, private router: Router, private http: Http) {
   }
 
-  awesomo = [];
-
   login(credentials) {
     let url = 'http://localhost:8080/login/github';
 
@@ -53,7 +51,7 @@ export class LoginComponent implements OnInit {
     response.subscribe(
       data => {
         console.log(data);
-        this.awesomo = data;
+        this.user = data;
       },
       error => console.log(error)
     );

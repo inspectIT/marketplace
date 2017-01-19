@@ -26,7 +26,6 @@ import {LimitCharactersToPipe} from "./pipes/limit-characters-to.pipe";
 import {SearchResultComponent} from "./pages/search-result/search-result.component";
 import {ItemDetailComponent} from "./pages/item-detail/item-detail.component";
 import {RemoveSpacesPipe} from "./pipes/remove.spaces.pipe";
-import {DynamicloaderComponent} from "./components/dynamicloader/dynamicloader.component";
 import {OverviewComponent} from "./pages/overview/overview.component";
 
 @NgModule({
@@ -46,7 +45,6 @@ import {OverviewComponent} from "./pages/overview/overview.component";
     SearchResultComponent,
     ItemDetailComponent,
     RemoveSpacesPipe,
-    DynamicloaderComponent,
     OverviewComponent
   ],
   imports: [

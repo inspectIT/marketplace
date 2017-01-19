@@ -2,17 +2,12 @@
   <h3>Login: </h3>
 
   <div class="row">
-    <button (click)="login(user)">Login</button>
+    <button class="btn btn-default" (click)="login(user)">Login</button>
   </div>
 
-  <button (click)="navigateBack()">Back</button>
-
   <div class="container">
-    <button (click)="getUser()">
+    <button class="btn btn-default" (click)="getUser()">
       zeige userz
     </button>
-    <div  class="row" *ngIf="awesomo">
-      {{awesomo | json}}
-    </div>
   </div>
 </div>

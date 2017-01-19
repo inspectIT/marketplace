@@ -64,7 +64,7 @@ public class DashBoardServiceImpl implements DashBoardService {
 	@Override
 	public List<DashBoardModel> getSimpleDashboardOverviewByType(final String tag, final boolean limit) {
 		final List<DashBoardModel> returnModel = new ArrayList<>();
-		if (limit)
+		if (limit) {
 			this.repository.findTop10ByTag(tag)
 					.forEach(it -> {
 
@@ -81,6 +81,7 @@ public class DashBoardServiceImpl implements DashBoardService {
 						}
 						returnModel.add(tmpModel);
 					});
+		}
 		return returnModel;
 	}
 }
