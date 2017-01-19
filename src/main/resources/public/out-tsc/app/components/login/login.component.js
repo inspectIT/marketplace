@@ -24,7 +24,7 @@ export var LoginComponent = (function () {
     LoginComponent.prototype.login = function (credentials) {
         var url = 'http://localhost:8080/login/github';
         var options = 'left=100,top=10,width=400,height=500';
-        // window.open(url, "nameHere", options);
+        window.open(url, "nameHere", options);
         /*
          let response = this.http.get(url)
          .map(this.extractData)
