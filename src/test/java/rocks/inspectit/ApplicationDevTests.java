@@ -8,20 +8,22 @@ import org.springframework.core.env.Environment;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import rocks.inspectit.marketplace.config.ActiveProfile;
-
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
 /**
+ * Make sure to stay in test context, therefore use test and h2 profiles
+ * for test application.properties by adding {@link ActiveProfiles} annotation.
+ * <p/>
+ *
  * @author Nikita Kolytschew
  * @version %I%, %G%
  * @since 1.0.1-SNAPSHOT
  */
+@ActiveProfiles("test,h2_db")
 @RunWith(SpringRunner.class)
 @SpringBootTest
-@ActiveProfiles(ActiveProfile.DEV)
 public class ApplicationDevTests {
 
 	@Autowired
@@ -39,7 +41,7 @@ public class ApplicationDevTests {
 	 */
 	@Test
 	public void testEnvironment() {
-		assertThat(env.getActiveProfiles(), is(new String[] { ActiveProfile.DEV }));
+		assertThat(env.getActiveProfiles(), is(new String[] { "test", "h2_db" }));
 
 	}
 }

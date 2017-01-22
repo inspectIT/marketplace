@@ -18,9 +18,5 @@ import rocks.inspectit.marketplace.repository.jpa.entity.ProductEntity;
  */
 public interface ProductEntityRepository extends CrudRepository<ProductEntity, UUID> {
 	List<ProductEntity> findAll();
-
-	List<ProductEntity> findByTag(final String tag);
-
-	List<ProductEntity> findTop10ByTag(final String tag);
 }
 

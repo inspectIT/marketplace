@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<configuration-interface-import-data>
+    <profiles>
+        <profile common="false" active="true" default="false" id="1380e217-8024-44cb-a097-842ad12177bd" name="DVD Store [base profile]" description="Base" created-on="2016-11-02T16:51:17.804+01:00" updated-on="2016-11-03T13:24:35.451+01:00" revision="6">
+            <sensor-assignment-profile-data>
+                <timer-method-sensor-assignment starts-invocation="false" min-invocation-duration="0" charting="false" sensor-config-class="rocks.inspectit.shared.cs.ci.sensor.method.impl.TimerSensorConfig" method-name="*" constructor="false" public-mod="true" protected-mod="false" private-mod="false" default-mod="false" class-name="org.apache.catalina.core.ApplicationDispatcher" superclass="false" interface="false"/>
+                <timer-method-sensor-assignment starts-invocation="false" min-invocation-duration="0" charting="false" sensor-config-class="rocks.inspectit.shared.cs.ci.sensor.method.impl.TimerSensorConfig" method-name="*" constructor="false" public-mod="true" protected-mod="true" private-mod="true" default-mod="true" class-name="com.jboss.dvd*" superclass="false" interface="false" annotation="javax.ejb.Stateless"/>
+                <timer-method-sensor-assignment starts-invocation="false" min-invocation-duration="0" charting="false" sensor-config-class="rocks.inspectit.shared.cs.ci.sensor.method.impl.TimerSensorConfig" method-name="*" constructor="false" public-mod="true" protected-mod="true" private-mod="true" default-mod="true" class-name="com.jboss.dvd*" superclass="false" interface="false" annotation="javax.ejb.Stateful"/>
+                <timer-method-sensor-assignment starts-invocation="false" min-invocation-duration="0" charting="false" sensor-config-class="rocks.inspectit.shared.cs.ci.sensor.method.impl.TimerSensorConfig" method-name="execute" constructor="false" public-mod="true" protected-mod="true" private-mod="true" default-mod="true" class-name="com.sun.faces.lifecycle.Phase" superclass="true" interface="false"/>
+                <timer-method-sensor-assignment starts-invocation="false" min-invocation-duration="0" charting="false" sensor-config-class="rocks.inspectit.shared.cs.ci.sensor.method.impl.TimerSensorConfig" method-name="searchTitleAndDescriptionWithOneWord" parameters="java.lang.String" constructor="false" public-mod="true" protected-mod="true" private-mod="true" default-mod="true" class-name="com.jboss.dvd.seam.FullTextSearchAction" superclass="false" interface="false">
+                    <context-captures>
+                        <parameter-capture index="0" display-name="searchCriteria"/>
+                    </context-captures>
+                </timer-method-sensor-assignment>
+                <exception-sensor-assignment class-name="com.jboss.dvd*" superclass="false" interface="false"/>
+            </sensor-assignment-profile-data>
+        </profile>
+        <profile common="false" active="true" default="false" id="346c8e0a-864b-4b8d-846f-b80d16cef97f" name="Spring" created-on="2016-11-03T15:44:01.871+01:00" revision="1">
+            <sensor-assignment-profile-data/>
+        </profile>
+    </profiles>
+    <environments>
+        <environment id="77444caa-2c5a-4494-b4c0-05c08db5cbc4" name="Default Environment" description="Environment that contains the default inspectIT monitoring settings and all default profiles." created-on="2016-11-02T13:33:46.233+01:00" revision="1">
+            <time-sending-strategy-config time="5000"/>
+            <simple-buffer-strategy-config/>
+            <platform-sensor-configs>
+                <class-loading-sensor-config active="true"/>
+                <compilation-sensor-config active="true"/>
+                <cpu-sensor-config active="true"/>
+                <memory-sensor-config active="true"/>
+                <runtime-sensor-config active="true"/>
+                <system-sensor-config active="true"/>
+                <thread-sensor-config active="true"/>
+            </platform-sensor-configs>
+            <method-sensor-configs>
+                <connection-sensor-config/>
+                <http-sensor-config sessionCapture="false" string-length="500"/>
+                <invocation-sequence-sensor-config string-length="100"/>
+                <prepared-statement-parameter-sensor-config/>
+                <prepared-statement-sensor-config string-length="1000"/>
+                <statement-sensor-config string-length="1000"/>
+                <timer-sensor-config string-length="100"/>
+                <log4j-logging-sensor-config minLevel="WARN"/>
+            </method-sensor-configs>
+            <exception-sensor-config enhanced="false" string-length="500"/>
+            <jmx-loading-sensor-config/>
+            <profile-ids>
+                <profile-id>exclude-classes</profile-id>
+                <profile-id>http</profile-id>
+                <profile-id>sql</profile-id>
+            </profile-ids>
+            <classLoadingDelegation>true</classLoadingDelegation>
+        </environment>
+        <environment id="7924ae53-6e8d-4f32-bdd3-0b43f83fc528" name="JBoss Environment" description="DVD Store [dev]" created-on="2016-11-02T16:22:22.042+01:00" updated-on="2016-11-03T14:07:52.260+01:00" revision="6">
+            <time-sending-strategy-config time="5000"/>
+            <simple-buffer-strategy-config/>
+            <platform-sensor-configs>
+                <class-loading-sensor-config active="true"/>
+                <compilation-sensor-config active="true"/>
+                <cpu-sensor-config active="true"/>
+                <memory-sensor-config active="true"/>
+                <runtime-sensor-config active="true"/>
+                <system-sensor-config active="true"/>
+                <thread-sensor-config active="true"/>
+            </platform-sensor-configs>
+            <method-sensor-configs>
+                <connection-sensor-config/>
+                <http-sensor-config sessionCapture="false" string-length="500"/>
+                <invocation-sequence-sensor-config string-length="100"/>
+                <prepared-statement-parameter-sensor-config/>
+                <prepared-statement-sensor-config string-length="1000"/>
+                <statement-sensor-config string-length="1000"/>
+                <timer-sensor-config string-length="100"/>
+                <log4j-logging-sensor-config minLevel="WARN"/>
+            </method-sensor-configs>
+            <exception-sensor-config enhanced="false" string-length="500"/>
+            <jmx-loading-sensor-config/>
+            <profile-ids>
+                <profile-id>sql-parameters</profile-id>
+                <profile-id>1380e217-8024-44cb-a097-842ad12177bd</profile-id>
+                <profile-id>exclude-classes</profile-id>
+                <profile-id>http</profile-id>
+            </profile-ids>
+            <classLoadingDelegation>true</classLoadingDelegation>
+        </environment>
+    </environments>
+</configuration-interface-import-data>

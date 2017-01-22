@@ -65,10 +65,13 @@ public class DashBoardServiceImpl implements DashBoardService {
 	public List<DashBoardModel> getSimpleDashboardOverviewByType(final String tag, final boolean limit) {
 		final List<DashBoardModel> returnModel = new ArrayList<>();
 		if (limit) {
-			this.repository.findTop10ByTag(tag)
+			this.repository.findAll()
 					.forEach(it -> {
 
 						final DashBoardModel tmpModel = this.mapper.map(it, DashBoardModel.class);
+						tmpModel.setRating(it.getTotalRating());
+
+						// map blob to string
 						try {
 							final int blobLength = (int) it.getPreviewImage().length();
 							final byte[] blobAsBytes = it.getPreviewImage().getBytes(1, blobLength);

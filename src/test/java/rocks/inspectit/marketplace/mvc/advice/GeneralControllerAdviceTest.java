@@ -11,19 +11,20 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.context.WebApplicationContext;
 
-import rocks.inspectit.marketplace.config.ActiveProfile;
-
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 
 /**
+ * Make sure to stay in test context, therefore use test and h2 profiles
+ * for test application.properties by adding {@link ActiveProfiles} annotation.
+ *
  * @author NKO
  * @version %I%, %G%
  * @since 1.0.2-SNAPSHOT
  */
-@ActiveProfiles(ActiveProfile.DEV)
+@ActiveProfiles("test,h2_db")
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @WebAppConfiguration

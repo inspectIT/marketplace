@@ -21,7 +21,9 @@ buildscript {
 	}
 }
 
-/** apply cpd to the root project, as this was how the plugin is intended to be used
+/**
+ *
+ * this was how the plugin is intended to be used
  * using new Gradle plugins DSL see: https://github.com/aaschmid/gradle-cpd-plugin
  **/
 plugins {
@@ -63,7 +65,7 @@ apply from: "$projectDir/gradle/plugins/jacoco_plugin.gradle"
 // default project definition
 // docker image prefix will be taken from group
 group = "inspectit.rocks"
-version = "1.0.5-SNAPSHOT"
+version = "1.0.6-SNAPSHOT"
 description = "Open Source Marketplace"
 project.ext.finalName = jar.baseName
 
@@ -123,10 +125,7 @@ dependencies {
 	compile 'com.h2database:h2'
 
 	// use flyway for high-level database migration
-	/**
-	 * not needed yet
-	 compile "org.flywaydb:flyway-core:${flywayVersion}"
-	 * */
+	compile "org.flywaydb:flyway-core:${flywayVersion}"
 
 	// unit test spring
 	testCompile 'org.springframework.boot:spring-boot-starter-test'

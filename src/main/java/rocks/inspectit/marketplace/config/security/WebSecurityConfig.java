@@ -64,14 +64,20 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(final HttpSecurity http) throws Exception {
 		http
 				.antMatcher("/**").addFilterBefore(customSSOFilter(), BasicAuthenticationFilter.class).authorizeRequests()
-				.antMatchers("/**", "/login**", "/index.html", "/**.js", "/assets/**", "/api**").permitAll()
+				.antMatchers(
+						"/**",
+						"/login**",
+						"/index.html",
+						"/**.js",
+						"/assets/**",
+						"/api**").permitAll()
 				.anyRequest().authenticated()
 				.and()
 				.exceptionHandling().authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/"))
 				.and()
 				.logout().logoutSuccessUrl("/").permitAll()
 				.and()
-				.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+				.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()).ignoringAntMatchers("/nocsrf","/console/**")
 				.and()
 				.headers().frameOptions().disable();
 		/**

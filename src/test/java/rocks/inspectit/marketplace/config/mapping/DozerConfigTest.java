@@ -4,24 +4,31 @@ import org.dozer.DozerBeanMapper;
 import org.dozer.loader.api.BeanMappingBuilder;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.test.context.ActiveProfiles;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.UUID;
 
 import rocks.inspectit.marketplace.mvc.angular.model.DashBoardModel;
 import rocks.inspectit.marketplace.repository.jpa.entity.ProductEntity;
+import rocks.inspectit.marketplace.repository.jpa.entity.RatingEntity;
 import rocks.inspectit.marketplace.repository.jpa.entity.UserEntity;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 /**
- * Test mapping from Product Entity to Dashboard Model
+ * Make sure to stay in test context, therefore use test and h2 profiles
+ * for test application.properties by adding {@link ActiveProfiles} annotation.
+ * <p/>
+ * Test mapping from Product Entity to Dashboard Model,
  *
  * @author NKO
  * @version %I%, %G%
  * @since 1.X-SNAPSHOT
  */
+@ActiveProfiles("test,h2_db")
 public class DozerConfigTest {
 
 	private static final String DEFAULT_CREATION_USER = "CampusUser_Default";
@@ -35,11 +42,15 @@ public class DozerConfigTest {
 		mapper = dozerConfiguration.dozerBean(mappingBuilder);
 	}
 
+	/**
+	 * update test case. simple filed rating is now an object of type {@link RatingEntity}
+	 */
 	@Test
 	public void testMapProductEntityToDashboardModel() throws Exception {
 		// setup entity
 		final ProductEntity productEntity = new ProductEntity();
-		final UserEntity productEntityInner = new UserEntity();
+		final UserEntity innerClassUserEntity = new UserEntity();
+		final RatingEntity innerClassRatingEntity = new RatingEntity();
 
 		productEntity.setProductUuid(UUID.randomUUID());
 		productEntity.setActive(true);
@@ -48,14 +59,21 @@ public class DozerConfigTest {
 		productEntity.setModifyDate(new Date());
 		productEntity.setName("Awesome Product Description is Awesome");
 		productEntity.setNumberOfDownloads(1235578L);
-		productEntity.setTag("webTag");
-		productEntity.setTotalRating(47.11);
 
-		// we only need username
-		productEntityInner.setUserName("not a nik");
-		productEntity.setUserEntity(productEntityInner);
+		//		we only need username
+		innerClassUserEntity.setName("not a nik");
+
+		// we only need rating and description
+		innerClassRatingEntity.setRatingAsNumber(10);
+		innerClassRatingEntity.setRatingDescription("Lorem Ipsum");
+
+		productEntity.setUserEntity(innerClassUserEntity);
+		productEntity.setRatingEntityList(new ArrayList<RatingEntity>() {{
+			add(innerClassRatingEntity);
+		}});
 
 		final DashBoardModel mappedResult = mapper.map(productEntity, DashBoardModel.class);
+		mappedResult.setRating(productEntity.getTotalRating());
 
 		// test some random attributess
 		assertEquals(productEntity.getProductUuid(), mappedResult.getId());
@@ -63,7 +81,5 @@ public class DozerConfigTest {
 		assertNotNull(mappedResult.getCreationDate());
 		assertNotNull(mappedResult.getAuthor());
 		assertEquals(mappedResult.getAuthor(), "not a nik");
-
 	}
-
 }

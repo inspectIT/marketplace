@@ -1,14 +1,11 @@
 package rocks.inspectit.marketplace.repository.jpa.entity;
 
-import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
-import java.sql.Blob;
-import java.sql.Clob;
 import java.util.Date;
-import java.util.List;
 import java.util.UUID;
 
 import javax.persistence.Column;
@@ -19,41 +16,34 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Version;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 /**
- * Thanks to fancy spring boot we don't need a persistence.xml
- * <p/>
- * this is not the final implementation:
- * TODO: make sure, to upload images or other media types, especially JSON/XML files
- * <p/>
- *
  * @author NKO
  * @version %I%, %G%
  * @since 1.0.4-SNAPSHOT
  */
 @Entity
-public class ProductEntity {
+public class RatingEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@GenericGenerator(name = "system-uuid", strategy = "uuid")
-	private UUID productUuid;
+	private UUID ratingUuid;
 
-	/**
-	 * keep track of changes and updates
-	 */
 	@Version
 	private Integer version;
 
-	@NotNull
-	private String name;
+	@NotEmpty
+	@Length(max = 2000)
+	private String ratingDescription;
 
 	@NotNull
-	@Length(max = 2000)
-	private String description;
+	@Min(1)
+	@Max(10)
+	private Integer ratingAsNumber;
 
 	/**
 	 * new date to today on insert
@@ -80,12 +70,7 @@ public class ProductEntity {
 	private Date modifyDate = new Date();
 
 	@NotNull
-	private Boolean active = true;
-
-	private Long numberOfDownloads;
-
-	private Blob previewImage;
-	private Clob productItem;
+	private Boolean active;
 
 	/**
 	 * user relationship
@@ -97,27 +82,20 @@ public class ProductEntity {
 	private UserEntity userEntity;
 
 	/**
-	 * rating relationship
-	 * product is parent
-	 * one product can have one or many ratings
+	 * product relationship.
+	 * product is parent.
+	 * one product can have one or many rating
 	 */
-	@OneToMany(mappedBy = "productEntity", targetEntity = RatingEntity.class, fetch = FetchType.LAZY)
-	private List<RatingEntity> ratingEntityList;
-//	/**
-//	 * tag relationship
-//	 * product is parent
-//	 * one product has one tag
-//	 */
-//	@OneToOne(fetch = FetchType.LAZY)
-//	@JoinColumn(name = "tagUuid", referencedColumnName = "tagUuid")
-//	private TagEntity tagEntity;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "productUuid", referencedColumnName = "productUuid")
+	private ProductEntity productEntity;
 
-	public UUID getProductUuid() {
-		return productUuid;
+	public UUID getRatingUuid() {
+		return ratingUuid;
 	}
 
-	public void setProductUuid(UUID productUuid) {
-		this.productUuid = productUuid;
+	public void setRatingUuid(UUID ratingUuid) {
+		this.ratingUuid = ratingUuid;
 	}
 
 	public Integer getVersion() {
@@ -128,20 +106,20 @@ public class ProductEntity {
 		this.version = version;
 	}
 
-	public String getName() {
-		return name;
+	public String getRatingDescription() {
+		return ratingDescription;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setRatingDescription(String ratingDescription) {
+		this.ratingDescription = ratingDescription;
 	}
 
-	public String getDescription() {
-		return description;
+	public Integer getRatingAsNumber() {
+		return ratingAsNumber;
 	}
 
-	public void setDescription(String description) {
-		this.description = description;
+	public void setRatingAsNumber(Integer ratingAsNumber) {
+		this.ratingAsNumber = ratingAsNumber;
 	}
 
 	public Date getCreationDate() {
@@ -168,30 +146,6 @@ public class ProductEntity {
 		this.active = active;
 	}
 
-	public Long getNumberOfDownloads() {
-		return numberOfDownloads;
-	}
-
-	public void setNumberOfDownloads(Long numberOfDownloads) {
-		this.numberOfDownloads = numberOfDownloads;
-	}
-
-	public Blob getPreviewImage() {
-		return previewImage;
-	}
-
-	public void setPreviewImage(Blob previewImage) {
-		this.previewImage = previewImage;
-	}
-
-	public Clob getProductItem() {
-		return productItem;
-	}
-
-	public void setProductItem(Clob productItem) {
-		this.productItem = productItem;
-	}
-
 	public UserEntity getUserEntity() {
 		return userEntity;
 	}
@@ -200,15 +154,11 @@ public class ProductEntity {
 		this.userEntity = userEntity;
 	}
 
-	public List<RatingEntity> getRatingEntityList() {
-		return ratingEntityList;
+	public ProductEntity getProductEntity() {
+		return productEntity;
 	}
 
-	public void setRatingEntityList(List<RatingEntity> ratingEntityList) {
-		this.ratingEntityList = ratingEntityList;
-	}
-
-	public Double getTotalRating() {
-		return this.ratingEntityList.stream().mapToDouble(RatingEntity::getRatingAsNumber).sum() / this.ratingEntityList.size();
+	public void setProductEntity(ProductEntity productEntity) {
+		this.productEntity = productEntity;
 	}
 }

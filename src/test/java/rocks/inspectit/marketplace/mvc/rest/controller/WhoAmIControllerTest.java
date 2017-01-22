@@ -20,6 +20,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
+ * Make sure to stay in test context, therefore use test and h2 profiles
+ * for test application.properties by adding {@link ActiveProfiles} annotation.
+ * <p/>
  * Simple test case for rest controller.
  * Checks if HttpStatusCode is OK and
  * JSON contains expected values
@@ -28,10 +31,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * @version %I%, %G%
  * @since 1.0.1-SNAPSHOT
  */
+@ActiveProfiles("test,h2_db")
 @RunWith(SpringRunner.class)
 @WebAppConfiguration
 @SpringBootTest
-@ActiveProfiles("test")
 public class WhoAmIControllerTest {
 
 	@Autowired
