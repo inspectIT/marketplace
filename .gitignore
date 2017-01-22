@@ -106,3 +106,7 @@ frontend/marketplace/bower_components
 #System Files
 **/.DS_Store
 **/Thumbs.db
+/src/test/resources/db/dummy/h2-test-dummy.db.mv.db
+/src/main/resources/db/dummy/h2-dummy.db.mv.db.mv.db
+/src/main/resources/db/dummy/h2-dummy.db.mv.db
+/src/main/resources/db/dummy/h2-dummy.db.trace.db
