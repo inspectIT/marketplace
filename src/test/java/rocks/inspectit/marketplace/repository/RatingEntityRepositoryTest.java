@@ -38,8 +38,8 @@ public class RatingEntityRepositoryTest extends AbstractTransactionalJUnit4Sprin
 	}
 
 	@Test
-	public void findByUuid() throws  Exception{
-		final RatingEntity entity = repository.findOne( UUID.fromString("da647f2c-3ff0-4c7b-8a92-5e4a2ecb741f"));
+	public void findByUuid() throws Exception {
+		final RatingEntity entity = repository.findOne(UUID.fromString("da647f2c-3ff0-4c7b-8a92-5e4a2ecb741f"));
 		assertThat(entity.getRatingAsNumber(), is(5));
 	}
 

@@ -75,6 +75,11 @@ docker stop $(docker ps -a -q)
 docker rm $(docker ps -a -q)
 ````
 
+Remove ALL local Images:
+````
+docker rmi $(docker images -q)
+````
+
 ##TODO
 * Services
 * add swagger to spring
@@ -94,8 +99,13 @@ Ports used by this application:
 * h2 Database Tcp Port: 9043
 
 ## Profiles
+Don't forget to that the dockerfile also contains spring.profiles
+
 ### h2
-During development, you should use h2 Profile to create and populate an embedded Database. This database can be accessed by <a href="inflabs64:9071/console">H2 Console</a>. Since we didn't change the default setting, you don't have to modify anything and can proceed. <a href="http://www.h2database.com">Further information about H2 Database</a>.
+During development, you should use h2 Profile to create and populate an embedded Database. This database can be accessed by <a href="localhost:8080/console">H2 Console</a>. Since we didn't change the default setting, you don't have to modify anything and can proceed. <a href="http://www.h2database.com">Further information about H2 Database</a>.
+
+### h2_db
+Use a different datasource for unit tests; therefore we use a different profile
 
 ## Logging
 Find the base LogBack logging configuration at https://github.com/spring-projects/spring-boot/blob/master/spring-boot/src/main/resources/org/springframework/boot/logging/logback/base.xml

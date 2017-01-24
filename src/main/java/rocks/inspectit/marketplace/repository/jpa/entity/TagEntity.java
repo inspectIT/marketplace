@@ -63,4 +63,44 @@ public class TagEntity {
 	@LastModifiedDate
 	@Column(name = "MODIFY_DATE", insertable = false)
 	private Date modifyDate = new Date();
+
+	public UUID getTagUuid() {
+		return tagUuid;
+	}
+
+	public void setTagUuid(UUID tagUuid) {
+		this.tagUuid = tagUuid;
+	}
+
+	public String getTagName() {
+		return tagName;
+	}
+
+	public void setTagName(String tagName) {
+		this.tagName = tagName;
+	}
+
+	public Integer getVersion() {
+		return version;
+	}
+
+	public void setVersion(Integer version) {
+		this.version = version;
+	}
+
+	public Date getCreationDate() {
+		return creationDate;
+	}
+
+	public void setCreationDate(Date creationDate) {
+		this.creationDate = creationDate;
+	}
+
+	public Date getModifyDate() {
+		return modifyDate;
+	}
+
+	public void setModifyDate(Date modifyDate) {
+		this.modifyDate = modifyDate;
+	}
 }
