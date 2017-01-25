@@ -4,7 +4,7 @@
  * @since 1.0.0-SNAPSHOT
  */
 
-import org.gradle.internal.os.OperatingSystem;
+import org.gradle.internal.os.OperatingSystem
 
 // use native type string to avoid boxing
 final String activeProfile = activeProfile
@@ -23,8 +23,8 @@ clean.dependsOn(angularClean)
 if (activeProfile.contains('copy')) {
 	println 'please make sure, you build your angular app first, by executing command "ng build -prod" in the frontend/marketplace folder'
 	task copyGeneratedFiles(type: Copy) {
-		final def mainSource = "$mainDir/dist/"
-		final def mainDestination = "$rootDir/src/main/resources/public"
+		final mainSource = "$mainDir/dist/"
+		final mainDestination = "$rootDir/src/main/resources/public"
 		copy {
 			// first clean resources/public folder and remove old files
 			delete "$mainDestination"

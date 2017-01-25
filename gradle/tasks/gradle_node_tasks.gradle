@@ -7,7 +7,7 @@
  */
 
 
-final def nodeJSMain = "${project.projectDir}"
+final nodeJSMain = "${project.projectDir}"
 // clean node/node_modules/dist
 task npmClean(type: Delete) {
 	// delete "${nodeJSMain}/node"

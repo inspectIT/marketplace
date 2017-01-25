@@ -45,7 +45,7 @@ public class ProductEntityRepositoryTest extends AbstractTransactionalJUnit4Spri
 
 	@Test
 	public void findAllWithRatings() throws Exception {
-		List<ProductEntity> list = (List) this.repository.findAll();
+		List<ProductEntity> list = this.repository.findAll();
 		assertThat(list.get(0).getRatingEntityList().size(), is(2));
 		assertThat(list.get(1).getRatingEntityList().size(), is(2));
 		assertThat(list.get(2).getRatingEntityList().size(), is(2));

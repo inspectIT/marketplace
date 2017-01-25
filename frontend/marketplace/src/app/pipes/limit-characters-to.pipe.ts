@@ -13,7 +13,7 @@ export class LimitCharactersToPipe implements PipeTransform {
   /**
    *
    * @param value
-   * @param maxChars
+   * @param limit
    * @param args
    * @returns {string}
    */

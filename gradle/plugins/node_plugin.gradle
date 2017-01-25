@@ -6,8 +6,8 @@
  * @since 1.0.0-SNAPSHOT
  */
 
-def final extWorkDir = file("${project.rootProject.buildDir}/nodejs")
-def final extNodeModulesDir = file("${project.projectDir}")
+final extWorkDir = file("${project.rootProject.buildDir}/nodejs")
+final extNodeModulesDir = file("${project.projectDir}")
 
 node {
 	version = "$nodeVersion"

@@ -32,8 +32,7 @@ export class CarouselComponent implements OnInit {
   carouselItemList: Array<Array<DashboardItemModel>> = [];
 
   /**
-   *
-   * @param maxItemsToDisplay optional parameter, to indicate the carousel size. Default: 6
+   * @param service
    */
   constructor(private service: ApiService) {
     this.itemsToDisplay = 6;

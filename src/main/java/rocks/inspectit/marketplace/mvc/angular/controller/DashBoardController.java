@@ -56,7 +56,7 @@ public class DashBoardController {
 	 *
 	 * Limit results to 20 items
 	 *
-	 * @return
+	 * @return list of {@link DashBoardModel} as JSON
 	 * @since 1.0.4-SNAPSHOT
 	 */
 	@CrossOrigin(origins = { "http://localhost:3000", "http://localhost:4200" })

@@ -18,6 +18,7 @@ export class FormatDownloadNumberPipe implements PipeTransform {
    *
    * @param value containing the original value
    * @param purpose contains why the number should be transformed, e.g. {@link CarouselComponent}
+   * @param args
    * @returns {string}
    */
   transform(value: number, purpose?: FormatNumberPurposeEnum, args?: any): string {

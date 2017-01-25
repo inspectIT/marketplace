@@ -33,7 +33,9 @@ public class DashBoardServiceImpl implements DashBoardService {
 	 * use constructor injection.
 	 *
 	 * @param repository {@link ProductEntityRepository}
-	 * @version %I%, %G%
+	 * @param mapper {@link DozerBeanMapper}
+	 *
+	 * @since 1.0.3-SNAPSHOT
 	 */
 	@Autowired
 	public DashBoardServiceImpl(final ProductEntityRepository repository, final DozerBeanMapper mapper) {
