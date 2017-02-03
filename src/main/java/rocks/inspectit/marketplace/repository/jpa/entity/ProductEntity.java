@@ -9,6 +9,7 @@ import java.sql.Blob;
 import java.sql.Clob;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import javax.persistence.Column;
@@ -176,8 +177,8 @@ public class ProductEntity {
 		this.numberOfDownloads = numberOfDownloads;
 	}
 
-	public Blob getPreviewImage() {
-		return previewImage;
+	public Optional<Blob> getPreviewImage() {
+		return Optional.ofNullable(previewImage);
 	}
 
 	public void setPreviewImage(Blob previewImage) {

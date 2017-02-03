@@ -33,8 +33,7 @@ public class DashBoardServiceImpl implements DashBoardService {
 	 * use constructor injection.
 	 *
 	 * @param repository {@link ProductEntityRepository}
-	 * @param mapper {@link DozerBeanMapper}
-	 *
+	 * @param mapper     {@link DozerBeanMapper}
 	 * @since 1.0.3-SNAPSHOT
 	 */
 	@Autowired
@@ -74,16 +73,21 @@ public class DashBoardServiceImpl implements DashBoardService {
 						tmpModel.setRating(it.getTotalRating());
 
 						// map blob to string
-						try {
-							final int blobLength = (int) it.getPreviewImage().length();
-							final byte[] blobAsBytes = it.getPreviewImage().getBytes(1, blobLength);
-
-							tmpModel.setPreviewImage(DatatypeConverter.printBase64Binary(blobAsBytes));
-							//release the blob and free up memory. (since JDBC 4.0)
-							it.getPreviewImage().free();
-						} catch (SQLException e) {
-							LOG.error(e.getMessage(), e);
-						}
+						final byte[] blobAsBytes = it.getPreviewImage()
+								.map(blob -> {
+											byte[] bytes;
+											try {
+												bytes = blob.getBytes(1, (int) blob.length());
+												//release the blob and free up memory. (since JDBC 4.0)
+												blob.free();
+											} catch (SQLException e) {
+												bytes = new byte[0];
+												LOG.error(e.getMessage(), e);
+											}
+											return bytes;
+										}
+								).orElse(new byte[0]);
+						tmpModel.setPreviewImage(DatatypeConverter.printBase64Binary(blobAsBytes));
 						returnModel.add(tmpModel);
 					});
 		}
