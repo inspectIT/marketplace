@@ -23,8 +23,8 @@ build:
     - apt-get update
     - apt-get install python-dev
     # need to upgrade botocore due to a problem with ebs
-    - pip install awsebcli==3.7.8
     - pip install --upgrade botocore
+    - pip install setuptools==34.0.1
 
 notifications:
   email:
