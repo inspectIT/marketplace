@@ -22,8 +22,12 @@ build:
     # need to install python dev for later EBS push
     - apt-get update
     - apt-get install python-dev
+    # check version of pip and python
+    - pip --version
+    - python3 --version
+    - python --version
     # need to upgrade botocore due to a problem with ebs
-    - pip install --upgrade botocore awsebcli
+    - pip install awsebcli --upgrade botocore
 
 notifications:
   email:
