@@ -87,4 +87,16 @@ public class ProductEntityRepositoryTest extends AbstractTransactionalJUnit4Spri
 		assertThat(entity.getTotalRating(), is(5.));
 	}
 
+	@Test
+	public void getProductTag() throws Exception {
+		ProductEntity entity = repository.findOne(UUID.fromString("8650caf1-f023-4808-95f7-322af55fb163"));
+		assertThat(entity.getTagEntity().getTagName(), is("featured"));
+
+		entity = repository.findOne(UUID.fromString("14144bb2-892f-4657-bcd0-9ead9066f92a"));
+		assertThat(entity.getTagEntity().getTagName(), is("featured"));
+
+		entity = repository.findOne(UUID.fromString("105b789e-84c5-45bf-8722-108533a81530"));
+		assertThat(entity.getTagEntity().getTagName(), is("promoted"));
+	}
+
 }

@@ -41,13 +41,14 @@ CREATE TABLE product_entity (
 	preview_image       BLOB,
 	product_item        CLOB,
 
-	user_uuid           UUID, -- 	tag_uuid            UUID,
+	user_uuid           UUID,
+	tag_uuid            UUID,
 
 	--  one user creates or owns one or many products
 	FOREIGN KEY (user_uuid) REFERENCES user_entity (user_uuid),
 
 	// one product has one TAG
-	-- 	FOREIGN KEY (tag_uuid) REFERENCES tag_entity (tag_uuid)
+	FOREIGN KEY (tag_uuid) REFERENCES tag_entity (tag_uuid)
 );
 
 CREATE TABLE rating_entity (

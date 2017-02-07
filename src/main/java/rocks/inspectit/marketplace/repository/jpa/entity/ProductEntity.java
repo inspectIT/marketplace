@@ -21,6 +21,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 
@@ -104,14 +105,15 @@ public class ProductEntity {
 	 */
 	@OneToMany(mappedBy = "productEntity", targetEntity = RatingEntity.class, fetch = FetchType.LAZY)
 	private List<RatingEntity> ratingEntityList;
-//	/**
-//	 * tag relationship
-//	 * product is parent
-//	 * one product has one tag
-//	 */
-//	@OneToOne(fetch = FetchType.LAZY)
-//	@JoinColumn(name = "tagUuid", referencedColumnName = "tagUuid")
-//	private TagEntity tagEntity;
+
+	/**
+	 * tag relationship
+	 * product is parent
+	 * one product has one tag
+	 */
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "tagUuid", referencedColumnName = "tagUuid")
+	private TagEntity tagEntity;
 
 	public UUID getProductUuid() {
 		return productUuid;
@@ -207,6 +209,14 @@ public class ProductEntity {
 
 	public void setRatingEntityList(List<RatingEntity> ratingEntityList) {
 		this.ratingEntityList = ratingEntityList;
+	}
+
+	public TagEntity getTagEntity() {
+		return tagEntity;
+	}
+
+	public void setTagEntity(TagEntity tagEntity) {
+		this.tagEntity = tagEntity;
 	}
 
 	public Double getTotalRating() {
