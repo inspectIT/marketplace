@@ -15,7 +15,7 @@ export class ApiService {
   }
 
   getDashboardCarouselItem(tag: string): Observable<Array<DashboardItemModel>> {
-    const url: string = `${this.applicationUrl}/get/dashboard/simple/${tag}`;
+    const url: string = `${this.applicationUrl}/app/get/dashboard/simple/${tag}`;
     // ...using get request
     return this.http.get(url)
     // ...and calling .json() on the response to return data

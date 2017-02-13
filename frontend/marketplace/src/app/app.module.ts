@@ -61,7 +61,7 @@ import {OverviewComponent} from "./pages/overview/overview.component";
     },
     {
       provide: 'APPLICATION_URL',
-      useFactory: (IS_PROD) => IS_PROD ? 'http://ec2-52-210-213-101.eu-west-1.compute.amazonaws.com/' : 'http://localhost:8080',
+      useFactory: (IS_PROD) => IS_PROD ? '' : 'http://localhost:8080',
       deps: ['IS_PROD']
     },
     // custom config for conditional DI

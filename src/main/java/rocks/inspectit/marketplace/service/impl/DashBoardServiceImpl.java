@@ -2,6 +2,7 @@ package rocks.inspectit.marketplace.service.impl;
 
 import org.dozer.DozerBeanMapper;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,7 +12,7 @@ import java.util.List;
 
 import javax.xml.bind.DatatypeConverter;
 
-import rocks.inspectit.marketplace.mvc.angular.model.DashBoardModel;
+import rocks.inspectit.marketplace.mvc.app.model.DashBoardModel;
 import rocks.inspectit.marketplace.mvc.domain.ResultFilter;
 import rocks.inspectit.marketplace.repository.ProductEntityRepository;
 import rocks.inspectit.marketplace.service.DashBoardService;
@@ -24,7 +25,7 @@ import rocks.inspectit.marketplace.service.DashBoardService;
 @Service
 public class DashBoardServiceImpl implements DashBoardService {
 
-	private final Logger LOG = org.slf4j.LoggerFactory.getLogger(DashBoardServiceImpl.class);
+	private static final Logger LOG = LoggerFactory.getLogger(DashBoardServiceImpl.class);
 
 	private final ProductEntityRepository repository;
 	private final DozerBeanMapper mapper;

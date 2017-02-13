@@ -6,7 +6,7 @@ import org.dozer.loader.api.FieldsMappingOptions;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import rocks.inspectit.marketplace.mvc.angular.model.DashBoardModel;
+import rocks.inspectit.marketplace.mvc.app.model.DashBoardModel;
 import rocks.inspectit.marketplace.repository.jpa.entity.ProductEntity;
 
 /**

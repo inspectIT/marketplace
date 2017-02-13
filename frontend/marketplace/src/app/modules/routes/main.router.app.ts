@@ -23,7 +23,6 @@ export const APP_ROUTES: Routes = [
   {path: 'search/:param', component: SearchResultComponent},
   {path: 'details/:id', component: ItemDetailComponent},
   {path: 'overview/:tag', component: OverviewComponent},
-  {path: 'dashboard', component: DashboardComponent},
   {path: 'login', component: LoginComponent, canActivate: [AuthManagerService]},
   {path: '', component: DashboardComponent},
   {path: '**', component: ErrorPageComponent}

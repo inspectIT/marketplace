@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 
-import rocks.inspectit.marketplace.config.ActiveProfile;
 import rocks.inspectit.marketplace.mvc.advice.model.ErrorMessage;
 
 /**
@@ -24,12 +23,13 @@ public class GeneralControllerAdvice {
 
 	/**
 	 * Main Exception handler.
+	 * Use this in dev profile, to print stacktrace to view.
 	 *
 	 * @param request default {@link HttpServletRequest} object
 	 * @param ex      default {@link Exception} object
 	 * @return ErrorMessage {@link ErrorMessage} with exception stacktrace
 	 */
-	@Profile(ActiveProfile.DEV)
+	@Profile("dev")
 	@ExceptionHandler(Exception.class)
 	@ResponseBody
 	public ErrorMessage handleException(final HttpServletRequest request, final Exception ex) {

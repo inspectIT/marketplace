@@ -7,14 +7,22 @@ import java.util.UUID;
 import rocks.inspectit.marketplace.repository.jpa.entity.UserEntity;
 
 /**
- * todo: write unit test
- * there are currently different methods returning exactly what the front-end expects, due to missing entities. please implement entities and rewrite functions properly
+ * TODO
+ * there are currently different methods returning exactly what the front-end expects, due to missing entities.
+ * please implement entities and rewrite functions properly.
  *
  * @author NKO
  * @version %I%, %G%
  * @since 1.0.4-SNAPSHOT
  */
 public interface UserEntityRepository extends CrudRepository<UserEntity, UUID> {
+
+	/**
+	 * Finds a user by his id.
+	 *
+	 * @param uuid of {@link UUID}
+	 * @return a single User of {@link UserEntity}
+	 */
 	UserEntity findUserEntityByUserUuid(final UUID uuid);
 }
 

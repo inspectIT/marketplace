@@ -35,7 +35,7 @@ public class UserEntity {
 	private String name;
 
 	/**
-	 * every email is only allowed once
+	 * every email is only allowed once.
 	 */
 	@NotEmpty
 	@Column(unique = true)
@@ -45,7 +45,7 @@ public class UserEntity {
 	private String ip;
 
 	/**
-	 * new date to today on insert
+	 * new date to today on insert.
 	 * {@link NotNull} makes sure, that you cannot save Entity with empty value,
 	 * but since we don't want to update creationDate,
 	 * there might be a {@link org.springframework.dao.DataIntegrityViolationException}
@@ -57,7 +57,7 @@ public class UserEntity {
 	private Date creationDate = new Date();
 
 	/**
-	 * new date to today on modify;
+	 * new date to today on modify.
 	 * {@link NotNull} makes sure, that you cannot update Entity with empty value,
 	 * but since we don't want to insert modifyDate,
 	 * there will be a {@link org.springframework.dao.DataIntegrityViolationException},
@@ -69,7 +69,7 @@ public class UserEntity {
 	private Date lastLoginDate = new Date();
 
 	/**
-	 * keep track of changes and updates
+	 * keep track of changes and updates.
 	 */
 	@Version
 	private Integer version;
@@ -78,13 +78,13 @@ public class UserEntity {
 	private boolean active;
 
 	/**
-	 * one user can have one or many products
+	 * one user can have one or many products.
 	 */
 	@OneToMany(mappedBy = "userEntity", targetEntity = ProductEntity.class, fetch = FetchType.LAZY)
 	private List<ProductEntity> productEntityList;
 
 	/**
-	 * one user can have one or many products
+	 * one user can have one or many products.
 	 */
 	@OneToMany(mappedBy = "userEntity", targetEntity = RatingEntity.class, fetch = FetchType.LAZY)
 	private List<RatingEntity> ratingEntityList;

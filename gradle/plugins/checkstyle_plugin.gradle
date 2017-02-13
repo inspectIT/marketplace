@@ -11,6 +11,7 @@ apply plugin: 'checkstyle'
 
 checkstyle{
 	toolVersion = "7.2"
+	checkstyleTest.enabled = false
 }
 
 /** Task for Checkstyle. */

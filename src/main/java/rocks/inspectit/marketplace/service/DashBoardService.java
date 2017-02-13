@@ -2,7 +2,7 @@ package rocks.inspectit.marketplace.service;
 
 import java.util.List;
 
-import rocks.inspectit.marketplace.mvc.angular.model.DashBoardModel;
+import rocks.inspectit.marketplace.mvc.app.model.DashBoardModel;
 import rocks.inspectit.marketplace.mvc.domain.ResultFilter;
 
 /**
@@ -21,7 +21,7 @@ public interface DashBoardService {
 	List<DashBoardModel> getFilteredDashBoardOverview(final ResultFilter filter);
 
 	/**
-	 * ##TODO
+	 * ##TODO.
 	 *
 	 * @param tag   probably unused
 	 * @param limit probably unused

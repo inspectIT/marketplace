@@ -17,7 +17,7 @@ import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 
 /**
- * Use this entity for simple categorisation
+ * Use this entity for simple categorisation.
  *
  * @author NKO
  * @version %I%, %G%
@@ -35,13 +35,13 @@ public class TagEntity {
 	private String tagName;
 
 	/**
-	 * keep track of changes and updates
+	 * keep track of changes and updates.
 	 */
 	@Version
 	private Integer version;
 
 	/**
-	 * new date to today on insert
+	 * new date to today on insert.
 	 * {@link NotNull} makes sure, that you cannot save Entity with empty value,
 	 * but since we don't want to update creationDate,
 	 * there might be a {@link org.springframework.dao.DataIntegrityViolationException}
@@ -53,7 +53,7 @@ public class TagEntity {
 	private Date creationDate = new Date();
 
 	/**
-	 * new date to today on modify;
+	 * new date to today on modify.
 	 * {@link NotNull} makes sure, that you cannot update Entity with empty value,
 	 * but since we don't want to insert modifyDate,
 	 * there will be a {@link org.springframework.dao.DataIntegrityViolationException},

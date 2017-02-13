@@ -26,7 +26,7 @@ import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 
 /**
- * Thanks to fancy spring boot we don't need a persistence.xml
+ * Thanks to fancy spring boot we don't need a persistence.xml.
  * <p/>
  * this is not the final implementation:
  * TODO: make sure, to upload images or other media types, especially JSON/XML files
@@ -45,7 +45,7 @@ public class ProductEntity {
 	private UUID productUuid;
 
 	/**
-	 * keep track of changes and updates
+	 * keep track of changes and updates.
 	 */
 	@Version
 	private Integer version;
@@ -58,7 +58,7 @@ public class ProductEntity {
 	private String description;
 
 	/**
-	 * new date to today on insert
+	 * new date to today on insert.
 	 * {@link NotNull} makes sure, that you cannot save Entity with empty value,
 	 * but since we don't want to update creationDate,
 	 * there might be a {@link org.springframework.dao.DataIntegrityViolationException}
@@ -70,7 +70,7 @@ public class ProductEntity {
 	private Date creationDate = new Date();
 
 	/**
-	 * new date to today on modify;
+	 * new date to today on modify.
 	 * {@link NotNull} makes sure, that you cannot update Entity with empty value,
 	 * but since we don't want to insert modifyDate,
 	 * there will be a {@link org.springframework.dao.DataIntegrityViolationException},
@@ -90,7 +90,7 @@ public class ProductEntity {
 	private Clob productItem;
 
 	/**
-	 * user relationship
+	 * user relationship.
 	 * user is parent
 	 * one user can create one or many products
 	 */
@@ -99,7 +99,7 @@ public class ProductEntity {
 	private UserEntity userEntity;
 
 	/**
-	 * rating relationship
+	 * rating relationship.
 	 * product is parent
 	 * one product can have one or many ratings
 	 */
@@ -107,7 +107,7 @@ public class ProductEntity {
 	private List<RatingEntity> ratingEntityList;
 
 	/**
-	 * tag relationship
+	 * tag relationship.
 	 * product is parent
 	 * one product has one tag
 	 */

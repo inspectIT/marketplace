@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.UUID;
 
-import rocks.inspectit.marketplace.mvc.angular.model.DashBoardModel;
+import rocks.inspectit.marketplace.mvc.app.model.DashBoardModel;
 import rocks.inspectit.marketplace.repository.jpa.entity.ProductEntity;
 import rocks.inspectit.marketplace.repository.jpa.entity.RatingEntity;
 import rocks.inspectit.marketplace.repository.jpa.entity.UserEntity;

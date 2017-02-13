@@ -46,7 +46,7 @@ public class RatingEntity {
 	private Integer ratingAsNumber;
 
 	/**
-	 * new date to today on insert
+	 * new date to today on insert.
 	 * {@link NotNull} makes sure, that you cannot save Entity with empty value,
 	 * but since we don't want to update creationDate,
 	 * there might be a {@link org.springframework.dao.DataIntegrityViolationException}
@@ -58,7 +58,7 @@ public class RatingEntity {
 	private Date creationDate = new Date();
 
 	/**
-	 * new date to today on modify;
+	 * new date to today on modify.
 	 * {@link NotNull} makes sure, that you cannot update Entity with empty value,
 	 * but since we don't want to insert modifyDate,
 	 * there will be a {@link org.springframework.dao.DataIntegrityViolationException},
@@ -73,7 +73,7 @@ public class RatingEntity {
 	private Boolean active;
 
 	/**
-	 * user relationship
+	 * user relationship.
 	 * user is parent
 	 * one user can create one or many products
 	 */
@@ -83,7 +83,7 @@ public class RatingEntity {
 
 	/**
 	 * product relationship.
-	 * product is parent.
+	 * product is parent
 	 * one product can have one or many rating
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)

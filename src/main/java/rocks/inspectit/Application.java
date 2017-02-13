@@ -10,6 +10,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @version %I%, %G%
  * @since 1.0.0-SNAPSHOT
  */
+// NOCHKALL
 @SuppressWarnings("PMD")
 @SpringBootApplication
 public class Application {
