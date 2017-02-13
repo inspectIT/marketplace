@@ -9,10 +9,14 @@ import org.springframework.test.context.junit4.AbstractTransactionalJUnit4Spring
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
 import rocks.inspectit.marketplace.repository.jpa.entity.ProductEntity;
+import rocks.inspectit.marketplace.repository.jpa.entity.helper.CustomQueryDTO;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
@@ -40,7 +44,7 @@ public class ProductEntityRepositoryTest extends AbstractTransactionalJUnit4Spri
 	@Test
 	public void findAll() throws Exception {
 		List<ProductEntity> entityList = (List<ProductEntity>) repository.findAll();
-		assertThat(entityList.size(), is(9));
+		assertThat(entityList.size(), is(14));
 	}
 
 	@Test
@@ -97,6 +101,110 @@ public class ProductEntityRepositoryTest extends AbstractTransactionalJUnit4Spri
 
 		entity = repository.findOne(UUID.fromString("105b789e-84c5-45bf-8722-108533a81530"));
 		assertThat(entity.getTagEntity().getTagName(), is("promoted"));
+	}
+
+	/**
+	 * there are not enough values with the expected creation date in the dummy db.
+	 * therefore we assert that list size will be 5
+	 */
+	@Test
+	public void findTop5ByCreationDateOrderByCreationDate() throws Exception {
+		List<ProductEntity> list = repository.findTop20ByCreationDateGreaterThanOrderByCreationDateDesc(Date.from(LocalDateTime.of(2017, 1, 1, 0, 0).atZone(ZoneId.of("GMT")).toInstant()));
+		assertThat(list.size(), is(5));
+		assertThat(list.get(0).getCreationDate().toString(), is("2017-02-13 19:15:34.372"));
+		assertThat(list.get(1).getCreationDate().toString(), is("2017-02-12 16:34:34.372"));
+		assertThat(list.get(2).getCreationDate().toString(), is("2017-02-11 17:55:34.372"));
+		assertThat(list.get(3).getCreationDate().toString(), is("2017-02-11 17:45:34.372"));
+		assertThat(list.get(4).getCreationDate().toString(), is("2017-01-13 12:32:34.372"));
+	}
+
+	/**
+	 * there are not enough values with the expected creation date in the dummy db.
+	 * therefore we assert that list size will be 14 and test only the first three entries
+	 */
+	@Test
+	public void findTop5ByCreationDateLowerOrEqualsOrderByCreationDateDesc() throws Exception {
+		List<ProductEntity> list = repository.findTop20ByCreationDateLessThanOrderByCreationDateDesc(new Date());
+		assertThat(list.size(), is(14));
+		assertThat(list.get(0).getCreationDate().toString(), is("2017-02-13 19:15:34.372"));
+		assertThat(list.get(1).getCreationDate().toString(), is("2017-02-12 16:34:34.372"));
+		assertThat(list.get(2).getCreationDate().toString(), is("2017-02-12 16:34:34.372"));
+		assertThat(list.get(3).getCreationDate().toString(), is("2017-02-11 17:55:34.372"));
+	}
+
+	@Test
+	public void findAllProductEntitiesGroupByProductUuidOrderedByRatingDesc() throws Exception {
+		List<Object[]> list = repository.findAllProductEntitiesGroupByProductUuidOrderedByRatingDesc();
+		assertThat(list.size(), is(9));
+
+		assertThat(((ProductEntity) list.get(0)[0]).getTotalRating(), is(8.));
+		assertThat(list.get(0)[1], is(16L));
+		assertThat(list.get(0)[2], is(2L));
+
+		assertThat(((ProductEntity) list.get(1)[0]).getTotalRating(), is(7.));
+		assertThat(list.get(1)[1], is(14L));
+		assertThat(list.get(1)[2], is(2L));
+
+		assertThat(((ProductEntity) list.get(2)[0]).getTotalRating(), is(7.));
+		assertThat(list.get(2)[1], is(14L));
+		assertThat(list.get(2)[2], is(2L));
+
+		assertThat(((ProductEntity) list.get(3)[0]).getTotalRating(), is(6.5));
+		assertThat(list.get(3)[1], is(13L));
+		assertThat(list.get(3)[2], is(2L));
+
+		assertThat(((ProductEntity) list.get(4)[0]).getTotalRating(), is(5.5));
+		assertThat(list.get(4)[1], is(11L));
+		assertThat(list.get(4)[2], is(2L));
+
+		assertThat(((ProductEntity) list.get(5)[0]).getTotalRating(), is(5.));
+		assertThat(list.get(5)[1], is(5L));
+		assertThat(list.get(5)[2], is(1L));
+
+		assertThat(((ProductEntity) list.get(6)[0]).getTotalRating(), is(4.));
+		assertThat(list.get(6)[1], is(4L));
+		assertThat(list.get(6)[2], is(1L));
+
+		assertThat(((ProductEntity) list.get(7)[0]).getTotalRating(), is(3.));
+		assertThat(list.get(7)[1], is(3L));
+		assertThat(list.get(7)[2], is(1L));
+
+		assertThat(((ProductEntity) list.get(8)[0]).getTotalRating(), is(1.));
+		assertThat(list.get(8)[1], is(1L));
+		assertThat(list.get(8)[2], is(1L));
+	}
+
+	@Test
+	public void findAllProductEntitiesGroupByProductEntityOrderedByRatingDesc() throws Exception {
+		List<CustomQueryDTO> list = repository.findAllProductEntitiesGroupByProductEntityOrderedByRatingDesc();
+		assertThat(list.size(), is(9));
+
+		assertThat(list.get(0).getProductEntity().getTotalRating(), is(8.));
+		assertThat(list.get(0).getSum(), is(16L));
+
+		assertThat(list.get(1).getProductEntity().getTotalRating(), is(7.));
+		assertThat(list.get(1).getSum(), is(14L));
+
+		assertThat(list.get(2).getProductEntity().getTotalRating(), is(7.));
+		assertThat(list.get(2).getSum(), is(14L));
+
+		assertThat(list.get(3).getProductEntity().getTotalRating(), is(6.5));
+		assertThat(list.get(3).getSum(), is(13L));
+
+		assertThat(list.get(4).getProductEntity().getTotalRating(), is(5.5));
+		assertThat(list.get(4).getSum(), is(11L));
+
+		assertThat(list.get(5).getProductEntity().getTotalRating(), is(5.));
+		assertThat(list.get(5).getSum(), is(5L));
+
+		assertThat(list.get(6).getProductEntity().getTotalRating(), is(4.));
+		assertThat(list.get(6).getSum(), is(4L));
+
+		assertThat(list.get(7).getProductEntity().getTotalRating(), is(3.));
+		assertThat(list.get(7).getSum(), is(3L));
+
+		assertThat(list.get(8).getProductEntity().getTotalRating(), is(1.));
+		assertThat(list.get(8).getSum(), is(1L));
 	}
 
 }

@@ -4,6 +4,7 @@ import java.util.List;
 
 import rocks.inspectit.marketplace.mvc.app.model.DashBoardModel;
 import rocks.inspectit.marketplace.mvc.domain.ResultFilter;
+import rocks.inspectit.marketplace.repository.jpa.entity.ProductEntity;
 
 /**
  * @author NKO
@@ -25,7 +26,7 @@ public interface DashBoardService {
 	 *
 	 * @param tag   probably unused
 	 * @param limit probably unused
-	 * @return List {@link List} of {@link DashBoardModel} Items
+	 * @return List {@link List} of {@link ProductEntity} Items
 	 */
-	List<DashBoardModel> getSimpleDashboardOverviewByType(final String tag, final boolean limit);
+	List<ProductEntity> getSimpleDashboardOverviewByType(final String tag, final boolean limit);
 }
