@@ -133,48 +133,6 @@ public class ProductEntityRepositoryTest extends AbstractTransactionalJUnit4Spri
 	}
 
 	@Test
-	public void findAllProductEntitiesGroupByProductUuidOrderedByRatingDesc() throws Exception {
-		List<Object[]> list = repository.findAllProductEntitiesGroupByProductUuidOrderedByRatingDesc();
-		assertThat(list.size(), is(9));
-
-		assertThat(((ProductEntity) list.get(0)[0]).getTotalRating(), is(8.));
-		assertThat(list.get(0)[1], is(16L));
-		assertThat(list.get(0)[2], is(2L));
-
-		assertThat(((ProductEntity) list.get(1)[0]).getTotalRating(), is(7.));
-		assertThat(list.get(1)[1], is(14L));
-		assertThat(list.get(1)[2], is(2L));
-
-		assertThat(((ProductEntity) list.get(2)[0]).getTotalRating(), is(7.));
-		assertThat(list.get(2)[1], is(14L));
-		assertThat(list.get(2)[2], is(2L));
-
-		assertThat(((ProductEntity) list.get(3)[0]).getTotalRating(), is(6.5));
-		assertThat(list.get(3)[1], is(13L));
-		assertThat(list.get(3)[2], is(2L));
-
-		assertThat(((ProductEntity) list.get(4)[0]).getTotalRating(), is(5.5));
-		assertThat(list.get(4)[1], is(11L));
-		assertThat(list.get(4)[2], is(2L));
-
-		assertThat(((ProductEntity) list.get(5)[0]).getTotalRating(), is(5.));
-		assertThat(list.get(5)[1], is(5L));
-		assertThat(list.get(5)[2], is(1L));
-
-		assertThat(((ProductEntity) list.get(6)[0]).getTotalRating(), is(4.));
-		assertThat(list.get(6)[1], is(4L));
-		assertThat(list.get(6)[2], is(1L));
-
-		assertThat(((ProductEntity) list.get(7)[0]).getTotalRating(), is(3.));
-		assertThat(list.get(7)[1], is(3L));
-		assertThat(list.get(7)[2], is(1L));
-
-		assertThat(((ProductEntity) list.get(8)[0]).getTotalRating(), is(1.));
-		assertThat(list.get(8)[1], is(1L));
-		assertThat(list.get(8)[2], is(1L));
-	}
-
-	@Test
 	public void findAllProductEntitiesGroupByProductEntityOrderedByRatingDesc() throws Exception {
 		List<CustomQueryDTO> list = repository.findAllProductEntitiesGroupByProductEntityOrderedByRatingDesc();
 		assertThat(list.size(), is(9));

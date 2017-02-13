@@ -44,22 +44,6 @@ public interface ProductEntityRepository extends CrudRepository<ProductEntity, U
 	/**
 	 * Custom query for aggregation function not supported by spring-data.
 	 * Select all products ordered by rating.
-	 *
-	 * todo: add average ratingNumber like: "AVG(CAST(re.ratingAsNumber AS FLOAT))"
-	 *
-	 * @return {@link List} of {@link ProductEntity}
-	 * @since 1.0.6-SNAPSHOT
-	 */
-	@Query("select pe, sum(re.ratingAsNumber) as sumRating, count(re.ratingAsNumber) "
-			+ "from ProductEntity pe "
-			+ "join pe.ratingEntityList re "
-			+ "group by pe.productUuid "
-			+ "order by sumRating DESC")
-	List<Object[]> findAllProductEntitiesGroupByProductUuidOrderedByRatingDesc();
-
-	/**
-	 * Custom query for aggregation function not supported by spring-data.
-	 * Select all products ordered by rating.
 	 * Use a custom dto instead a list of object arrays.
 	 *
 	 * @return {@link List} of {@link CustomQueryDTO}
