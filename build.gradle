@@ -132,6 +132,7 @@ dependencies {
 	// use swagger for API documentation
 	compile "io.swagger:swagger-core:${swaggerVersion}"
 	compile "io.springfox:springfox-swagger2:${springfoxVersion}"
+	compile "io.springfox:springfox-swagger-ui:${springfoxVersion}"
 
 	// unit test spring
 	testCompile 'org.springframework.boot:spring-boot-starter-test'

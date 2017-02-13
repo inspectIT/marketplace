@@ -109,3 +109,6 @@ Use a different datasource for unit tests; therefore we use a different profile
 
 ## Logging
 Find the base LogBack logging configuration at https://github.com/spring-projects/spring-boot/blob/master/spring-boot/src/main/resources/org/springframework/boot/logging/logback/base.xml
+
+# Swagger
+You can check API Documentation on localhost under [Swagger UI](http://localhost:8080/swagger-ui.html)
