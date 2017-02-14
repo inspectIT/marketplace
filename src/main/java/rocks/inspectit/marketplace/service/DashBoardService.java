@@ -14,21 +14,19 @@ import rocks.inspectit.marketplace.repository.jpa.entity.ProductEntity;
 public interface DashBoardService {
 
 	/**
-	 * ##TODO.
+	 * ## TODO.
+	 * ## probably dead code
 	 *
 	 * @param filter {@link ResultFilter}
 	 * @return List {@link List} of {@link DashBoardModel} Items
 	 */
 	List<DashBoardModel> getFilteredDashBoardOverview(final ResultFilter filter);
 
-	/**
-	 * ##TODO.
-	 *
-	 * @param type  probably unused
-	 * @param limit probably unused
-	 * @return List {@link List} of {@link ProductEntity} Items
-	 */
-	List<ProductEntity> getSimpleDashboardOverviewByType(final String type, final boolean limit);
+	List<ProductEntity> getSimpleDashboardOverviewByType(final String type);
+
+	List<ProductEntity> getTop20MostDownloadedProducts();
 
 	List<ProductEntity> getTop20MostRecentUploadedProducts();
+
+	List<ProductEntity> getTop20BestRatedProducts();
 }
