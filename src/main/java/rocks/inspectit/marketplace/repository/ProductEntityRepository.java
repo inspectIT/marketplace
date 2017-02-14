@@ -1,7 +1,9 @@
 package rocks.inspectit.marketplace.repository;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 
 import java.util.Date;
 import java.util.List;
@@ -19,7 +21,7 @@ import rocks.inspectit.marketplace.repository.jpa.entity.helper.CustomQueryDTO;
  * @version %I%, %G%
  * @since 1.0.4-SNAPSHOT
  */
-public interface ProductEntityRepository extends CrudRepository<ProductEntity, UUID> {
+public interface ProductEntityRepository extends PagingAndSortingRepository<ProductEntity, UUID> {
 
 	/**
 	 * Select top 20 results and order by date descending.
@@ -40,6 +42,26 @@ public interface ProductEntityRepository extends CrudRepository<ProductEntity, U
 	 * @since 1.0.6-SNAPSHOT
 	 */
 	List<ProductEntity> findTop20ByCreationDateLessThanOrderByCreationDateDesc(final Date creationDate);
+
+	/**
+	 * Use {@link Page} for limited request.
+	 * Avoid select all to increase performance.
+	 *
+	 * @param pageable {@link Pageable}
+	 * @return {@link List} of {@link ProductEntity}
+	 * @since 1.0.6-SNAPSHOT
+	 */
+	Page<ProductEntity> findByCreationDateLessThanOrderByCreationDateDesc(final Date creationDate, final Pageable pageable);
+
+	/**
+	 * Select all Products ordered by # Downloads.
+	 * Limit query duration by increasing param to a min value; default is 0.
+	 *
+	 * @param numberOfDownloads {@link Long}
+	 * @return {@link List} of {@link ProductEntity}
+	 * @since 1.0.6-SNAPSHOT
+	 */
+	List<ProductEntity> findTop20ByNumberOfDownloadsGreaterThanOrderByNumberOfDownloadsDesc(final Long numberOfDownloads);
 
 	/**
 	 * Custom query for aggregation function not supported by spring-data.

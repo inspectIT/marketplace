@@ -4,6 +4,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -44,21 +47,21 @@ public class ProductEntityRepositoryTest extends AbstractTransactionalJUnit4Spri
 	@Test
 	public void findAll() throws Exception {
 		List<ProductEntity> entityList = (List<ProductEntity>) repository.findAll();
-		assertThat(entityList.size(), is(14));
+		assertThat(entityList.size(), is(47));
 	}
 
 	@Test
 	public void findAllWithRatings() throws Exception {
 		List<ProductEntity> list = (List<ProductEntity>) this.repository.findAll();
-		assertThat(list.get(0).getRatingEntityList().size(), is(2));
-		assertThat(list.get(1).getRatingEntityList().size(), is(2));
-		assertThat(list.get(2).getRatingEntityList().size(), is(2));
-		assertThat(list.get(3).getRatingEntityList().size(), is(2));
-		assertThat(list.get(4).getRatingEntityList().size(), is(2));
-		assertThat(list.get(5).getRatingEntityList().size(), is(1));
-		assertThat(list.get(6).getRatingEntityList().size(), is(1));
-		assertThat(list.get(7).getRatingEntityList().size(), is(1));
-		assertThat(list.get(8).getRatingEntityList().size(), is(1));
+		assertThat(list.get(0).getRatingEntityList().size(), is(6));
+		assertThat(list.get(1).getRatingEntityList().size(), is(6));
+		assertThat(list.get(2).getRatingEntityList().size(), is(6));
+		assertThat(list.get(3).getRatingEntityList().size(), is(6));
+		assertThat(list.get(4).getRatingEntityList().size(), is(6));
+		assertThat(list.get(5).getRatingEntityList().size(), is(5));
+		assertThat(list.get(6).getRatingEntityList().size(), is(5));
+		assertThat(list.get(7).getRatingEntityList().size(), is(5));
+		assertThat(list.get(8).getRatingEntityList().size(), is(3));
 	}
 
 	@Test
@@ -79,13 +82,13 @@ public class ProductEntityRepositoryTest extends AbstractTransactionalJUnit4Spri
 		assertThat(entity.getTotalRating(), is(6.5));
 
 		entity = repository.findOne(UUID.fromString("4c049192-929d-4a49-8f17-c285928fc769"));
-		assertThat(entity.getTotalRating(), is(3.));
+		assertThat(entity.getTotalRating(), is(2.2));
 
 		entity = repository.findOne(UUID.fromString("0d36b243-aa29-407e-89d6-666e164c5118"));
-		assertThat(entity.getTotalRating(), is(4.));
+		assertThat(entity.getTotalRating(), is(4.4));
 
 		entity = repository.findOne(UUID.fromString("6370604e-1d58-4e5b-b1b2-97fd54fb59b5"));
-		assertThat(entity.getTotalRating(), is(1.));
+		assertThat(entity.getTotalRating(), is(4.2));
 
 		entity = repository.findOne(UUID.fromString("105b789e-84c5-45bf-8722-108533a81530"));
 		assertThat(entity.getTotalRating(), is(5.));
@@ -104,32 +107,55 @@ public class ProductEntityRepositoryTest extends AbstractTransactionalJUnit4Spri
 	}
 
 	/**
-	 * there are not enough values with the expected creation date in the dummy db.
-	 * therefore we assert that list size will be 5
+	 * we assert that list size will be 20 and test only the first five entries
 	 */
 	@Test
-	public void findTop5ByCreationDateOrderByCreationDate() throws Exception {
+	public void findTop20ByCreationDateOrderByCreationDate() throws Exception {
 		List<ProductEntity> list = repository.findTop20ByCreationDateGreaterThanOrderByCreationDateDesc(Date.from(LocalDateTime.of(2017, 1, 1, 0, 0).atZone(ZoneId.of("GMT")).toInstant()));
-		assertThat(list.size(), is(5));
-		assertThat(list.get(0).getCreationDate().toString(), is("2017-02-13 19:15:34.372"));
-		assertThat(list.get(1).getCreationDate().toString(), is("2017-02-12 16:34:34.372"));
-		assertThat(list.get(2).getCreationDate().toString(), is("2017-02-11 17:55:34.372"));
-		assertThat(list.get(3).getCreationDate().toString(), is("2017-02-11 17:45:34.372"));
-		assertThat(list.get(4).getCreationDate().toString(), is("2017-01-13 12:32:34.372"));
+		assertThat(list.size(), is(20));
+		assertThat(list.get(0).getCreationDate().toString(), is("2017-02-25 18:16:34.372"));
+		assertThat(list.get(1).getCreationDate().toString(), is("2017-02-13 21:12:34.372"));
+		assertThat(list.get(2).getCreationDate().toString(), is("2017-02-13 21:12:34.372"));
+		assertThat(list.get(3).getCreationDate().toString(), is("2017-02-13 21:12:34.372"));
+		assertThat(list.get(4).getCreationDate().toString(), is("2017-02-13 21:12:34.372"));
 	}
 
 	/**
-	 * there are not enough values with the expected creation date in the dummy db.
-	 * therefore we assert that list size will be 14 and test only the first three entries
+	 * we assert that list size will be 20 and test only the first three entries
 	 */
 	@Test
 	public void findTop5ByCreationDateLowerOrEqualsOrderByCreationDateDesc() throws Exception {
 		List<ProductEntity> list = repository.findTop20ByCreationDateLessThanOrderByCreationDateDesc(new Date());
-		assertThat(list.size(), is(14));
-		assertThat(list.get(0).getCreationDate().toString(), is("2017-02-13 19:15:34.372"));
-		assertThat(list.get(1).getCreationDate().toString(), is("2017-02-12 16:34:34.372"));
-		assertThat(list.get(2).getCreationDate().toString(), is("2017-02-12 16:34:34.372"));
-		assertThat(list.get(3).getCreationDate().toString(), is("2017-02-11 17:55:34.372"));
+		assertThat(list.size(), is(20));
+		assertThat(list.get(0).getCreationDate().toString(), is("2017-02-13 21:12:34.372"));
+		assertThat(list.get(1).getCreationDate().toString(), is("2017-02-13 21:12:34.372"));
+		assertThat(list.get(2).getCreationDate().toString(), is("2017-02-13 21:12:34.372"));
+	}
+
+	@Test
+	public void findByCreationDateLessThanOrderByCreationDateDesc() throws Exception {
+		final Pageable page0 = new PageRequest(0, 20);
+		Page<ProductEntity> list = repository.findByCreationDateLessThanOrderByCreationDateDesc(new Date(), page0);
+		assertThat(list.getContent().size(), is(20));
+		assertThat(list.getTotalPages(), is(3));
+		assertThat(list.getTotalElements(), is(46L));
+
+		final Pageable page3 = new PageRequest(2, 20);
+		list = repository.findByCreationDateLessThanOrderByCreationDateDesc(new Date(), page3);
+		assertThat(list.getContent().size(), is(6));
+	}
+
+	/**
+	 * we assert that list size will be 20 and test only the first three entries
+	 */
+	@Test
+	public void findTop20ByNumberOfDownloadsGreaterThanOrderByNumberOfDownloadsDesc() throws Exception {
+		List<ProductEntity> list = repository.findTop20ByNumberOfDownloadsGreaterThanOrderByNumberOfDownloadsDesc(0L);
+		assertThat(list.size(), is(20));
+
+		assertThat(list.get(0).getNumberOfDownloads(), is(99125L));
+		assertThat(list.get(1).getNumberOfDownloads(), is(99123L));
+		assertThat(list.get(2).getNumberOfDownloads(), is(98125L));
 	}
 
 	@Test
@@ -138,31 +164,31 @@ public class ProductEntityRepositoryTest extends AbstractTransactionalJUnit4Spri
 		assertThat(list.size(), is(9));
 
 		assertThat(list.get(0).getProductEntity().getTotalRating(), is(8.));
-		assertThat(list.get(0).getSum(), is(16L));
+		assertThat(list.get(0).getSum(), is(48L));
 
 		assertThat(list.get(1).getProductEntity().getTotalRating(), is(7.));
-		assertThat(list.get(1).getSum(), is(14L));
+		assertThat(list.get(1).getSum(), is(42L));
 
 		assertThat(list.get(2).getProductEntity().getTotalRating(), is(7.));
-		assertThat(list.get(2).getSum(), is(14L));
+		assertThat(list.get(2).getSum(), is(42L));
 
 		assertThat(list.get(3).getProductEntity().getTotalRating(), is(6.5));
-		assertThat(list.get(3).getSum(), is(13L));
+		assertThat(list.get(3).getSum(), is(39L));
 
 		assertThat(list.get(4).getProductEntity().getTotalRating(), is(5.5));
-		assertThat(list.get(4).getSum(), is(11L));
+		assertThat(list.get(4).getSum(), is(33L));
 
-		assertThat(list.get(5).getProductEntity().getTotalRating(), is(5.));
-		assertThat(list.get(5).getSum(), is(5L));
+		assertThat(list.get(5).getProductEntity().getTotalRating(), is(4.4));
+		assertThat(list.get(5).getSum(), is(22L));
 
-		assertThat(list.get(6).getProductEntity().getTotalRating(), is(4.));
-		assertThat(list.get(6).getSum(), is(4L));
+		assertThat(list.get(6).getProductEntity().getTotalRating(), is(4.2));
+		assertThat(list.get(6).getSum(), is(21L));
 
-		assertThat(list.get(7).getProductEntity().getTotalRating(), is(3.));
-		assertThat(list.get(7).getSum(), is(3L));
+		assertThat(list.get(7).getProductEntity().getTotalRating(), is(5.));
+		assertThat(list.get(7).getSum(), is(15L));
 
-		assertThat(list.get(8).getProductEntity().getTotalRating(), is(1.));
-		assertThat(list.get(8).getSum(), is(1L));
+		assertThat(list.get(8).getProductEntity().getTotalRating(), is(2.2));
+		assertThat(list.get(8).getSum(), is(11L));
 	}
 
 }

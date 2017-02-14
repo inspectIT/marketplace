@@ -24,9 +24,11 @@ public interface DashBoardService {
 	/**
 	 * ##TODO.
 	 *
-	 * @param tag   probably unused
+	 * @param type  probably unused
 	 * @param limit probably unused
 	 * @return List {@link List} of {@link ProductEntity} Items
 	 */
-	List<ProductEntity> getSimpleDashboardOverviewByType(final String tag, final boolean limit);
+	List<ProductEntity> getSimpleDashboardOverviewByType(final String type, final boolean limit);
+
+	List<ProductEntity> getTop20MostRecentUploadedProducts();
 }
