@@ -7,7 +7,7 @@ import {Component, OnInit} from "@angular/core";
 import {Router, ActivatedRoute} from "@angular/router";
 import "rxjs/add/operator/switchMap";
 import {ApiService} from "../../services/api/api.service";
-import {DynamicLoaderSearchItemModel} from "./model/dynamic.loader.search.item.model";
+import {SearchResultModel} from "./model/search.result.model";
 
 @Component({
   selector: 'app-search-result',
@@ -16,7 +16,7 @@ import {DynamicLoaderSearchItemModel} from "./model/dynamic.loader.search.item.m
 })
 export class SearchResultComponent implements OnInit {
 
-  itemList: Array<DynamicLoaderSearchItemModel>;
+  itemList: SearchResultModel;
 
   constructor(private route: ActivatedRoute, private router: Router,
     private service: ApiService) {
@@ -29,7 +29,7 @@ export class SearchResultComponent implements OnInit {
     this.service.getSearchResultItem(param).subscribe(
       items => {
         this.itemList = items; //Bind to view
-        console.log(" dashboard items: " + items);
+        console.log(" search result items: " + items + " :: items :: " + items.content);
       },
       err => {
         // Log errors if any

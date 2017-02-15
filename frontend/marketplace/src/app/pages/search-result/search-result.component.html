@@ -8,28 +8,29 @@
 <div class="container">
     <h4>Template: {{title}}</h4>
     <hr/>
+  {{itemList | json}}
     <ul class="list-unstyled" >
-      <li *ngFor="let item of itemList">
-        <div class="col-md-2">
-          <a routerLink="/details/{{item.id}}">
-            <div class="panel panel-default">
-              <div class="panel-heading">
-                <h3>{{item.previewImage}}</h3>
-              </div>
-              <div class="panel-body">
-                <div>
-                  <h4>{{item.name | limitTo: 14}}</h4>
-                </div>
-                <div class="panel-itemInfo">
-                  <span class="pull-left">{{item.author}}</span>
-                  <span class="pull-right">{{item.rating}}</span> <br/>
-                  <span class="pull-left">{{item.numberDownloads | formatNumber}}</span>
-                  <span class="pull-right">{{item.creationDate | date:"dd/MM/yyyy"}}</span>
-                </div>
-              </div>
-            </div>
-          </a>
-        </div>
-      </li>
+      <!--<li *ngFor="let item of itemList.content">-->
+        <!--<div class="col-md-2">-->
+          <!--<a routerLink="/details/{{item.id}}">-->
+            <!--<div class="panel panel-default">-->
+              <!--<div class="panel-heading">-->
+                <!--<h3>{{item.previewImage}}</h3>-->
+              <!--</div>-->
+              <!--<div class="panel-body">-->
+                <!--<div>-->
+                  <!--<h4>{{item.name | limitTo: 14}}</h4>-->
+                <!--</div>-->
+                <!--<div class="panel-itemInfo">-->
+                  <!--<span class="pull-left">{{item.author}}</span>-->
+                  <!--<span class="pull-right">{{item.rating}}</span> <br/>-->
+                  <!--<span class="pull-left">{{item.numberDownloads | formatNumber}}</span>-->
+                  <!--<span class="pull-right">{{item.creationDate | date:"dd/MM/yyyy"}}</span>-->
+                <!--</div>-->
+              <!--</div>-->
+            <!--</div>-->
+          <!--</a>-->
+        <!--</div>-->
+      <!--</li>-->
     </ul>
 </div>

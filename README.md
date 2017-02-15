@@ -101,6 +101,9 @@ Ports used by this application:
 ## Profiles
 Don't forget to that the dockerfile also contains spring.profiles
 
+### locale
+Use this profile during development to avoid CORS errors. This profiles disables spring-security.
+
 ### h2
 During development, you should use h2 Profile to create and populate an embedded Database. This database can be accessed by <a href="localhost:8080/console">H2 Console</a>. Since we didn't change the default setting, you don't have to modify anything and can proceed. <a href="http://www.h2database.com">Further information about H2 Database</a>.
 
