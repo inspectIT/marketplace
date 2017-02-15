@@ -6,8 +6,8 @@ import org.dozer.loader.api.FieldsMappingOptions;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import rocks.inspectit.marketplace.mvc.app.model.DashBoardModel;
-import rocks.inspectit.marketplace.repository.jpa.entity.ProductEntity;
+import rocks.inspectit.marketplace.dao.repository.jpa.entity.ProductEntity;
+import rocks.inspectit.marketplace.mvc.app.model.OverviewItemModel;
 
 /**
  * @author Nikita Kolytschew
@@ -38,11 +38,14 @@ public class DozerConfig {
 		return new BeanMappingBuilder() {
 			@Override
 			protected void configure() {
-				mapProductEntityToDashboardModel();
+				mapProductEntityToOverviewItemModel();
 			}
 
-			private void mapProductEntityToDashboardModel() {
-				mapping(ProductEntity.class, DashBoardModel.class)
+			/**
+			 * ## todo: describe
+			 */
+			private void mapProductEntityToOverviewItemModel() {
+				mapping(ProductEntity.class, OverviewItemModel.class)
 						.fields("productUuid", "id", FieldsMappingOptions.copyByReference())
 						.fields("name", "name")
 						.fields("UserEntity.name", "author")

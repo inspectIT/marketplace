@@ -3,7 +3,6 @@
  * @version %I%, %G%
  * @since 1.0.5-SNAPSHOT
  */
-
 export class DynamicLoaderSearchItemModel {
   id: string;
   name: string;

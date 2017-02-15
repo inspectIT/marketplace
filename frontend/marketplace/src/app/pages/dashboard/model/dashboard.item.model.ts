@@ -3,8 +3,6 @@
  * @version %I%, %G%
  * @since 1.0.4-SNAPSHOT
  */
-
-
 export class DashboardItemModel {
   id: string;
   name: string;

@@ -5,6 +5,7 @@ import "rxjs/add/operator/map";
 import "rxjs/add/operator/catch";
 import "rxjs/add/observable/throw";
 import {DashboardItemModel} from "../../pages/dashboard/model/dashboard.item.model";
+import {DynamicLoaderSearchItemModel} from "../../pages/search-result/model/dynamic.loader.search.item.model";
 
 @Injectable()
 export class ApiService {
@@ -12,6 +13,15 @@ export class ApiService {
 
   constructor(private http: Http, private url: string) {
     this.applicationUrl = url;
+  }
+
+  getDashboardItemModelAsObservableFromUrl(url: string) {
+    console.log("getDashboardItemModelAsObservableFromUrl :: " + url)
+    return this.http.get(url)
+    // ...and calling .json() on the response to return data
+      .map((res: Response) => this.extractData(res))
+      //...errors if any
+      .catch((error: any) => this.handleError(error));
   }
 
   getDashboardCarouselItem(tag: string): Observable<Array<DashboardItemModel>> {
@@ -22,6 +32,12 @@ export class ApiService {
       .map((res: Response) => this.extractData(res))
       //...errors if any
       .catch((error: any) => this.handleError(error));
+  }
+
+  getSearchResultItem(searchTerm: string): Observable<Array<DynamicLoaderSearchItemModel>> {
+    const url: string = `${this.applicationUrl}/app/get/search/${searchTerm}`;
+    console.log("getSearchResultItem :: " + url);
+    return this.getDashboardItemModelAsObservableFromUrl(url);
   }
 
   private extractData(data: Response) {

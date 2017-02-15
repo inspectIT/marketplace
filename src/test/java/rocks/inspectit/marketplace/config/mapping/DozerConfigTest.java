@@ -10,10 +10,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.UUID;
 
-import rocks.inspectit.marketplace.mvc.app.model.DashBoardModel;
-import rocks.inspectit.marketplace.repository.jpa.entity.ProductEntity;
-import rocks.inspectit.marketplace.repository.jpa.entity.RatingEntity;
-import rocks.inspectit.marketplace.repository.jpa.entity.UserEntity;
+import rocks.inspectit.marketplace.dao.repository.jpa.entity.ProductEntity;
+import rocks.inspectit.marketplace.dao.repository.jpa.entity.RatingEntity;
+import rocks.inspectit.marketplace.dao.repository.jpa.entity.UserEntity;
+import rocks.inspectit.marketplace.mvc.app.model.OverviewItemModel;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -26,7 +26,7 @@ import static org.junit.Assert.assertNotNull;
  *
  * @author NKO
  * @version %I%, %G%
- * @since 1.X-SNAPSHOT
+ * @since 1.0.6-SNAPSHOT
  */
 @ActiveProfiles("test,h2_db")
 public class DozerConfigTest {
@@ -46,7 +46,7 @@ public class DozerConfigTest {
 	 * update test case. simple filed rating is now an object of type {@link RatingEntity}
 	 */
 	@Test
-	public void testMapProductEntityToDashboardModel() throws Exception {
+	public void testMapProductEntityToOverviewItemModel() throws Exception {
 		// setup entity
 		final ProductEntity productEntity = new ProductEntity();
 		final UserEntity innerClassUserEntity = new UserEntity();
@@ -72,7 +72,7 @@ public class DozerConfigTest {
 			add(innerClassRatingEntity);
 		}});
 
-		final DashBoardModel mappedResult = mapper.map(productEntity, DashBoardModel.class);
+		final OverviewItemModel mappedResult = mapper.map(productEntity, OverviewItemModel.class);
 		mappedResult.setRating(productEntity.getTotalRating());
 
 		// test some random attributess
