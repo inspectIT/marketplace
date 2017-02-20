@@ -73,7 +73,7 @@ public class DozerConfigTest {
 		}});
 
 		final OverviewItemModel mappedResult = mapper.map(productEntity, OverviewItemModel.class);
-		mappedResult.setRating(productEntity.getTotalRating());
+		mappedResult.setRating(productEntity.getTotalRating().orElse(0.));
 
 		// test some random attributess
 		assertEquals(productEntity.getProductUuid(), mappedResult.getId());

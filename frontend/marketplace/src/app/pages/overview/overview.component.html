@@ -5,10 +5,46 @@
 </div>
 
 <div class="container">
+  <nav class="navbar">
+    <div class="container">
+      <ul class="nav nav-pills nav-justified">
+        <li>Sort Direction:</li>
+        <li class="navbar-nav "><a>ASC</a></li>
+        <li class=" navbar-nav active"><a>DESC</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <nav class="navbar">
+    <div class="container">
+      <ul class="nav nav-pills nav-justified">
+        <li>Order:</li>
+        <li class="navbar-nav active"><a>Product Name</a></li>
+        <li class="navbar-nav"><a>Creation Date</a></li>
+        <li class="navbar-nav"><a>#Downloads</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <nav class="navbar">
+    <div class="container">
+      <ul class="nav nav-tabs nav-justified">
+        <li>Keywords:</li>
+        <li class="navbar-nav"><a>Spring</a></li>
+        <li class="navbar-nav"><a>JPA</a></li>
+        <li class="navbar-nav"><a>Hibernate</a></li>
+        <li class="navbar-nav"><a>JBoss</a></li>
+      </ul>
+    </div>
+  </nav>
+</div>
+
+<div class="container">
   <div class="container">
     <h4>Template: {{title}}</h4>
+    <span>#Results: {{itemList.length}}</span>
     <hr/>
-    <ul class="list-unstyled" >
+    <ul class="list-unstyled">
       <li *ngFor="let item of itemList">
         <div class="col-md-2">
           <a routerLink="/details/{{item.id}}">

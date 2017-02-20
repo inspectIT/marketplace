@@ -36,21 +36,23 @@ public class SearchController {
 	}
 
 	/**
-	 * ## todo : decribe
-	 *
+	 * ## todo : describe
+	 * <p>
 	 * create {@link Page} with overviewItemModelList as content, pageable as pageabel and productEntitiesPage.getTotalElements for size;
 	 * return a paging object without mapping from {@link Page} to a similar custom page object
 	 *
 	 * @param searchTerm {@link String}
-	 * @param pageable {@link Pageable}
+	 * @param pageable   {@link Pageable}
 	 * @return {@link Page} of {@link OverviewItemModel}
 	 */
 	@GetMapping("/get/search/{searchTerm}")
-	public Page<OverviewItemModel> getsearchResultByTerm(@PathVariable final String searchTerm,
+	public Page<OverviewItemModel> getsearchResultByTerm(
+			@PathVariable
+			final String searchTerm,
 			final Pageable pageable) {
 
 		final Page<ProductEntity> productEntitiesPage = this.service.getAllProductEntitiesBySearchTerm(searchTerm, pageable);
-		List<OverviewItemModel> overviewItemModelList = this.mapper.getModelFromEntity(productEntitiesPage.getContent());
+		List<OverviewItemModel> overviewItemModelList = this.mapper.getListModelFromEntityList(productEntitiesPage.getContent());
 		return new PageImpl<>(overviewItemModelList, pageable, productEntitiesPage.getTotalElements());
 	}
 }

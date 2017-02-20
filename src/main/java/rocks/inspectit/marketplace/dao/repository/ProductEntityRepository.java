@@ -6,7 +6,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -25,61 +24,6 @@ import rocks.inspectit.marketplace.dao.repository.jpa.entity.helper.CustomQueryD
 public interface ProductEntityRepository extends PagingAndSortingRepository<ProductEntity, UUID> {
 
 	/**
-	 * Select top 20 results and order by date descending.
-	 * Will match all results, that are after "creationDate".
-	 *
-	 * @param creationDate as {@link Date}
-	 * @return {@link List} of {@link ProductEntity}
-	 * @since 1.0.6-SNAPSHOT
-	 */
-	List<ProductEntity> findTop20ByCreationDateGreaterThanOrderByCreationDateDesc(final Date creationDate);
-
-	/**
-	 * Select top 20 results and order by date descending.
-	 * The first match will have at least the date of "yesterday".
-	 *
-	 * @param creationDate {@link Date}
-	 * @return {@link List} of {@link ProductEntity}
-	 * @since 1.0.6-SNAPSHOT
-	 */
-	List<ProductEntity> findTop20ByCreationDateLessThanOrderByCreationDateDesc(final Date creationDate);
-
-	/**
-	 * Use {@link Page} for limited request.
-	 * Avoid select all to increase performance.
-	 *
-	 * @param pageable {@link Pageable}
-	 * @return {@link List} of {@link ProductEntity}
-	 * @since 1.0.6-SNAPSHOT
-	 */
-	Page<ProductEntity> findByCreationDateLessThanOrderByCreationDateDesc(final Date creationDate, final Pageable pageable);
-
-	/**
-	 * Select all Products ordered by # Downloads.
-	 * Limit query duration by increasing param to a min value; default is 0.
-	 *
-	 * @param numberOfDownloads {@link Long}
-	 * @return {@link List} of {@link ProductEntity}
-	 * @since 1.0.6-SNAPSHOT
-	 */
-	List<ProductEntity> findTop20ByNumberOfDownloadsGreaterThanOrderByNumberOfDownloadsDesc(final Long numberOfDownloads);
-
-	/**
-	 * Custom query for aggregation function not supported by spring-data.
-	 * Select all products ordered by rating.
-	 * Use a custom dto instead a list of object arrays.
-	 *
-	 * @return {@link List} of {@link CustomQueryDTO}
-	 * @since 1.0.6-SNAPSHOT
-	 */
-	@Query("select new rocks.inspectit.marketplace.dao.repository.jpa.entity.helper.CustomQueryDTO(pe, sum(re.ratingAsNumber)) "
-			+ "from ProductEntity pe "
-			+ "join pe.ratingEntityList re "
-			+ "group by pe "
-			+ "order by 2 DESC")
-	List<CustomQueryDTO> findAllProductEntitiesGroupByProductEntityOrderedByRatingDesc();
-
-	/**
 	 * Custom named query with names param, for aggregation function not supported by spring-data.
 	 * Select products ordered by rating and limit result to size.
 	 * Use a custom dto instead a list of object arrays.
@@ -93,42 +37,63 @@ public interface ProductEntityRepository extends PagingAndSortingRepository<Prod
 			+ "join pe.ratingEntityList re "
 			+ "group by pe "
 			+ "order by 2 DESC ")
-	Page<CustomQueryDTO> findPageableProductEntitiesGroupByProductEntityOrderedByRatingDesc(final Pageable pageable);
+	Page<CustomQueryDTO> findAllGroupByProductEntityOrderedByRatingDesc(final Pageable pageable);
 
 	/**
-	 * ## TODO.
+	 * Custom named query with names param, for aggregation function not supported by spring-data.
+	 * Select products ordered by rating and limit result to size.
+	 * Use a custom dto instead a list of object arrays.
 	 *
-	 * @param tagName {@link String}
-	 * @return {@link List} of {@link CustomQueryDTO}
-	 * @since 1.0.6-SNAPSHOT
+	 * @param productUuidList {@link List} of {@link UUID}
+	 * @param pageable    {@link Pageable}
+	 * @return {@link Page} of {@link CustomQueryDTO}
+	 * @since 1.0.7-SNAPSHOT
 	 */
-	@Query("select pe "
+	@Query("select new rocks.inspectit.marketplace.dao.repository.jpa.entity.helper.CustomQueryDTO(pe, sum(re.ratingAsNumber)) "
 			+ "from ProductEntity pe "
-			+ "join pe.tagEntity te "
-			+ "where te.tagName = :tagName "
-			+ "order by pe.creationDate DESC, pe.numberOfDownloads DESC ")
-	List<ProductEntity> findAllByTagNameFromTagEntityOrderedByCreationDateAndNumberOfDownloadsDesc(@Param("tagName") final String tagName);
+			+ "join pe.ratingEntityList re "
+			+ "where pe.productUuid in (:productUuids)"
+			+ "group by pe "
+			+ "order by 2 DESC ")
+	Page<CustomQueryDTO> findAllLimitByProductUuidGroupByProductEntityOrderedByRatingDesc(@Param("productUuids") final List<UUID> productUuidList, final Pageable pageable);
 
 	/**
 	 * ## TODO.
 	 *
-	 * @param tagName {@link String}
+	 * @param tagName  {@link String}
 	 * @param pageable {@link Pageable}
-	 * @return {@link List} of {@link CustomQueryDTO}
+	 * @return {@link Page} of {@link ProductEntity}
 	 * @since 1.0.6-SNAPSHOT
 	 */
 	@Query("select pe "
 			+ "from ProductEntity pe "
 			+ "join pe.tagEntity te "
+			+ "where te.tagName = :tagName ")
+	Page<ProductEntity> findAllByTagNameFromTagEntity(@Param("tagName") final String tagName, final Pageable pageable);
+
+	/**
+	 * ## TODO.
+	 *
+	 * @param tagName     {@link String}
+	 * @param limitToList {@link List} of {@link String}
+	 * @param pageable    {@link Pageable}
+	 * @return {@link List} of {@link CustomQueryDTO}
+	 * @since 1.0.7-SNAPSHOT
+	 */
+	@Query("select pe "
+			+ "from ProductEntity pe "
+			+ "join pe.tagEntity te "
+			+ "join pe.keywordEntityList ke "
 			+ "where te.tagName = :tagName "
-			+ "order by pe.creationDate DESC, pe.numberOfDownloads DESC ")
-	Page<ProductEntity> findPageableByTagNameFromTagEntityOrderedByCreationDateAndNumberOfDownloadsDesc(@Param("tagName") final String tagName, final Pageable pageable);
+			+ "and ke.name in (:keywords) "
+			+ "or ke.alias in (:keywords) ")
+	Page<ProductEntity> findAllByTagNameFromTagEntityLimitByKeywords(@Param("tagName") final String tagName, @Param("keywords") final List<String> limitToList, final Pageable pageable);
 
 	/**
 	 * ## TODO.
 	 * make comparison case insensitive with <b>lower()</b>.
 	 *
-	 * @param name {@link String}
+	 * @param name     {@link String}
 	 * @param pageable {@link Pageable}
 	 * @return {@link Page} of {@link ProductEntity}
 	 * @since 1.0.6-SNAPSHOT
@@ -137,8 +102,36 @@ public interface ProductEntityRepository extends PagingAndSortingRepository<Prod
 			+ "from ProductEntity pe "
 			+ "join pe.userEntity ue "
 			+ "where lower(pe.name) like concat('%', lower(:name), '%') "
-			+ "OR lower(ue.name) like concat('%', lower(:name), '%') "
-			+ "order by pe.name ASC")
-	Page<ProductEntity> findPageableByProductNameOrUsernameOrderByNameDesc(@Param("name") final String name, final Pageable pageable);
+			+ "OR lower(ue.name) like concat('%', lower(:name), '%') ")
+	Page<ProductEntity> findAllByProductNameOrUsernameOrderByNameDesc(@Param("name") final String name, final Pageable pageable);
+
+	/**
+	 * ## todo describe.
+	 *
+	 * @param keywordList {@link List} or {@link String}
+	 * @param pageable    {@link Pageable}
+	 * @return {@link Page} of {@link ProductEntity}
+	 * @since 1.0.7-SNAPSHOT
+	 */
+	@Query("select pe "
+			+ "from ProductEntity pe "
+			+ "join pe.keywordEntityList ke "
+			+ "where ke.name in (:keywordList) "
+			+ "or ke.alias in (:keywordList)")
+	Page<ProductEntity> findAllByKeywordEntityNameIn(@Param("keywordList") final List<String> keywordList, final Pageable pageable);
+
+	/**
+	 * ## todo : describe.
+	 *
+	 * @param limitToList {@link List} of {@link String}
+	 * @return {@link List} of {@link UUID}
+	 */
+	@Query("select pe.productUuid "
+			+ "from ProductEntity pe "
+			+ "join pe.keywordEntityList ke "
+			+ "where ke.name in (:keywords) "
+			+ "or ke.alias in (:keywords)")
+	List<UUID> findAllUuidByKeywords(@Param("keywords") final List<String> limitToList);
+
 }
 

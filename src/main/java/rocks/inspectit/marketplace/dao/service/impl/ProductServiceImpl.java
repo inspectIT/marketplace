@@ -2,15 +2,14 @@ package rocks.inspectit.marketplace.dao.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
+import java.util.UUID;
+import java.util.stream.Collectors;
 
 import rocks.inspectit.marketplace.dao.repository.ProductEntityRepository;
 import rocks.inspectit.marketplace.dao.repository.jpa.entity.ProductEntity;
@@ -27,22 +26,26 @@ public class ProductServiceImpl implements ProductService {
 
 	private final ProductEntityRepository productRepository;
 
+	/**
+	 * constructor injection.
+	 *
+	 * @param productRepository {@link ProductEntityRepository}
+	 */
 	@Autowired
 	public ProductServiceImpl(final ProductEntityRepository productRepository) {
 		this.productRepository = productRepository;
 	}
 
 	/**
-	 * Select most downloaded Products.
-	 * Limit result to 20.
+	 * ## todo: describe.
 	 *
-	 * @return {@link List} of {@link ProductEntity}
-	 * @since 1.0.6-SNAPSHOT
+	 * @param pageable {@link Pageable}
+	 * @return {@link Page} of {@link ProductEntity}
+	 * @since 1.0.7-SNAPSHOT
 	 */
 	@Override
-	public List<ProductEntity> getTop20MostDownloadedProducts() {
-		final long minDownloads = 0;
-		return this.productRepository.findTop20ByNumberOfDownloadsGreaterThanOrderByNumberOfDownloadsDesc(minDownloads);
+	public Page<ProductEntity> getPagedProductsByPageable(final Pageable pageable) {
+		return this.productRepository.findAll(pageable);
 	}
 
 	/**
@@ -51,51 +54,34 @@ public class ProductServiceImpl implements ProductService {
 	 * <p>
 	 * Since this select is build by a custom query, a {@link CustomQueryDTO} object was used to return {@link ProductEntity} instead of {@link Object} Array.
 	 *
-	 * @return {@link List} of {@link ProductEntity}
+	 * @param pageable of {@link Pageable}
+	 * @return {@link Page} of {@link ProductEntity}
 	 * @since 1.0.6-SNAPSHOT
 	 */
 	@Override
-	public List<ProductEntity> getTop20BestRatedProducts() {
+	public Page<ProductEntity> getAllProductsOrderedByRatingDesc(final Pageable pageable) {
 		final List<ProductEntity> returnList = new ArrayList<>();
 
-		final Page<CustomQueryDTO> dtoList = this.productRepository.findPageableProductEntitiesGroupByProductEntityOrderedByRatingDesc(this.getDefaultPageable());
+		final Page<CustomQueryDTO> dtoList = this.productRepository.findAllGroupByProductEntityOrderedByRatingDesc(pageable);
 		dtoList.forEach(page -> returnList.add(page.getProductEntity()));
 
-		return returnList;
+		return new PageImpl<>(returnList, pageable, returnList.size());
 	}
 
 	/**
-	 * Select most recent Products, whose creation date is lower than "tomorrow".
-	 * Limit result to 20.
-	 * <p>
-	 * Create {@link LocalDate} with the date of tomorrow and convert it to {@link Date}
-	 *
-	 * @return {@link List} of {@link ProductEntity}
-	 * @since 1.0.6-SNAPSHOT
-	 */
-	@Override
-	public List<ProductEntity> getTop20MostRecentUploadedProducts() {
-		// get tomorrow date
-		final LocalDate tomorrow = LocalDate.now().plusDays(1);
-		final Date date = Date.from(tomorrow.atStartOfDay(ZoneId.systemDefault()).toInstant());
-		// return the 20 most recent uploads
-		return this.productRepository.findTop20ByCreationDateLessThanOrderByCreationDateDesc(date);
-	}
-
-	/**
-	 * ## TODO
+	 * ## TODO.
 	 *
 	 * @param tagName {@link String}
 	 * @return {@link List} of {@link ProductEntity}
 	 * @since 1.0.6-SNAPSHOT
 	 */
 	@Override
-	public Page<ProductEntity> get20ProductsBaTagNameOrderedByDateAndDownloads(final String tagName) {
-		return this.productRepository.findPageableByTagNameFromTagEntityOrderedByCreationDateAndNumberOfDownloadsDesc(tagName, this.getDefaultPageable());
+	public Page<ProductEntity> getPagedProductsByTagNameOrderedByDateAndDownloads(final String tagName, final Pageable pageable) {
+		return this.productRepository.findAllByTagNameFromTagEntity(tagName, pageable);
 	}
 
 	/**
-	 * ## TODO
+	 * ## TODO.
 	 *
 	 * @param searchTerm {@link String}
 	 * @param pageable   {@link Pageable}
@@ -103,19 +89,57 @@ public class ProductServiceImpl implements ProductService {
 	 * @since 1.0.6-SNAPSHOT
 	 */
 	@Override
-	public Page<ProductEntity> getAllProductEntitiesBySearchTerm(final String searchTerm, final Pageable pageable) {
-		return this.productRepository.findPageableByProductNameOrUsernameOrderByNameDesc(searchTerm, pageable);
+	public Page<ProductEntity> getAllProductsBySearchTerm(final String searchTerm, final Pageable pageable) {
+		return this.productRepository.findAllByProductNameOrUsernameOrderByNameDesc(searchTerm, pageable);
+	}
+
+	@Override
+	public ProductEntity getProductByProductUuid(final UUID productUuid) {
+		return this.productRepository.findOne(productUuid);
+	}
+
+	// limit
+
+	/**
+	 * ## todo describe.
+	 *
+	 * @param limitToList {@link List} of {@link String}
+	 * @param pageable    {@link Pageable}
+	 * @return {@link Pageable} of {@link ProductEntity}
+	 */
+	@Override
+	public Page<ProductEntity> getAllProductsFilteredByKeywordsAndOrderedByRatingDesc(final List<String> limitToList, final Pageable pageable) {
+		final List<ProductEntity> returnList = new ArrayList<>();
+
+		final List<UUID> productUuidList = this.productRepository.findAllUuidByKeywords(limitToList).stream().collect(Collectors.toList());
+		final Page<CustomQueryDTO> dtoList = this.productRepository.findAllLimitByProductUuidGroupByProductEntityOrderedByRatingDesc(productUuidList, pageable);
+		dtoList.forEach(page -> returnList.add(page.getProductEntity()));
+
+		return new PageImpl<>(returnList, pageable, returnList.size());
 	}
 
 	/**
-	 * Set up a default pageable.
-	 * set page to 0 and size to 20.
+	 * ## todo describe.
 	 *
-	 * @return {@link Pageable}
-	 * @since 1.0.6-SNAPSHOT
+	 * @param value
+	 * @param limitToList
+	 * @param pageable
+	 * @return
 	 */
-	private Pageable getDefaultPageable() {
-		final Pageable pageable = new PageRequest(0, 20);
-		return pageable;
+	@Override
+	public Page<ProductEntity> getPagedProductsByTagNameFilteredByKeywordsOrderedByDateAndDownloads(final String value, final List<String> limitToList, final Pageable pageable) {
+		return this.productRepository.findAllByTagNameFromTagEntityLimitByKeywords(value, limitToList, pageable);
+	}
+
+	/**
+	 * ## todo describe.
+	 *
+	 * @param limitToList
+	 * @param pageable
+	 * @return
+	 */
+	@Override
+	public Page<ProductEntity> getPagedProductsFilteredByKeywordsByPageable(final List<String> limitToList, final Pageable pageable) {
+		return this.productRepository.findAllByKeywordEntityNameIn(limitToList, pageable);
 	}
 }

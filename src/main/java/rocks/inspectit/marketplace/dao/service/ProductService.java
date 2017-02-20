@@ -4,6 +4,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
+import java.util.UUID;
 
 import rocks.inspectit.marketplace.dao.repository.jpa.entity.ProductEntity;
 
@@ -14,13 +15,81 @@ import rocks.inspectit.marketplace.dao.repository.jpa.entity.ProductEntity;
  */
 public interface ProductService {
 
-	List<ProductEntity> getTop20MostDownloadedProducts();
+	/**
+	 * ## todo describe.
+	 *
+	 * @param defaultPageable
+	 * @return
+	 */
+	Page<ProductEntity> getPagedProductsByPageable(final Pageable defaultPageable);
 
-	List<ProductEntity> getTop20BestRatedProducts();
+	/**
+ 	 * ## todo describe.
+	 *
+	 * @param pageable
+	 * @return
+	 */
+	Page<ProductEntity> getAllProductsOrderedByRatingDesc(final Pageable pageable);
 
-	List<ProductEntity> getTop20MostRecentUploadedProducts();
+	/**
+ 	 * ## todo describe.
+	 *
+	 * @param tagName
+	 * @param pageable
+	 * @return
+	 */
+	Page<ProductEntity> getPagedProductsByTagNameOrderedByDateAndDownloads(final String tagName, final Pageable pageable);
 
-	Page<ProductEntity> get20ProductsBaTagNameOrderedByDateAndDownloads(final String tagName);
+	/**
+ 	 * ## todo describe.
+	 *
+	 * @param searchTerm
+	 * @param pageable
+	 * @return
+	 */
+	Page<ProductEntity> getAllProductsBySearchTerm(final String searchTerm, final Pageable pageable);
 
-	Page<ProductEntity> getAllProductEntitiesBySearchTerm(final String searchTerm, final Pageable pageable);
+	/**
+	 * ## todo describe.
+	 *
+	 * @param productUuid
+	 * @return
+	 */
+	ProductEntity getProductByProductUuid(final UUID productUuid);
+
+	// todo check
+
+	/**
+	 * ## todo describe.
+	 *
+	 * @param limitToList
+	 * @param pageable
+	 * @return
+	 */
+	Page<ProductEntity> getAllProductsFilteredByKeywordsAndOrderedByRatingDesc(final List<String> limitToList, final Pageable pageable);
+
+	// todo check
+
+	/**
+	 * ## todo describe.
+	 *
+	 * @param value
+	 * @param limitToList
+	 * @param pageable
+	 * @return
+	 */
+	Page<ProductEntity> getPagedProductsByTagNameFilteredByKeywordsOrderedByDateAndDownloads(final String value, final List<String> limitToList, final Pageable pageable);
+
+	// todo check
+
+	/**
+	 * ## todo describe.
+	 *
+	 * @param limitToList
+	 * @param pageable
+	 * @return
+	 */
+	Page<ProductEntity> getPagedProductsFilteredByKeywordsByPageable(final List<String> limitToList, final Pageable pageable);
+
+
 }

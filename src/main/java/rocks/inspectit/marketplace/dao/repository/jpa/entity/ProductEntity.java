@@ -14,11 +14,12 @@ import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -94,7 +95,7 @@ public class ProductEntity {
 	 * user is parent
 	 * one user can create one or many products
 	 */
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name = "userUuid", referencedColumnName = "userUuid")
 	private UserEntity userEntity;
 
@@ -103,7 +104,7 @@ public class ProductEntity {
 	 * product is parent
 	 * one product can have one or many ratings
 	 */
-	@OneToMany(mappedBy = "productEntity", targetEntity = RatingEntity.class, fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "productEntity", targetEntity = RatingEntity.class)
 	private List<RatingEntity> ratingEntityList;
 
 	/**
@@ -111,9 +112,20 @@ public class ProductEntity {
 	 * product is parent
 	 * one product has one tag
 	 */
-	@OneToOne(fetch = FetchType.LAZY)
+	@OneToOne
 	@JoinColumn(name = "tagUuid", referencedColumnName = "tagUuid")
 	private TagEntity tagEntity;
+
+	/**
+	 * keyword relationship.
+	 *
+	 * @since 1.0.7-SNAPSHOT
+	 */
+	@ManyToMany
+	@JoinTable(name = "keyword_product",
+			joinColumns = @JoinColumn(name = "productUuid", referencedColumnName = "productUuid"),
+			inverseJoinColumns = @JoinColumn(name = "keywordUuid", referencedColumnName = "keywordUuid"))
+	private List<KeywordEntity> keywordEntityList;
 
 	public UUID getProductUuid() {
 		return productUuid;
@@ -219,7 +231,23 @@ public class ProductEntity {
 		this.tagEntity = tagEntity;
 	}
 
-	public Double getTotalRating() {
-		return this.ratingEntityList.stream().mapToDouble(RatingEntity::getRatingAsNumber).sum() / this.ratingEntityList.size();
+	public List<KeywordEntity> getKeywordEntityList() {
+		return keywordEntityList;
+	}
+
+	public void setKeywordEntityList(List<KeywordEntity> keywordEntityList) {
+		this.keywordEntityList = keywordEntityList;
+	}
+
+	/**
+	 * ## todo describe.
+	 *
+	 * @return
+	 */
+	public Optional<Double> getTotalRating() {
+		if (this.ratingEntityList.isEmpty()) {
+			return Optional.empty();
+		}
+		return Optional.of(this.ratingEntityList.stream().mapToDouble(RatingEntity::getRatingAsNumber).sum() / this.ratingEntityList.size());
 	}
 }

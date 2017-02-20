@@ -11,5 +11,12 @@ import rocks.inspectit.marketplace.dao.repository.jpa.entity.ProductEntity;
  * @since 1.0.6-SNAPSHOT
  */
 public interface SearchService {
+	/**
+	 * ## todo describe.
+	 *
+	 * @param searchTerm
+	 * @param pageable
+	 * @return
+	 */
 	Page<ProductEntity> getAllProductEntitiesBySearchTerm(final String searchTerm, final Pageable pageable);
 }

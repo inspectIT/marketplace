@@ -11,7 +11,8 @@ import java.util.List;
 
 import rocks.inspectit.marketplace.mvc.app.helper.ObjectMapper;
 import rocks.inspectit.marketplace.mvc.app.model.OverviewItemModel;
-import rocks.inspectit.marketplace.service.DashBoardService;
+import rocks.inspectit.marketplace.mvc.app.model.SortOptionEnum;
+import rocks.inspectit.marketplace.service.OverviewService;
 
 /**
  * @author NKO
@@ -21,16 +22,17 @@ import rocks.inspectit.marketplace.service.DashBoardService;
 @RestController
 @RequestMapping("app")
 public class DashBoardController {
-	private final DashBoardService service;
+	private final OverviewService service;
 	private final ObjectMapper mapper;
 
 	/**
 	 * Use constructor injection.
 	 *
-	 * @param service {@link DashBoardService}
+	 * @param service {@link OverviewService}
+	 * @param mapper {@link ObjectMapper}
 	 */
 	@Autowired
-	public DashBoardController(final DashBoardService service, final ObjectMapper mapper) {
+	public DashBoardController(final OverviewService service, final ObjectMapper mapper) {
 		this.service = service;
 		this.mapper = mapper;
 	}
@@ -38,14 +40,14 @@ public class DashBoardController {
 	/**
 	 * Limit results to 20 items.
 	 *
-	 * @param type of {@link String}
+	 * @param sortOption of {@link SortOptionEnum}
 	 * @return list of {@link OverviewItemModel} as JSON
 	 * @since 1.0.4-SNAPSHOT
 	 */
 	@CrossOrigin(origins = { "http://localhost:3000", "http://localhost:4200" })
 	@GetMapping(value = "/get/dashboard/simple/{type}")
-	public List<OverviewItemModel> getSimpleDashboardOverview(@PathVariable final String type) {
-		final List<OverviewItemModel> modelList = this.mapper.getModelFromEntity(this.service.getSimpleDashboardOverviewByType(type));
+	public List<OverviewItemModel> getSimpleDashboardOverview(@PathVariable final SortOptionEnum sortOption) {
+		final List<OverviewItemModel> modelList = this.mapper.getListModelFromEntityList(this.service.getSimpleDashboardOverviewByType(sortOption));
 		return modelList;
 	}
 }

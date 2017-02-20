@@ -10,7 +10,6 @@ import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -77,7 +76,7 @@ public class RatingEntity {
 	 * user is parent
 	 * one user can create one or many products
 	 */
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name = "userUuid", referencedColumnName = "userUuid")
 	private UserEntity userEntity;
 
@@ -86,7 +85,7 @@ public class RatingEntity {
 	 * product is parent
 	 * one product can have one or many rating
 	 */
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name = "productUuid", referencedColumnName = "productUuid")
 	private ProductEntity productEntity;
 

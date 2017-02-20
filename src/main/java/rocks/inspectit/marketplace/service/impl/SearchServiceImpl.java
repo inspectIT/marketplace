@@ -40,6 +40,6 @@ public class SearchServiceImpl implements SearchService {
 	 */
 	@Override
 	public Page<ProductEntity> getAllProductEntitiesBySearchTerm(final String searchTerm, final Pageable pageable) {
-		return this.service.getAllProductEntitiesBySearchTerm(searchTerm, pageable);
+		return this.service.getAllProductsBySearchTerm(searchTerm, pageable);
 	}
 }
