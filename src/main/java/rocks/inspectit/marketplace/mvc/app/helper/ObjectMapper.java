@@ -21,7 +21,7 @@ import rocks.inspectit.marketplace.mvc.app.model.OverviewItemModel;
 import rocks.inspectit.marketplace.mvc.app.model.RatingItemModel;
 
 /**
- * ## todo describe
+ * ## todo describe.
  * <p>
  * use {@link Service} annotation for autowiring
  *
@@ -73,13 +73,16 @@ public class ObjectMapper {
 	public DetailModel getSimpleModelFromEntity(final ProductEntity productEntity) {
 		final List<RatingItemModel> ratingList = new ArrayList<>();
 		productEntity.getRatingEntityList().forEach(rating -> {
-			final RatingItemModel model = this.mapper.map(rating, RatingItemModel.class);
+			final RatingItemModel model = new RatingItemModel();
+			this.mapper.map(rating, model);
 			ratingList.add(model);
 		});
 
-		final DetailModel model = this.mapper.map(productEntity, DetailModel.class);
+		final DetailModel model = new DetailModel();
+		this.mapper.map(productEntity, model);
 		model.setRatingList(ratingList);
-		model.setPreviewImage(this.getBase64BinaryFromBlob(productEntity.getPreviewImage()));
+		model.setRating(productEntity.getTotalRating().orElse(0.));
+		model.setProductPreviewImage(this.getBase64BinaryFromBlob(productEntity.getPreviewImage()));
 
 		return model;
 	}

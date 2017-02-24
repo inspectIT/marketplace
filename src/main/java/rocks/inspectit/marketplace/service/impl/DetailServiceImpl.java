@@ -30,7 +30,7 @@ public class DetailServiceImpl implements DetailService {
 	}
 
 	/**
-	 * ## todo : describe
+	 * ## todo : describe.
 	 *
 	 * @param productId {@link UUID}
 	 * @return {@link ProductEntity}

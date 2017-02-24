@@ -7,7 +7,7 @@ import {Component, OnInit} from "@angular/core";
 import {Router, ActivatedRoute} from "@angular/router";
 import "rxjs/add/operator/switchMap";
 import {ApiService} from "../../services/api/api.service";
-import {SearchResultModel} from "./model/search.result.model";
+import {PagedOverviewResultModel} from "../shared/model/paged.overview.result.model";
 
 @Component({
   selector: 'app-search-result',
@@ -16,7 +16,7 @@ import {SearchResultModel} from "./model/search.result.model";
 })
 export class SearchResultComponent implements OnInit {
 
-  itemList: SearchResultModel;
+  itemList: PagedOverviewResultModel;
 
   constructor(private route: ActivatedRoute, private router: Router,
     private service: ApiService) {

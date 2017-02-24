@@ -6,7 +6,8 @@
 import {Component, OnInit} from "@angular/core";
 import {Router, ActivatedRoute} from "@angular/router";
 import {ApiService} from "../../services/api/api.service";
-import {OverviewResultModel} from "./model/overview.result.model";
+import {PagedOverviewResultModel} from "../shared/model/paged.overview.result.model";
+import {OverviewFilterModel} from "./model/overview.filter.model";
 
 @Component({
   selector: 'app-overview',
@@ -15,42 +16,11 @@ import {OverviewResultModel} from "./model/overview.result.model";
 })
 export class OverviewComponent implements OnInit {
 
-  /**
-   * use array to define sort options for filter.
-   *
-   * todo: check if it makes sense to get values from REST
-   *
-   * @type {[string,string,string]}
-   */
-  sortOptionList: Array<string> = ['NAME', 'RECENT', 'DOWNLOADS'];
-  limitToList: Array<string> = ['JEE', 'Spring', 'JPA', 'Hibernate'];
-
-  overviewItemList: OverviewResultModel;
-
-  /**
-   * primary sort option, like rating or tagname
-   */
-  primarySortOption: string;
-  /**
-   * additional sort options, like name, date, downloads
-   */
-  additionalSortOption: string;
-  /**
-   * sort directtion like, asc or desc
-   */
-  sortOrder: string = "DESC";
-  /**
-   * limit values, like jee, jpa, hibernate...
-   */
-  limitToArray: Array<string> = [];
-
-  /**
-   * paging info, like size and page
-   */
-  nextPage: number = 0;
-  pageSize: number = 24;
+  overviewFilterModel: OverviewFilterModel;
+  overviewItemList: PagedOverviewResultModel;
 
   constructor(private route: ActivatedRoute, private router: Router, private service: ApiService) {
+    this.overviewFilterModel = new OverviewFilterModel();
   }
 
   /**
@@ -58,13 +28,11 @@ export class OverviewComponent implements OnInit {
    */
   ngOnInit() {
     const param = this.route.snapshot.params['tag'];
-    this.primarySortOption = param;
-    console.log("overview component overview for param: " + this.primarySortOption);
+    this.overviewFilterModel.primarySortOption = param;
 
-    this.service.getOverviewResultItem(this.primarySortOption, this.nextPage, this.pageSize).subscribe(
+    this.service.getOverviewResultItemWithFilter(this.overviewFilterModel.primarySortOption, this.overviewFilterModel.nextPage, this.overviewFilterModel.pageSize).subscribe(
       items => {
         this.overviewItemList = items; //Bind to view
-        console.log(" search result items: " + items + " :: items :: " + items);
       },
       err => {
         // Log errors if any
@@ -82,11 +50,9 @@ export class OverviewComponent implements OnInit {
    * @param sortOrder {@link string}
    */
   updateSortOrder(sortOrder: string) {
-    if (this.sortOrder !== sortOrder) {
-      this.sortOrder = sortOrder;
-
+    if (this.overviewFilterModel.sortOrder !== sortOrder) {
+      this.overviewFilterModel.sortOrder = sortOrder;
       this.resetPaging();
-
       this.updateResults();
     } else {
       console.log("updateSortOrder :: do nothing!");
@@ -103,15 +69,15 @@ export class OverviewComponent implements OnInit {
    *
    * @param sortOptionParam {@link string}
    */
-  addSortOption(sortOptionParam: string) {
-    if (this.primarySortOption === sortOptionParam || this.additionalSortOption === sortOptionParam) {
+  addAndUpdateSortOption(sortOptionParam: string) {
+    if (this.overviewFilterModel.primarySortOption === sortOptionParam || this.overviewFilterModel.additionalSortOption === sortOptionParam) {
       console.log("sortOptionParam :: do nothing");
     } else {
       this.resetPaging();
-      if (this.sortOptionList.indexOf(this.primarySortOption) !== -1) {
-        this.primarySortOption = sortOptionParam;
+      if (this.overviewFilterModel.sortOptionList.indexOf(this.overviewFilterModel.primarySortOption) !== -1) {
+        this.overviewFilterModel.primarySortOption = sortOptionParam;
       } else {
-        this.additionalSortOption = sortOptionParam;
+        this.overviewFilterModel.additionalSortOption = sortOptionParam;
       }
 
       this.updateResults();
@@ -126,10 +92,10 @@ export class OverviewComponent implements OnInit {
    */
   updateLimitToArray(limitToValue: string) {
     this.resetPaging();
-    if (this.limitToArray.indexOf(limitToValue) === -1) {
-      this.limitToArray.push(limitToValue);
+    if (this.overviewFilterModel.limitToArray.indexOf(limitToValue) === -1) {
+      this.overviewFilterModel.limitToArray.push(limitToValue);
     } else {
-      this.limitToArray.splice(this.limitToArray.indexOf(limitToValue), 1);
+      this.overviewFilterModel.limitToArray.splice(this.overviewFilterModel.limitToArray.indexOf(limitToValue), 1);
     }
     this.updateResults();
   }
@@ -139,51 +105,51 @@ export class OverviewComponent implements OnInit {
    *
    * @param pageNumber {@link number}
    */
-  updateList(pageNumber: number) {
-    console.log("page: " + pageNumber);
-    this.nextPage = pageNumber + 1;
-    this.service.getOverviewResultItemWithFilter(this.primarySortOption, this.additionalSortOption, this.sortOrder, this.limitToArray, this.nextPage, this.pageSize).subscribe(
-      items => {
-        const tmpList = this.overviewItemList.content.concat(items.content);
+  updateResultList(pageNumber: number) {
+    this.overviewFilterModel.nextPage = pageNumber + 1;
+    this.service.getOverviewResultItemWithFilter(this.overviewFilterModel.primarySortOption, this.overviewFilterModel.nextPage, this.overviewFilterModel.pageSize,
+      this.overviewFilterModel.sortOrder, this.overviewFilterModel.additionalSortOption, this.overviewFilterModel.limitToArray)
+      .subscribe(
+        items => {
+          const tmpList = this.overviewItemList.content.concat(items.content);
 
-        this.overviewItemList = items;
-        this.overviewItemList.content = tmpList;
-
-        console.log(" search result items: " + items + " :: items :: " + items);
-      },
-      err => {
-        // Log errors if any
-        console.log(err);
-      }
-    );
+          this.overviewItemList = items;
+          this.overviewItemList.content = tmpList;
+        },
+        err => {
+          // Log errors if any
+          console.log(err);
+        }
+      );
   }
 
   updateResults() {
     this.logValues();
 
-    this.service.getOverviewResultItemWithFilter(this.primarySortOption, this.additionalSortOption, this.sortOrder, this.limitToArray, this.nextPage, this.pageSize).subscribe(
-      items => {
-        this.overviewItemList = items; //Bind to view
-        console.log(" search result items: " + items + " :: items :: " + items);
-      },
-      err => {
-        // Log errors if any
-        console.log(err);
-      }
-    );
+    this.service.getOverviewResultItemWithFilter(this.overviewFilterModel.primarySortOption, this.overviewFilterModel.nextPage, this.overviewFilterModel.pageSize,
+      this.overviewFilterModel.sortOrder, this.overviewFilterModel.additionalSortOption, this.overviewFilterModel.limitToArray)
+      .subscribe(
+        items => {
+          this.overviewItemList = items; //Bind to view
+        },
+        err => {
+          // Log errors if any
+          console.log(err);
+        }
+      );
   }
 
-  logValues() {
-    console.log("log values \n order :: " + this.sortOrder +
-      "\nprimary sort :: " + this.primarySortOption +
-      "\nadditional sort :: " + this.additionalSortOption +
-      "\nlimit to :: " + this.limitToArray +
-      "\npage number :: " + this.nextPage +
-      "\npage size :: " + this.pageSize)
+  /**
+   * will be deleted soon
+   *
+   * todo: delete
+   */
+  logValues(): void {
+    this.overviewFilterModel.consolePrintValues();
   }
 
   private resetPaging() {
-    this.nextPage = 0;
-    // this.pageSize = 24;
+    this.overviewFilterModel.nextPage = 0;
+    // this.overviewFilterModel.pageSize = 24;
   }
 }

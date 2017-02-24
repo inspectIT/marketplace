@@ -2,6 +2,7 @@ package rocks.inspectit.marketplace.mvc.app.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * @author NKO
@@ -10,54 +11,98 @@ import java.util.List;
  */
 public class DetailModel {
 
-	private String authorId;
-	private String author;
-	private String username;
-	private String previewImage;
+	/**
+	 * product information.
+	 */
+	private UUID productId;
+	private String productName;
+	private String productDescription;
+	private String productPreviewImage;
+	private String productCreationDate;
+	private Long numberOfDownloads;
 
-	private Double totalRating;
+	/**
+	 * user information.
+	 */
+	private UUID userId;
+	private String userName;
 
+	/**
+	 * rating information.
+	 */
+	private Double rating;
 	private List<RatingItemModel> ratingList = new ArrayList<>();
 
-
-	public String getAuthorId() {
-		return authorId;
+	public UUID getProductId() {
+		return productId;
 	}
 
-	public void setAuthorId(String authorId) {
-		this.authorId = authorId;
+	public void setProductId(UUID productId) {
+		this.productId = productId;
 	}
 
-	public String getAuthor() {
-		return author;
+	public String getProductName() {
+		return productName;
 	}
 
-	public void setAuthor(String author) {
-		this.author = author;
+	public void setProductName(String productName) {
+		this.productName = productName;
 	}
 
-	public String getUsername() {
-		return username;
+	public String getProductDescription() {
+		return productDescription;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
+	public void setProductDescription(String productDescription) {
+		this.productDescription = productDescription;
 	}
 
-	public String getPreviewImage() {
-		return previewImage;
+	public String getProductPreviewImage() {
+		return productPreviewImage;
 	}
 
-	public void setPreviewImage(String previewImage) {
-		this.previewImage = previewImage;
+	public void setProductPreviewImage(String productPreviewImage) {
+		this.productPreviewImage = productPreviewImage;
 	}
 
-	public Double getTotalRating() {
-		return totalRating;
+	public String getProductCreationDate() {
+		return productCreationDate;
 	}
 
-	public void setTotalRating(Double totalRating) {
-		this.totalRating = totalRating;
+	public void setProductCreationDate(String productCreationDate) {
+		this.productCreationDate = productCreationDate;
+	}
+
+	public Long getNumberOfDownloads() {
+		return numberOfDownloads;
+	}
+
+	public void setNumberOfDownloads(Long numberOfDownloads) {
+		this.numberOfDownloads = numberOfDownloads;
+	}
+
+	public UUID getUserId() {
+		return userId;
+	}
+
+	public void setUserId(UUID userId) {
+		this.userId = userId;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+	public Double getRating() {
+		return rating;
+	}
+
+	public void setRating(Double rating) {
+		this.rating = rating;
 	}
 
 	public List<RatingItemModel> getRatingList() {

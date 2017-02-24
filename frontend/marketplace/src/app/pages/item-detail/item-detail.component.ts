@@ -14,12 +14,24 @@ import {ApiService} from "../../services/api/api.service";
 })
 export class ItemDetailComponent implements OnInit {
 
+  productDetail: any;
+
   constructor(private route: ActivatedRoute, private service: ApiService) {
   }
 
   ngOnInit() {
     const param: string = this.route.snapshot.params['id'];
     console.log("get product for id: " + param);
+
+    this.service.getProductDetailById(param).subscribe(
+      item => {
+        this.productDetail = item; //Bind to view
+      },
+      err => {
+        // Log errors if any
+        console.log(err);
+      }
+    );
   }
 
 }

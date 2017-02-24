@@ -45,8 +45,8 @@ public class DetailsController {
 	 * @return {@link DetailModel}
 	 */
 	@GetMapping("get/product/{productId}")
-	public DetailModel getDetailModelById(@PathVariable final String productId) {
-		final DetailModel detailModel = this.mapper.getSimpleModelFromEntity(this.service.getProductEntityById(UUID.fromString(productId)));
+	public DetailModel getDetailModelById(@PathVariable final UUID productId) {
+		final DetailModel detailModel = this.mapper.getSimpleModelFromEntity(this.service.getProductEntityById(productId));
 		return detailModel;
 	}
 

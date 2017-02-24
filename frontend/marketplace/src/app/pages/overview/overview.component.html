@@ -9,7 +9,8 @@
     <div class="container">
       <ul class="nav nav-pills nav-justified">
         <li>Sort Direction:</li>
-        <li class="navbar-nav" [class.active]="sortOrder==='ASC'"><a (click)="updateSortOrder('ASC')">ASC</a></li>
+        <li class="navbar-nav" *ngFor="let sortDirection of overviewFilterModel.sortOrderList"
+            [class.active]="overviewFilterModel.sortOrder===sortDirection"><a (click)="updateSortOrder(sortDirection)">{{sortDirection}}</a></li>
         <li class="navbar-nav" [class.active]="sortOrder==='DESC'"><a (click)="updateSortOrder('DESC')">DESC</a></li>
       </ul>
     </div>
@@ -19,8 +20,9 @@
     <div class="container">
       <ul class="nav nav-pills nav-justified">
         <li>Order result:</li>
-        <li class="navbar-nav" *ngFor="let sortOption of sortOptionList" [class.active]="primarySortOption === sortOption || additionalSortOption == sortOption">
-          <a (click)="addSortOption(sortOption)">Order by {{sortOption}}</a>
+        <li class="navbar-nav" *ngFor="let sortOption of overviewFilterModel.sortOptionList"
+            [class.active]="overviewFilterModel.primarySortOption === sortOption || overviewFilterModel.additionalSortOption == sortOption">
+          <a (click)="addAndUpdateSortOption(sortOption)">Order by {{sortOption}}</a>
         </li>
       </ul>
     </div>
@@ -30,7 +32,8 @@
     <div class="container">
       <ul class="nav nav-pills nav-justified">
         <li>Limit Result by Keywords:</li>
-        <li class="navbar-nav" *ngFor="let limitTo of limitToList" [class.active]="limitToArray.indexOf(limitTo) !== -1"><a (click)="updateLimitToArray(limitTo)">{{limitTo}}</a></li>
+        <li class="navbar-nav" *ngFor="let limitTo of overviewFilterModel.limitToList" [class.active]="overviewFilterModel.limitToArray.indexOf(limitTo) !== -1">
+          <a (click)="updateLimitToArray(limitTo)">{{limitTo}}</a></li>
       </ul>
     </div>
   </nav>
@@ -66,5 +69,5 @@
       </li>
     </ul>
   </div>
-  <button class="btn btn-primary" [disabled]="overviewItemList?.last" (click)="updateList(overviewItemList?.number)">Load More</button>
+  <button class="btn btn-primary" [disabled]="overviewItemList?.last" (click)="updateResultList(overviewItemList?.number)">Load More</button>
 </div>

@@ -1,9 +1,8 @@
 <hr/>
 
 <div class="container">
-  <h2>Item Details Page ## Product Name</h2>
+  <h2>{{productDetail?.productName}}</h2>
 </div>
-
 
 <div class="container" style="color: black">
   <div class="jumbotron">
@@ -16,15 +15,15 @@
             <div>
               <div>
                 <h2>
-                  <a>Niks Profile </a>
+                  <a routerLink="/profile/{{productDetail?.userId}}">{{productDetail?.userName}} Profile </a>
                 </h2>
               </div>
               <div>
-                <span>1.160.856 downloads</span>
+                <span>{{productDetail?.numberOfDownloads}} total downloads</span>
                 <span class="divider"> | </span>
-                <span>4.358 Average Rating</span>
+                <span>{{productDetail?.rating}} Average Rating</span>
                 <span class="divider"> | </span>
-                <span>25 - # of Ratingss</span>
+                <span>{{productDetail?.ratingList.length}} total Ratings</span>
               </div>
               <div style="padding-top: 15px;">
                 <button class="btn btn-primary">Download Konfiguration</button>
@@ -39,22 +38,7 @@
   <div class="panel panel-default">
     <div class="panel-heading">Description</div>
     <div style="padding: 15px;">
-      Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo
-      dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor
-      invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum
-      dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et
-      accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
-
-      Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui
-      blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut
-      laoreet dolore magna aliquam erat volutpat.
-
-      Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit
-      esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait
-      nulla facilisi.
-
-      Nam liber tempor cum soluta nobis eleifend option congue nihil imperdiet doming id quod mazim placerat facer possim assum. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam
-      nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim v
+      {{productDetail?.productDescription}}
     </div>
   </div>
 
@@ -64,117 +48,29 @@
         <h2>User Reviews</h2>
       </div>
       <div>
-        <span>Avg Rating: <span class="rating-control">4.258</span></span>
-        <div> # of Ratings: 15</div>
+        <span>Avg Rating: <span class="rating-control">{{productDetail?.rating}}</span></span>
+        <div> # of Ratings: {{productDetail?.ratingList.length}}</div>
       </div>
 
       <hr>
-      <table>
-        <tbody>
-        <tr class="separator">
-          <td>
-            <a>User Name here : Nik</a>
-          </td>
-          <td>
-            <div>
+      <div class="table-responsive">
+        <table class="table">
+          <tbody>
+          <tr class="separator" *ngFor="let rating of productDetail?.ratingList">
+            <td><a routerLink="/profile/{{rating.userId}}">{{rating.userName}} Profile </a></td>
+            <td>
               <div>
-                User Rating: 0 - 5 : 5 | <a>Flag Rating</a>
+                <div>
+                  <div class="left">User Rating: {{rating.rating}}<span style="margin-left: 65%;"><a>Flag Rating</a></span></div>
+                </div>
+                <div>Created on {{rating.creationDate | toDate | date: 'medium'}}</div>
+                <hr/>
+                <div><span>{{rating.ratingDescription}}</span></div>
               </div>
-
-              <div>Creation Date: 11.11.2017 - 15:23</div>
-              <div>
-                  <span>
-                    Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed ... <a>Read More ; expand</a>
-                  </span>
-              </div>
-            </div>
-          </td>
-        </tr>
-        <hr/>
-        <tr class="separator">
-          <td>
-            <a>User Name here : Nik</a>
-          </td>
-          <td>
-            <div>
-              <div>
-                User Rating: 0 - 5 : 5 | <a>Flag Rating</a>
-              </div>
-
-              <div>Creation Date: 11.11.2017 - 15:23</div>
-              <div>
-                  <span>
-                    Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed ... <a>Read More ; expand</a>
-                  </span>
-              </div>
-            </div>
-          </td>
-        </tr>
-        <hr/>
-        <tr class="separator">
-          <td>
-            <a>User Name here : Nik</a>
-          </td>
-          <td>
-            <div>
-              <div>
-                User Rating: 0 - 5 : 5 | <a>Flag Rating</a>
-              </div>
-
-              <div>Creation Date: 11.11.2017 - 15:23</div>
-              <div>
-                  <span>
-                    Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed ... <a>Read More ; expand</a>
-                  </span>
-              </div>
-            </div>
-          </td>
-        </tr>
-        <hr/>
-        <tr class="separator">
-          <td>
-            <a>User Name here : Nik</a>
-          </td>
-          <td>
-            <div>
-              <div>
-                User Rating: 0 - 5 : 5 | <a>Flag Rating</a>
-              </div>
-
-              <div>Creation Date: 11.11.2017 - 15:23</div>
-              <div>
-                  <span>
-                    Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed ... <a>Read More ; expand</a>
-                  </span>
-              </div>
-            </div>
-          </td>
-        </tr>
-        <hr/>
-        <tr class="separator">
-          <td>
-            <a>User Name here : Nik</a>
-          </td>
-          <td>
-            <div>
-              <div>
-                User Rating: 0 - 5 : 5 | <a>Flag Rating</a>
-              </div>
-
-              <div>Creation Date: 11.11.2017 - 15:23</div>
-              <div>
-                  <span>
-                    Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed ... <a>Read More ; expand</a>
-                  </span>
-              </div>
-            </div>
-          </td>
-        </tr>
-      </table>
-      <div>
-        <button>load more</button>
+            </td>
+          </tr>
+        </table>
       </div>
-
     </div>
   </div>
 

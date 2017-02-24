@@ -7,7 +7,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import rocks.inspectit.marketplace.dao.repository.jpa.entity.ProductEntity;
+import rocks.inspectit.marketplace.dao.repository.jpa.entity.RatingEntity;
+import rocks.inspectit.marketplace.mvc.app.model.DetailModel;
 import rocks.inspectit.marketplace.mvc.app.model.OverviewItemModel;
+import rocks.inspectit.marketplace.mvc.app.model.RatingItemModel;
 
 /**
  * @author Nikita Kolytschew
@@ -39,6 +42,8 @@ public class DozerConfig {
 			@Override
 			protected void configure() {
 				mapProductEntityToOverviewItemModel();
+				mapProductEntityToDetailItemModel();
+				mapRatingEntityToRatingItemModel();
 			}
 
 			/**
@@ -53,6 +58,33 @@ public class DozerConfig {
 						.fields("creationDate", "creationDate")
 						.exclude("previewImage")
 						.exclude("ratingsEntityList");
+			}
+
+			private void mapProductEntityToDetailItemModel() {
+				mapping(ProductEntity.class, DetailModel.class)
+						.fields("productUuid", "productId", FieldsMappingOptions.copyByReference())
+						.fields("name", "productName")
+						.fields("description", "productDescription")
+						// .fields("previewImage", "productPreviewImage") // exclude because we are mapping blob to string manually
+						.fields("creationDate", "productCreationDate")
+						.fields("numberOfDownloads", "numberOfDownloads")
+
+						.fields("userEntity.userUuid", "userId", FieldsMappingOptions.copyByReference())
+						.fields("UserEntity.name", "userName")
+						.exclude("previewImage")
+						.exclude("ratingsEntityList");
+			}
+
+			private void mapRatingEntityToRatingItemModel() {
+				mapping(RatingEntity.class, RatingItemModel.class)
+						.fields("ratingUuid", "ratingId", FieldsMappingOptions.copyByReference())
+						.fields("ratingDescription", "ratingDescription")
+						.fields("ratingAsNumber", "rating")
+						.fields("creationDate", "creationDate")
+						.fields("active", "active")
+
+						.fields("UserEntity.userUuid", "userId", FieldsMappingOptions.copyByReference())
+						.fields("UserEntity.name", "userName");
 			}
 		};
 	}

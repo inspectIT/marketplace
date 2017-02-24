@@ -11,11 +11,15 @@ import java.util.UUID;
 public class RatingItemModel {
 
 	private UUID ratingId;
+	private UUID userId;
 
 	private String userName;
 	private String ratingDescription;
 
+	private Integer rating;
+
 	private Date creationDate;
+	private Boolean active;
 
 
 	public UUID getRatingId() {
@@ -24,6 +28,14 @@ public class RatingItemModel {
 
 	public void setRatingId(UUID ratingId) {
 		this.ratingId = ratingId;
+	}
+
+	public UUID getUserId() {
+		return userId;
+	}
+
+	public void setUserId(UUID userId) {
+		this.userId = userId;
 	}
 
 	public String getUserName() {
@@ -42,11 +54,27 @@ public class RatingItemModel {
 		this.ratingDescription = ratingDescription;
 	}
 
+	public Integer getRating() {
+		return rating;
+	}
+
+	public void setRating(Integer rating) {
+		this.rating = rating;
+	}
+
 	public Date getCreationDate() {
 		return creationDate;
 	}
 
 	public void setCreationDate(Date creationDate) {
 		this.creationDate = creationDate;
+	}
+
+	public Boolean getActive() {
+		return active;
+	}
+
+	public void setActive(Boolean active) {
+		this.active = active;
 	}
 }

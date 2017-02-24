@@ -27,6 +27,7 @@ import {SearchResultComponent} from "./pages/search-result/search-result.compone
 import {ItemDetailComponent} from "./pages/item-detail/item-detail.component";
 import {RemoveSpacesPipe} from "./pipes/remove.spaces.pipe";
 import {OverviewComponent} from "./pages/overview/overview.component";
+import {FormatStringToDatePipe} from "./pipes/format-string-to-date.pipe";
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import {OverviewComponent} from "./pages/overview/overview.component";
     SearchResultComponent,
     ItemDetailComponent,
     RemoveSpacesPipe,
-    OverviewComponent
+    OverviewComponent,
+    FormatStringToDatePipe
   ],
   imports: [
     BrowserModule,

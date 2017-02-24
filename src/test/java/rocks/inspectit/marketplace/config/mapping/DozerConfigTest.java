@@ -82,4 +82,14 @@ public class DozerConfigTest {
 		assertNotNull(mappedResult.getAuthor());
 		assertEquals(mappedResult.getAuthor(), "not a nik");
 	}
+
+	@Test
+	public void testMapProductEntityToDetailItemModel() throws Exception {
+		// TODO
+	}
+
+	@Test
+	public void testMapRatingEntityToRatingItemModel() throws Exception {
+		// TODO
+	}
 }
