@@ -62,7 +62,7 @@ public class ProductServiceImpl implements ProductService {
 	public Page<ProductEntity> getAllProductsOrderedByRatingDesc(final Pageable pageable) {
 		final List<ProductEntity> returnList = new ArrayList<>();
 
-		final Page<CustomQueryDTO> dtoList = this.productRepository.findAllGroupByProductEntityOrderedByRatingDesc(pageable);
+		final Page<CustomQueryDTO> dtoList = this.productRepository.findProductsSumRatingAndAverageRatingGroupByProductEntity(pageable);
 		dtoList.forEach(page -> returnList.add(page.getProductEntity()));
 
 		return new PageImpl<>(returnList, pageable, returnList.size());
@@ -102,6 +102,8 @@ public class ProductServiceImpl implements ProductService {
 
 	/**
 	 * ## todo describe.
+	 * <p>
+	 * Map limitToList values to lowerCase
 	 *
 	 * @param limitToList {@link List} of {@link String}
 	 * @param pageable    {@link Pageable}
@@ -111,8 +113,11 @@ public class ProductServiceImpl implements ProductService {
 	public Page<ProductEntity> getAllProductsFilteredByKeywordsAndOrderedByRatingDesc(final List<String> limitToList, final Pageable pageable) {
 		final List<ProductEntity> returnList = new ArrayList<>();
 
-		final List<UUID> productUuidList = this.productRepository.findAllUuidByKeywords(limitToList).stream().collect(Collectors.toList());
-		final Page<CustomQueryDTO> dtoList = this.productRepository.findAllLimitByProductUuidGroupByProductEntityOrderedByRatingDesc(productUuidList, pageable);
+		final List<UUID> productUuidList = this.productRepository.findAllUuidByKeywords(
+				limitToList.stream()
+						.map(String::toLowerCase)
+						.collect(Collectors.toList()));
+		final Page<CustomQueryDTO> dtoList = this.productRepository.findProductsSumRatingAndAverageRatingByProductUuidsGroupByProductEntity(productUuidList, pageable);
 		dtoList.forEach(page -> returnList.add(page.getProductEntity()));
 
 		return new PageImpl<>(returnList, pageable, returnList.size());
@@ -120,26 +125,38 @@ public class ProductServiceImpl implements ProductService {
 
 	/**
 	 * ## todo describe.
+	 * <p>
+	 * map limitToList values to lower case.
 	 *
-	 * @param value
-	 * @param limitToList
-	 * @param pageable
-	 * @return
+	 * @param value       {@link String}
+	 * @param limitToList {@link List} of {@link String}
+	 * @param pageable    {@link Pageable}
+	 * @return {@link Page} of {@link ProductEntity}
 	 */
 	@Override
 	public Page<ProductEntity> getPagedProductsByTagNameFilteredByKeywordsOrderedByDateAndDownloads(final String value, final List<String> limitToList, final Pageable pageable) {
-		return this.productRepository.findAllByTagNameFromTagEntityLimitByKeywords(value, limitToList, pageable);
+		return this.productRepository.findAllByTagNameFromTagEntityLimitByKeywords(value,
+				limitToList.stream()
+						.map(String::toLowerCase)
+						.collect(Collectors.toList()),
+				pageable);
 	}
 
 	/**
 	 * ## todo describe.
+	 * <p>
+	 * map limitToList values to lower case.
 	 *
-	 * @param limitToList
-	 * @param pageable
-	 * @return
+	 * @param limitToList {@link List} of {@link String}
+	 * @param pageable    {@link Pageable}
+	 * @return {@link Page} of {@link ProductEntity}
 	 */
 	@Override
 	public Page<ProductEntity> getPagedProductsFilteredByKeywordsByPageable(final List<String> limitToList, final Pageable pageable) {
-		return this.productRepository.findAllByKeywordEntityNameIn(limitToList, pageable);
+		return this.productRepository.findAllByKeywordEntityNameIn(
+				limitToList.stream()
+						.map(String::toLowerCase)
+						.collect(Collectors.toList()),
+				pageable);
 	}
 }

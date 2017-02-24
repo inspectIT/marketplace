@@ -6,7 +6,7 @@ import "rxjs/add/operator/catch";
 import "rxjs/add/observable/throw";
 import {DashboardItemModel} from "../../pages/dashboard/model/dashboard.item.model";
 import {SearchResultModel} from "../../pages/search-result/model/search.result.model";
-import {DynamicLoaderOverviewItemModel} from "../../pages/overview/model/dynamic.loader.overview.item.model";
+import {OverviewResultModel} from "../../pages/overview/model/overview.result.model";
 
 @Injectable()
 export class ApiService {
@@ -41,17 +41,26 @@ export class ApiService {
     return this.getResultFromRESTResource(url);
   }
 
-  getOverviewResultItem(tag: string): Observable<DynamicLoaderOverviewItemModel> {
-    const url: string = `${this.applicationUrl}/list?sortOption=${tag}`;
+  getOverviewResultItem(tag: string, page?: number | 0, size?: number | 10): Observable<OverviewResultModel> {
+    const url: string = `${this.applicationUrl}/app/get/overview/${tag}?page=${page}&size=${size}`;
     console.log("getSearchResultItem :: " + url);
 
     return this.getResultFromRESTResource(url);
   }
 
-  getSearchResultItemWithFilter(tag: string, orderBy: string, limitTo: Array<string>, page: number | 0, size: number | 2000000): Observable<DynamicLoaderOverviewItemModel> {
-    const url: string = `${this.applicationUrl}/list?sortOption=${tag}&orderBy=${orderBy}&limitTo=${limitTo}`;
-    console.log("getSearchResultItem :: " + url);
+  getOverviewResultItemWithFilter(tag: string, sortOption: string, orderBy: string, limitTo?: Array<string>, page?: number | 0, size?: number | 2000000): Observable<OverviewResultModel> {
+    // default url
+    let url: string = `${this.applicationUrl}/app/get/overview/${tag}?sortOrder=${orderBy}&page=${page}&size=${size}`;
 
+    // populate params
+    if (sortOption && sortOption !== '') {
+      url += `&additionSortOption=${sortOption}`;
+    }
+    if (limitTo && limitTo.length > 0) {
+      url += `&limitTo=${limitTo}`;
+    }
+
+    console.log("getSearchResultItem :: " + url);
     return this.getResultFromRESTResource(url);
   }
 

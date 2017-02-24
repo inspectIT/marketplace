@@ -24,6 +24,11 @@ import rocks.inspectit.marketplace.dao.repository.jpa.entity.helper.CustomQueryD
 public interface ProductEntityRepository extends PagingAndSortingRepository<ProductEntity, UUID> {
 
 	/**
+	 * Please make sure to give an Sort option, e.g.:
+	 * <pre>
+	 *     new Sort(Direction.DESC, "avgRating", "sumRating");
+	 * </pre>
+	 * <p>
 	 * Custom named query with names param, for aggregation function not supported by spring-data.
 	 * Select products ordered by rating and limit result to size.
 	 * Use a custom dto instead a list of object arrays.
@@ -32,30 +37,33 @@ public interface ProductEntityRepository extends PagingAndSortingRepository<Prod
 	 * @return {@link Page} of {@link CustomQueryDTO}
 	 * @since 1.0.6-SNAPSHOT
 	 */
-	@Query("select new rocks.inspectit.marketplace.dao.repository.jpa.entity.helper.CustomQueryDTO(pe, sum(re.ratingAsNumber)) "
+	@Query("select new rocks.inspectit.marketplace.dao.repository.jpa.entity.helper.CustomQueryDTO(pe, sum(re.ratingAsNumber) as sumRating, avg(re.ratingAsNumber) as avgRating ) "
 			+ "from ProductEntity pe "
 			+ "join pe.ratingEntityList re "
-			+ "group by pe "
-			+ "order by 2 DESC ")
-	Page<CustomQueryDTO> findAllGroupByProductEntityOrderedByRatingDesc(final Pageable pageable);
+			+ "group by pe ")
+	Page<CustomQueryDTO> findProductsSumRatingAndAverageRatingGroupByProductEntity(final Pageable pageable);
 
 	/**
+	 * Please make sure to give an Sort option, e.g.:
+	 * <pre>
+	 *     new Sort(Direction.DESC, "avgRating", "sumRating");
+	 * </pre>
+	 * <p>
 	 * Custom named query with names param, for aggregation function not supported by spring-data.
 	 * Select products ordered by rating and limit result to size.
 	 * Use a custom dto instead a list of object arrays.
 	 *
 	 * @param productUuidList {@link List} of {@link UUID}
-	 * @param pageable    {@link Pageable}
+	 * @param pageable        {@link Pageable}
 	 * @return {@link Page} of {@link CustomQueryDTO}
 	 * @since 1.0.7-SNAPSHOT
 	 */
-	@Query("select new rocks.inspectit.marketplace.dao.repository.jpa.entity.helper.CustomQueryDTO(pe, sum(re.ratingAsNumber)) "
+	@Query("select new rocks.inspectit.marketplace.dao.repository.jpa.entity.helper.CustomQueryDTO(pe, sum(re.ratingAsNumber) as sumRating, avg(re.ratingAsNumber) as avgRating ) "
 			+ "from ProductEntity pe "
 			+ "join pe.ratingEntityList re "
 			+ "where pe.productUuid in (:productUuids)"
-			+ "group by pe "
-			+ "order by 2 DESC ")
-	Page<CustomQueryDTO> findAllLimitByProductUuidGroupByProductEntityOrderedByRatingDesc(@Param("productUuids") final List<UUID> productUuidList, final Pageable pageable);
+			+ "group by pe ")
+	Page<CustomQueryDTO> findProductsSumRatingAndAverageRatingByProductUuidsGroupByProductEntity(@Param("productUuids") final List<UUID> productUuidList, final Pageable pageable);
 
 	/**
 	 * ## TODO.
@@ -73,6 +81,7 @@ public interface ProductEntityRepository extends PagingAndSortingRepository<Prod
 
 	/**
 	 * ## TODO.
+	 * Please make sure toLowerCase the values in your List manually.
 	 *
 	 * @param tagName     {@link String}
 	 * @param limitToList {@link List} of {@link String}
@@ -80,13 +89,13 @@ public interface ProductEntityRepository extends PagingAndSortingRepository<Prod
 	 * @return {@link List} of {@link CustomQueryDTO}
 	 * @since 1.0.7-SNAPSHOT
 	 */
-	@Query("select pe "
+	@Query("select distinct pe "
 			+ "from ProductEntity pe "
 			+ "join pe.tagEntity te "
 			+ "join pe.keywordEntityList ke "
 			+ "where te.tagName = :tagName "
-			+ "and ke.name in (:keywords) "
-			+ "or ke.alias in (:keywords) ")
+			+ "and lower(ke.name) in (:keywords) "
+			+ "or lower(ke.alias) in (:keywords) ")
 	Page<ProductEntity> findAllByTagNameFromTagEntityLimitByKeywords(@Param("tagName") final String tagName, @Param("keywords") final List<String> limitToList, final Pageable pageable);
 
 	/**
@@ -113,7 +122,7 @@ public interface ProductEntityRepository extends PagingAndSortingRepository<Prod
 	 * @return {@link Page} of {@link ProductEntity}
 	 * @since 1.0.7-SNAPSHOT
 	 */
-	@Query("select pe "
+	@Query("select distinct pe "
 			+ "from ProductEntity pe "
 			+ "join pe.keywordEntityList ke "
 			+ "where ke.name in (:keywordList) "
@@ -122,6 +131,7 @@ public interface ProductEntityRepository extends PagingAndSortingRepository<Prod
 
 	/**
 	 * ## todo : describe.
+	 * Please make sure toLowerCase the values in your List manually.
 	 *
 	 * @param limitToList {@link List} of {@link String}
 	 * @return {@link List} of {@link UUID}
@@ -129,8 +139,8 @@ public interface ProductEntityRepository extends PagingAndSortingRepository<Prod
 	@Query("select pe.productUuid "
 			+ "from ProductEntity pe "
 			+ "join pe.keywordEntityList ke "
-			+ "where ke.name in (:keywords) "
-			+ "or ke.alias in (:keywords)")
+			+ "where lower(ke.name) in (:keywords) "
+			+ "or lower(ke.alias) in (:keywords)")
 	List<UUID> findAllUuidByKeywords(@Param("keywords") final List<String> limitToList);
 
 }

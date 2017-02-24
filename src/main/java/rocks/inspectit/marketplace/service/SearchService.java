@@ -14,9 +14,9 @@ public interface SearchService {
 	/**
 	 * ## todo describe.
 	 *
-	 * @param searchTerm
-	 * @param pageable
-	 * @return
+	 * @param searchTerm {@link String}
+	 * @param pageable   {@link Pageable}
+	 * @return {@link Page} of {@link ProductEntity}
 	 */
 	Page<ProductEntity> getAllProductEntitiesBySearchTerm(final String searchTerm, final Pageable pageable);
 }

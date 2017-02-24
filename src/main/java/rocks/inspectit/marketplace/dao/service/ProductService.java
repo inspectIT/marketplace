@@ -18,78 +18,71 @@ public interface ProductService {
 	/**
 	 * ## todo describe.
 	 *
-	 * @param defaultPageable
-	 * @return
+	 * @param defaultPageable {@link Pageable}
+	 * @return {@link Page} of {@link ProductEntity}
 	 */
 	Page<ProductEntity> getPagedProductsByPageable(final Pageable defaultPageable);
 
 	/**
- 	 * ## todo describe.
+	 * ## todo describe.
 	 *
-	 * @param pageable
-	 * @return
+	 * @param pageable {@link Pageable}
+	 * @return {@link Page} of {@link ProductEntity}
 	 */
 	Page<ProductEntity> getAllProductsOrderedByRatingDesc(final Pageable pageable);
 
 	/**
- 	 * ## todo describe.
+	 * ## todo describe.
 	 *
-	 * @param tagName
-	 * @param pageable
-	 * @return
+	 * @param tagName  {@link String}
+	 * @param pageable {@link Pageable}
+	 * @return {@link Page} of {@link ProductEntity}
 	 */
 	Page<ProductEntity> getPagedProductsByTagNameOrderedByDateAndDownloads(final String tagName, final Pageable pageable);
 
 	/**
- 	 * ## todo describe.
+	 * ## todo describe.
 	 *
-	 * @param searchTerm
-	 * @param pageable
-	 * @return
+	 * @param searchTerm {@link String}
+	 * @param pageable   {@link Pageable}
+	 * @return {@link Page} of {@link ProductEntity}
 	 */
 	Page<ProductEntity> getAllProductsBySearchTerm(final String searchTerm, final Pageable pageable);
 
 	/**
 	 * ## todo describe.
 	 *
-	 * @param productUuid
-	 * @return
+	 * @param productUuid {@link UUID}
+	 * @return {@link Page} of {@link ProductEntity}
 	 */
 	ProductEntity getProductByProductUuid(final UUID productUuid);
 
-	// todo check
-
 	/**
 	 * ## todo describe.
 	 *
-	 * @param limitToList
-	 * @param pageable
-	 * @return
+	 * @param limitToList {@link List} of {@link String}
+	 * @param pageable    {@link Pageable}
+	 * @return {@link Page} of {@link ProductEntity}
 	 */
 	Page<ProductEntity> getAllProductsFilteredByKeywordsAndOrderedByRatingDesc(final List<String> limitToList, final Pageable pageable);
 
-	// todo check
-
 	/**
 	 * ## todo describe.
 	 *
-	 * @param value
-	 * @param limitToList
-	 * @param pageable
-	 * @return
+	 * @param value       {@link String}
+	 * @param limitToList {@link List} of {@link String}
+	 * @param pageable    {@link Pageable}
+	 * @return {@link Page} of {@link ProductEntity}
 	 */
 	Page<ProductEntity> getPagedProductsByTagNameFilteredByKeywordsOrderedByDateAndDownloads(final String value, final List<String> limitToList, final Pageable pageable);
 
-	// todo check
-
 	/**
 	 * ## todo describe.
 	 *
-	 * @param limitToList
-	 * @param pageable
-	 * @return
+	 * @param limitToList {@link List} of {@link String}
+	 * @param pageable    {@link Pageable}
+	 * @return {@link Page} of {@link ProductEntity}
 	 */
 	Page<ProductEntity> getPagedProductsFilteredByKeywordsByPageable(final List<String> limitToList, final Pageable pageable);
-
 
 }

@@ -65,7 +65,7 @@ apply from: "$projectDir/gradle/plugins/jacoco_plugin.gradle"
 // default project definition
 // docker image prefix will be taken from group
 group = "inspectit.rocks"
-version = "1.0.7-SNAPSHOT"
+version = "1.0.8-SNAPSHOT"
 description = "Open Source Marketplace"
 project.ext.finalName = jar.baseName
 
@@ -115,6 +115,10 @@ dependencies {
 	compile "org.springframework.boot:spring-boot-starter-security"
 	// starter for database operation, contains hibernate, persistence and jpa
 	compile 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+	// fast reloads for development
+	if (activeProfile.contains('dev'))
+		compile "org.springframework.boot:spring-boot-devtools"
 
 	// security and OAuth
 	compile "org.springframework.security.oauth:spring-security-oauth2:${securityOauthVersion}"

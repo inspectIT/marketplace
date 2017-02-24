@@ -242,7 +242,7 @@ public class ProductEntity {
 	/**
 	 * ## todo describe.
 	 *
-	 * @return
+	 * @return {@link Optional} of {@link Double}
 	 */
 	public Optional<Double> getTotalRating() {
 		if (this.ratingEntityList.isEmpty()) {

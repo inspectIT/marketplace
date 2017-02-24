@@ -29,6 +29,12 @@ public class SearchController {
 	private final SearchService service;
 	private final ObjectMapper mapper;
 
+	/**
+	 * Constructor injection.
+	 *
+	 * @param service {@link SearchService}
+	 * @param mapper  {@link ObjectMapper}
+	 */
 	@Autowired
 	public SearchController(final SearchService service, final ObjectMapper mapper) {
 		this.mapper = mapper;
@@ -36,7 +42,7 @@ public class SearchController {
 	}
 
 	/**
-	 * ## todo : describe
+	 * ## todo : describe.
 	 * <p>
 	 * create {@link Page} with overviewItemModelList as content, pageable as pageabel and productEntitiesPage.getTotalElements for size;
 	 * return a paging object without mapping from {@link Page} to a similar custom page object
@@ -46,9 +52,7 @@ public class SearchController {
 	 * @return {@link Page} of {@link OverviewItemModel}
 	 */
 	@GetMapping("/get/search/{searchTerm}")
-	public Page<OverviewItemModel> getsearchResultByTerm(
-			@PathVariable
-			final String searchTerm,
+	public Page<OverviewItemModel> getSearchResultByTerm(@PathVariable final String searchTerm,
 			final Pageable pageable) {
 
 		final Page<ProductEntity> productEntitiesPage = this.service.getAllProductEntitiesBySearchTerm(searchTerm, pageable);

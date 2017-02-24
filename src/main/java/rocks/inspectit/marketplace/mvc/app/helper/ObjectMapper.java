@@ -55,7 +55,8 @@ public class ObjectMapper {
 	public List<OverviewItemModel> getListModelFromEntityList(final List<ProductEntity> productEntityList) {
 		final List<OverviewItemModel> returnModel = new ArrayList<>();
 		productEntityList.forEach(it -> {
-			final OverviewItemModel tmpModel = this.mapper.map(it, OverviewItemModel.class);
+			final OverviewItemModel tmpModel = new OverviewItemModel();
+			this.mapper.map(it, tmpModel);
 			tmpModel.setRating(it.getTotalRating().orElse(0.));
 			tmpModel.setPreviewImage(getBase64BinaryFromBlob(it.getPreviewImage()));
 			returnModel.add(tmpModel);
@@ -64,7 +65,7 @@ public class ObjectMapper {
 	}
 
 	/**
-	 * ## todo : describe
+	 * ## todo : describe.
 	 *
 	 * @param productEntity {@link ProductEntity}
 	 * @return {@link DetailModel}

@@ -7,18 +7,30 @@ package rocks.inspectit.marketplace.mvc.app.model;
  */
 public enum SortOptionEnum {
 	DOWNLOADS("numberOfDownloads"),
+	RATING("avgRating", "sumRating"), // workaround for {@link DashboardService}
 	RECENT("creationDate"),
-	RATING("rating"),
-	FEATURED("featured"),
-	PROMOTED("promoted");
+	NAME("name"),
+	FEATURED("name", "featured"), // workaround for {@link DashboardService}
+	PROMOTED("name", "promoted"); // workaround for {@link DashboardService}
 
-	private final String sortPropertyName;
+	private String[] sortOptionParameter;
 
-	SortOptionEnum(final String sortPropertyName) {
-		this.sortPropertyName = sortPropertyName;
+	/**
+	 * simple constructor.
+	 *
+	 * @param sortOptionParameter {@link String}
+	 */
+	SortOptionEnum(final String... sortOptionParameter) {
+		this.sortOptionParameter = sortOptionParameter;
 	}
 
-	public String getValue() {
-		return sortPropertyName;
+	/**
+	 * Array fort sorting and ordering of JPA Result.
+	 * use first value of enum for sorting only; use second value as param for predicate (featured or promoted) or for sorting (rating).
+	 *
+	 * @return array of {@link String}
+	 */
+	public String[] getValue() {
+		return sortOptionParameter;
 	}
 }

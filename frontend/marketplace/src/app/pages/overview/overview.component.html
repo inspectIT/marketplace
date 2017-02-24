@@ -1,7 +1,7 @@
 <hr/>
 
 <div class="container">
-  <h2>Show all items of a category</h2>
+  <h2>Show all {{primarySortOption}} items</h2>
 </div>
 
 <div class="container">
@@ -9,8 +9,8 @@
     <div class="container">
       <ul class="nav nav-pills nav-justified">
         <li>Sort Direction:</li>
-        <li class="navbar-nav "><a>ASC</a></li>
-        <li class=" navbar-nav active"><a>DESC</a></li>
+        <li class="navbar-nav" [class.active]="sortOrder==='ASC'"><a (click)="updateSortOrder('ASC')">ASC</a></li>
+        <li class="navbar-nav" [class.active]="sortOrder==='DESC'"><a (click)="updateSortOrder('DESC')">DESC</a></li>
       </ul>
     </div>
   </nav>
@@ -18,34 +18,31 @@
   <nav class="navbar">
     <div class="container">
       <ul class="nav nav-pills nav-justified">
-        <li>Order:</li>
-        <li class="navbar-nav active"><a>Product Name</a></li>
-        <li class="navbar-nav"><a>Creation Date</a></li>
-        <li class="navbar-nav"><a>#Downloads</a></li>
+        <li>Order result:</li>
+        <li class="navbar-nav" *ngFor="let sortOption of sortOptionList" [class.active]="primarySortOption === sortOption || additionalSortOption == sortOption">
+          <a (click)="addSortOption(sortOption)">Order by {{sortOption}}</a>
+        </li>
       </ul>
     </div>
   </nav>
 
   <nav class="navbar">
     <div class="container">
-      <ul class="nav nav-tabs nav-justified">
-        <li>Keywords:</li>
-        <li class="navbar-nav"><a>Spring</a></li>
-        <li class="navbar-nav"><a>JPA</a></li>
-        <li class="navbar-nav"><a>Hibernate</a></li>
-        <li class="navbar-nav"><a>JBoss</a></li>
+      <ul class="nav nav-pills nav-justified">
+        <li>Limit Result by Keywords:</li>
+        <li class="navbar-nav" *ngFor="let limitTo of limitToList" [class.active]="limitToArray.indexOf(limitTo) !== -1"><a (click)="updateLimitToArray(limitTo)">{{limitTo}}</a></li>
       </ul>
     </div>
   </nav>
 </div>
 
+<hr/>
+
 <div class="container">
   <div class="container">
-    <h4>Template: {{title}}</h4>
-    <span>#Results: {{itemList.length}}</span>
-    <hr/>
+
     <ul class="list-unstyled">
-      <li *ngFor="let item of itemList">
+      <li *ngFor="let item of overviewItemList?.content">
         <div class="col-md-2">
           <a routerLink="/details/{{item.id}}">
             <div class="panel panel-default">
@@ -69,4 +66,5 @@
       </li>
     </ul>
   </div>
+  <button class="btn btn-primary" [disabled]="overviewItemList?.last" (click)="updateList(overviewItemList?.number)">Load More</button>
 </div>

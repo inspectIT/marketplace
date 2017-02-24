@@ -6,7 +6,6 @@ import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 import rocks.inspectit.marketplace.dao.repository.jpa.entity.ProductEntity;
-import rocks.inspectit.marketplace.mvc.app.model.SortOptionEnum;
 
 /**
  * @author NKO
@@ -16,22 +15,33 @@ import rocks.inspectit.marketplace.mvc.app.model.SortOptionEnum;
 public interface OverviewService {
 
 	/**
-	 * ##todo describe
+	 * ##todo describe.
 	 *
-	 * @param sortOption {@link SortOptionEnum}
-	 * @return {@link List} of {@link ProductEntity}
-	 */
-	List<ProductEntity> getSimpleDashboardOverviewByType(final SortOptionEnum sortOption);
-
-	/**
-	 * ## todo describe.
-	 *
-	 * @param sortOrder   {@link String}
-	 * @param sortOption  {@link SortOptionEnum}
-	 * @param limitToList {@link String}
+	 * @param limitToList {@link List} of {@link String}
 	 * @param pageable    {@link Pageable}
 	 * @return {@link Page} of {@link ProductEntity}
+	 * @since 1.0.8-SNAPSHOT
 	 */
-	Page<ProductEntity> getPageableProductEntityByFilter(final String sortOrder, final SortOptionEnum sortOption,
-			final List<String> limitToList, final Pageable pageable);
+	Page<ProductEntity> getProductsByRatingAndPageable(final List<String> limitToList, final Pageable pageable);
+
+	/**
+	 * ##todo describe.
+	 *
+	 * @param param       {@link String}
+	 * @param limitToList {@link List} of {@link String}
+	 * @param pageable    {@link Pageable}
+	 * @return {@link Page} of {@link ProductEntity}
+	 * @since 1.0.8-SNAPSHOT
+	 */
+	Page<ProductEntity> getProductsByTagAndPageable(final String param, final List<String> limitToList, final Pageable pageable);
+
+	/**
+	 * ##todo describe.
+	 *
+	 * @param limitToList {@link List} of {@link String}
+	 * @param pageable    {@link Pageable}
+	 * @return {@link Page} of {@link ProductEntity}
+	 * @since 1.0.8-SNAPSHOT
+	 */
+	Page<ProductEntity> getProductsByPageable(final List<String> limitToList, final Pageable pageable);
 }

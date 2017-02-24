@@ -20,13 +20,18 @@ public class TagServiceImpl implements TagService {
 
 	private final TagEntityRepository repository;
 
+	/**
+	 * Constructor injection.
+	 *
+	 * @param repository {@link TagEntityRepository}
+	 */
 	@Autowired
 	public TagServiceImpl(final TagEntityRepository repository) {
 		this.repository = repository;
 	}
 
 	/**
-	 * ## todo describe
+	 * ## todo describe.
 	 *
 	 * @param tagName as {@link String}
 	 * @return {@link List} of {@link UUID}

@@ -67,6 +67,7 @@ public class ProductEntityRepositoryTest extends AbstractTransactionalJUnit4Spri
 		assertThat(list.get(6).getRatingEntityList().size(), is(5));
 		assertThat(list.get(7).getRatingEntityList().size(), is(5));
 		assertThat(list.get(8).getRatingEntityList().size(), is(3));
+		assertThat("the list size should be equals to a distinct list size", list.size(), is((int) list.stream().distinct().count()));
 	}
 
 	@Test
@@ -116,11 +117,12 @@ public class ProductEntityRepositoryTest extends AbstractTransactionalJUnit4Spri
 		// order by name
 		final Page<ProductEntity> pageName = repository.findAll(new PageRequest(0, 10000, new Sort(Direction.DESC, "name")));
 		assertThat(pageName.getTotalElements(), is(47L));
-		assertThat(pageName.getContent().size(), is(47));
+		assertThat(pageName.getContent().size(), is((int) 47));
 		assertThat(pageName.getContent().get(0).getName(), is("product 93 product 11"));
 		assertThat(pageName.getContent().get(0).getNumberOfDownloads(), is(7725L));
 		assertThat(pageName.getContent().get(0).getCreationDate().toString(), is("2017-02-13 21:12:34.372"));
 		assertThat(pageName.getContent().get(0).getTotalRating().orElse(0.), is(0.));
+		assertThat("the list size should be equals to a distinct list size", pageName.getContent().size(), is((int) pageName.getContent().stream().distinct().count()));
 
 		// order by number of downloads
 		final Page<ProductEntity> pageDownloads = repository.findAll(new PageRequest(0, 10000, new Sort(Direction.DESC, "numberOfDownloads")));
@@ -130,6 +132,7 @@ public class ProductEntityRepositoryTest extends AbstractTransactionalJUnit4Spri
 		assertThat(pageDownloads.getContent().get(0).getNumberOfDownloads(), is(99125L));
 		assertThat(pageDownloads.getContent().get(0).getCreationDate().toString(), is("2014-02-13 19:15:34.372"));
 		assertThat(pageDownloads.getContent().get(0).getTotalRating().orElse(0.), is(4.2));
+		assertThat("the list size should be equals to a distinct list size", pageDownloads.getContent().size(), is((int) pageDownloads.getContent().stream().distinct().count()));
 
 		// order by creation date
 		final Page<ProductEntity> pageCreationDate = repository.findAll(new PageRequest(0, 10000, new Sort(Direction.DESC, "creationDate")));
@@ -139,6 +142,7 @@ public class ProductEntityRepositoryTest extends AbstractTransactionalJUnit4Spri
 		assertThat(pageCreationDate.getContent().get(0).getNumberOfDownloads(), is(54125L));
 		assertThat(pageCreationDate.getContent().get(0).getCreationDate().toString(), is("2017-02-25 18:16:34.372"));
 		assertThat(pageCreationDate.getContent().get(0).getTotalRating().orElse(0.), is(0.));
+		assertThat("the list size should be equals to a distinct list size", pageCreationDate.getContent().size(), is((int) pageCreationDate.getContent().stream().distinct().count()));
 
 		// order by userEntity.name
 		final Page<ProductEntity> pageUserEntityName = repository.findAll(new PageRequest(0, 10000, new Sort(Direction.DESC, "userEntity.name")));
@@ -146,6 +150,7 @@ public class ProductEntityRepositoryTest extends AbstractTransactionalJUnit4Spri
 		assertThat(pageUserEntityName.getContent().size(), is(47));
 		// don't check for product values since this can change on each select, due to multi products for a user
 		assertThat(pageUserEntityName.getContent().get(0).getUserEntity().getName(), is("stefe"));
+		assertThat("the list size should be equals to a distinct list size", pageUserEntityName.getContent().size(), is((int) pageUserEntityName.getContent().stream().distinct().count()));
 
 		final Page<ProductEntity> pageTagOrderEntityName = repository.findAll(
 				new PageRequest(0, 10000, new Sort(
@@ -161,6 +166,7 @@ public class ProductEntityRepositoryTest extends AbstractTransactionalJUnit4Spri
 		assertThat(pageTagOrderEntityName.getContent()
 				.stream().filter(productEntity -> productEntity.getTagEntity().getTagName().equalsIgnoreCase("featured"))
 				.count(), is(17L));
+		assertThat("the list size should be equals to a distinct list size", pageTagOrderEntityName.getContent().size(), is((int) pageTagOrderEntityName.getContent().stream().distinct().count()));
 
 		final Page<ProductEntity> pageTagSortEntityName = repository.findAll(new PageRequest(0, 10000, new Sort(Direction.ASC, "tagEntity.tagName")));
 		assertThat(pageTagSortEntityName.getTotalElements(), is(47L));
@@ -174,12 +180,51 @@ public class ProductEntityRepositoryTest extends AbstractTransactionalJUnit4Spri
 		assertThat(pageTagSortEntityName.getContent()
 				.stream().filter(productEntity -> productEntity.getTagEntity().getTagName().equalsIgnoreCase("promoted"))
 				.count(), is(30L));
+		assertThat("the list size should be equals to a distinct list size", pageTagSortEntityName.getContent().size(), is((int) pageTagSortEntityName.getContent().stream().distinct().count()));
 	}
 
 	@Test
 	public void testFindAllProductEntitiesGroupByProductEntityOrderedByRatingDesc() throws Exception {
-		Page<CustomQueryDTO> list = repository.findAllGroupByProductEntityOrderedByRatingDesc(new PageRequest(0, 2000));
+		Page<CustomQueryDTO> list = repository.findProductsSumRatingAndAverageRatingGroupByProductEntity(new PageRequest(0, 2000,
+				new Sort(
+						new Order(Direction.DESC, "avgRating")
+				)));
 		assertThat(list.getContent().size(), is(9));
+		assertThat("the list size should be equals to a distinct list size", list.getContent().size(), is((int) list.getContent().stream().distinct().count()));
+
+		assertThat(list.getContent().get(0).getProductEntity().getTotalRating().get(), is(8.));
+		assertThat(list.getContent().get(0).getSum(), is(48L));
+
+		assertThat(list.getContent().get(1).getProductEntity().getTotalRating().get(), is(7.));
+		assertThat(list.getContent().get(1).getSum(), is(42L));
+
+		assertThat(list.getContent().get(2).getProductEntity().getTotalRating().get(), is(7.));
+		assertThat(list.getContent().get(2).getSum(), is(42L));
+
+		assertThat(list.getContent().get(3).getProductEntity().getTotalRating().get(), is(6.5));
+		assertThat(list.getContent().get(3).getSum(), is(39L));
+
+		assertThat(list.getContent().get(4).getProductEntity().getTotalRating().get(), is(5.5));
+		assertThat(list.getContent().get(4).getSum(), is(33L));
+
+		assertThat(list.getContent().get(5).getProductEntity().getTotalRating().get(), is(5.));
+		assertThat(list.getContent().get(5).getSum(), is(15L));
+
+		assertThat(list.getContent().get(6).getProductEntity().getTotalRating().get(), is(4.4));
+		assertThat(list.getContent().get(6).getSum(), is(22L));
+
+		assertThat(list.getContent().get(7).getProductEntity().getTotalRating().get(), is(4.2));
+		assertThat(list.getContent().get(7).getSum(), is(21L));
+
+		assertThat(list.getContent().get(8).getProductEntity().getTotalRating().get(), is(2.2));
+		assertThat(list.getContent().get(8).getSum(), is(11L));
+
+		list = repository.findProductsSumRatingAndAverageRatingGroupByProductEntity(new PageRequest(0, 2000,
+				new Sort(
+						new Order(Direction.DESC, "sumRating")
+				)));
+		assertThat(list.getContent().size(), is(9));
+		assertThat("the list size should be equals to a distinct list size", list.getContent().size(), is((int) list.getContent().stream().distinct().count()));
 
 		assertThat(list.getContent().get(0).getProductEntity().getTotalRating().get(), is(8.));
 		assertThat(list.getContent().get(0).getSum(), is(48L));
@@ -210,10 +255,11 @@ public class ProductEntityRepositoryTest extends AbstractTransactionalJUnit4Spri
 	}
 
 	@Test
-	public void testFindProductEntitiesGroupByProductEntityOrderedByRatingDescLimitSize() throws Exception {
-		final Pageable page0 = new PageRequest(0, 5);
-		Page<CustomQueryDTO> list = repository.findAllGroupByProductEntityOrderedByRatingDesc(page0);
+	public void testFindProductsSumRatingAndAverageRatingGroupByProductEntity() throws Exception {
+		final Pageable page0 = new PageRequest(0, 5, new Sort(Direction.DESC, "avgRating"));
+		Page<CustomQueryDTO> list = repository.findProductsSumRatingAndAverageRatingGroupByProductEntity(page0);
 		assertThat(list.getContent().size(), is(5));
+		assertThat("the list size should be equals to a distinct list size", list.getContent().size(), is((int) list.getContent().stream().distinct().count()));
 
 		assertThat(list.getContent().get(0).getProductEntity().getTotalRating().get(), is(8.));
 		assertThat(list.getContent().get(0).getSum(), is(48L));
@@ -230,8 +276,10 @@ public class ProductEntityRepositoryTest extends AbstractTransactionalJUnit4Spri
 		assertThat(list.getContent().get(4).getProductEntity().getTotalRating().get(), is(5.5));
 		assertThat(list.getContent().get(4).getSum(), is(33L));
 
-		final Pageable page1 = new PageRequest(0, 5, new Sort(Direction.DESC, "name"));
-		list = repository.findAllGroupByProductEntityOrderedByRatingDesc(page1);
+		final Pageable page1 = new PageRequest(0, 5, new Sort(Direction.DESC, "avgRating", "name"));
+		list = repository.findProductsSumRatingAndAverageRatingGroupByProductEntity(page1);
+		assertThat("the list size should be equals to a distinct list size", list.getContent().size(), is((int) list.getContent().stream().distinct().count()));
+
 		assertThat(list.getContent().get(0).getProductEntity().getTotalRating().get(), is(8.));
 		assertThat(list.getContent().get(0).getSum(), is(48L));
 
@@ -258,43 +306,45 @@ public class ProductEntityRepositoryTest extends AbstractTransactionalJUnit4Spri
 		final List<String> filterToList = new ArrayList<>();
 
 		final Pageable page = new PageRequest(0, 10000);
+		final Pageable ratingPage = new PageRequest(0, 10000, new Sort(Direction.DESC, "avgRating", "creationDate"));
 
 		filterToList.add(jee);
 		List<UUID> productUuid = repository.findAllByKeywordEntityNameIn(filterToList, page).getContent().stream().map(ProductEntity::getProductUuid).collect(Collectors.toList());
 		assertThat(productUuid.size(), is(4));
 
-		Page<CustomQueryDTO> list = repository.findAllLimitByProductUuidGroupByProductEntityOrderedByRatingDesc(productUuid, page);
+		Page<CustomQueryDTO> list = repository.findProductsSumRatingAndAverageRatingByProductUuidsGroupByProductEntity(productUuid, ratingPage);
+		assertThat("the list size should be equals to a distinct list size", list.getContent().size(), is((int) list.getContent().stream().distinct().count()));
 		assertThat(list.getContent().size(), is(4));
-
 
 		filterToList.add(jee);
 		productUuid = repository.findAllByKeywordEntityNameIn(filterToList, page).getContent().stream().map(ProductEntity::getProductUuid).collect(Collectors.toList());
 		assertThat(productUuid.size(), is(4));
 
-		list = repository.findAllLimitByProductUuidGroupByProductEntityOrderedByRatingDesc(productUuid, page);
+		list = repository.findProductsSumRatingAndAverageRatingByProductUuidsGroupByProductEntity(productUuid, ratingPage);
+		assertThat("the list size should be equals to a distinct list size", list.getContent().size(), is((int) list.getContent().stream().distinct().count()));
 		assertThat(list.getContent().size(), is(4));
 		assertThat(list.getContent().get(0).getProductEntity().getName(), is("product  3"));
 		assertThat(list.getContent().get(0).getProductEntity().getTotalRating().get(), is(8.));
 		assertThat(list.getContent().get(0).getSum(), is(48L));
-
 
 		filterToList.add(hibernate);
 		productUuid = repository.findAllByKeywordEntityNameIn(filterToList, page).getContent().stream().map(ProductEntity::getProductUuid).collect(Collectors.toList());
-		assertThat(productUuid.size(), is(8));
+		assertThat(productUuid.size(), is(4));
 
-		list = repository.findAllLimitByProductUuidGroupByProductEntityOrderedByRatingDesc(productUuid, page);
+		list = repository.findProductsSumRatingAndAverageRatingByProductUuidsGroupByProductEntity(productUuid, ratingPage);
+		assertThat("the list size should be equals to a distinct list size", list.getContent().size(), is((int) list.getContent().stream().distinct().count()));
 		assertThat(list.getContent().size(), is(4));
 		assertThat(list.getContent().get(0).getProductEntity().getName(), is("product  3"));
 		assertThat(list.getContent().get(0).getProductEntity().getTotalRating().get(), is(8.));
 		assertThat(list.getContent().get(0).getSum(), is(48L));
-
 
 		filterToList.add(spring);
 		filterToList.add(jpa);
 		productUuid = repository.findAllByKeywordEntityNameIn(filterToList, page).getContent().stream().map(ProductEntity::getProductUuid).collect(Collectors.toList());
-		assertThat(productUuid.size(), is(16));
+		assertThat(productUuid.size(), is(9));
 
-		list = repository.findAllLimitByProductUuidGroupByProductEntityOrderedByRatingDesc(productUuid, page);
+		list = repository.findProductsSumRatingAndAverageRatingByProductUuidsGroupByProductEntity(productUuid, ratingPage);
+		assertThat("the list size should be equals to a distinct list size", list.getContent().size(), is((int) list.getContent().stream().distinct().count()));
 		assertThat(list.getContent().size(), is(9));
 		assertThat(list.getContent().get(0).getProductEntity().getName(), is("product  3"));
 		assertThat(list.getContent().get(0).getProductEntity().getTotalRating().get(), is(8.));
@@ -303,9 +353,18 @@ public class ProductEntityRepositoryTest extends AbstractTransactionalJUnit4Spri
 
 	@Test
 	public void testFindAllByTagNameFromTagEntityOrderedByCreationDateAndNumberOfDownloadsDesc() throws Exception {
-		assertThat(repository.findAllByTagNameFromTagEntity("promoted", null).getContent().size(), is(30));
-		assertThat(repository.findAllByTagNameFromTagEntity("featured", null).getContent().size(), is(17));
-		assertThat(repository.findAllByTagNameFromTagEntity("unknown", null).getContent().size(), is(0));
+		final List<ProductEntity> promotedList = repository.findAllByTagNameFromTagEntity("promoted", null).getContent();
+		final List<ProductEntity> featuredList = repository.findAllByTagNameFromTagEntity("featured", null).getContent();
+		final List<ProductEntity> unknownList = repository.findAllByTagNameFromTagEntity("unknown", null).getContent();
+
+		assertThat(promotedList.size(), is(30));
+		assertThat("the list size should be equals to a distinct list size", promotedList.size(), is((int) promotedList.stream().distinct().count()));
+
+		assertThat(featuredList.size(), is(17));
+		assertThat("the list size should be equals to a distinct list size", featuredList.size(), is((int) featuredList.stream().distinct().count()));
+
+		assertThat(unknownList.size(), is(0));
+		assertThat("the list size should be equals to a distinct list size", unknownList.size(), is((int) unknownList.stream().distinct().count()));
 	}
 
 	@Test
@@ -314,30 +373,37 @@ public class ProductEntityRepositoryTest extends AbstractTransactionalJUnit4Spri
 		final String productNameAsSearchTerm = "product";
 		Page<ProductEntity> list = repository.findAllByProductNameOrUsernameOrderByNameDesc(productNameAsSearchTerm, pageable);
 		assertThat("assert that a search for name 'product' will return all products", list.getContent().size(), is(47));
+		assertThat("the list size should be equals to a distinct list size", list.getContent().size(), is((int) list.getContent().stream().distinct().count()));
 
 		final String userNameAsSearchTerm = "nik";
 		list = repository.findAllByProductNameOrUsernameOrderByNameDesc(userNameAsSearchTerm, pageable);
 		assertThat(list.getContent().size(), is(30));
+		assertThat("the list size should be equals to a distinct list size", list.getContent().size(), is((int) list.getContent().stream().distinct().count()));
 
 		final String productAsSearchTermCaseSensitive = "pRoDuCt";
 		list = repository.findAllByProductNameOrUsernameOrderByNameDesc(productAsSearchTermCaseSensitive.toLowerCase(), pageable);
 		assertThat(list.getContent().size(), is(47));
+		assertThat("the list size should be equals to a distinct list size", list.getContent().size(), is((int) list.getContent().stream().distinct().count()));
 
 		final String product1AsSearchTermCaseSensitive = "pRoDuCt 1";
 		list = repository.findAllByProductNameOrUsernameOrderByNameDesc(product1AsSearchTermCaseSensitive.toLowerCase(), pageable);
 		assertThat(list.getContent().size(), is(14));
+		assertThat("the list size should be equals to a distinct list size", list.getContent().size(), is((int) list.getContent().stream().distinct().count()));
 
 		final String partNameAsSearchTermCaseSensitive = "uCt 2";
 		list = repository.findAllByProductNameOrUsernameOrderByNameDesc(partNameAsSearchTermCaseSensitive, pageable);
 		assertThat(list.getContent().size(), is(4));
+		assertThat("the list size should be equals to a distinct list size", list.getContent().size(), is((int) list.getContent().stream().distinct().count()));
 
 		final String nullValue = null;
 		list = repository.findAllByProductNameOrUsernameOrderByNameDesc(nullValue, pageable);
 		assertThat(list.getContent().size(), is(0));
+		assertThat("the list size should be equals to a distinct list size", list.getContent().size(), is((int) list.getContent().stream().distinct().count()));
 
 		final String emptyValue = null;
 		list = repository.findAllByProductNameOrUsernameOrderByNameDesc(emptyValue, pageable);
 		assertThat(list.getContent().size(), is(0));
+		assertThat("the list size should be equals to a distinct list size", list.getContent().size(), is((int) list.getContent().stream().distinct().count()));
 	}
 
 	@Test
@@ -345,6 +411,8 @@ public class ProductEntityRepositoryTest extends AbstractTransactionalJUnit4Spri
 		final Pageable pageableSortByDateDesc = new PageRequest(0, 10, new Sort(Direction.DESC, "creationDate", "name"));
 		Page<ProductEntity> page0 = repository.findAllByTagNameFromTagEntity("featured", pageableSortByDateDesc);
 		assertThat(page0.getContent().size(), is(10));
+		assertThat("the list size should be equals to a distinct list size", page0.getContent().size(), is((int) page0.getContent().stream().distinct().count()));
+
 		assertThat(page0.getContent().get(0).getName(), is("PRODUCT 18 PRODUCT  7"));
 		assertThat(page0.getContent().get(0).getNumberOfDownloads(), is(54125L));
 		assertThat(page0.getContent().get(0).getCreationDate().toString(), is("2017-02-25 18:16:34.372"));
@@ -355,6 +423,8 @@ public class ProductEntityRepositoryTest extends AbstractTransactionalJUnit4Spri
 
 		final Pageable pageableSortByDateAsc = new PageRequest(0, 10, new Sort(Direction.ASC, "creationDate", "name"));
 		Page<ProductEntity> page1 = repository.findAllByTagNameFromTagEntity("featured", pageableSortByDateAsc);
+		assertThat("the list size should be equals to a distinct list size", page1.getContent().size(), is((int) page1.getContent().stream().distinct().count()));
+
 		assertThat(page1.getContent().size(), is(10));
 		assertThat(page1.getContent().get(0).getName(), is("product  8"));
 		assertThat(page1.getContent().get(0).getNumberOfDownloads(), is(99125L));
@@ -368,6 +438,8 @@ public class ProductEntityRepositoryTest extends AbstractTransactionalJUnit4Spri
 
 		final Pageable pageableSortByDownloadsAsc = new PageRequest(0, 10, new Sort(Direction.ASC, "numberOfDownloads", "name"));
 		Page<ProductEntity> page2 = repository.findAllByTagNameFromTagEntity("promoted", pageableSortByDownloadsAsc);
+		assertThat("the list size should be equals to a distinct list size", page2.getContent().size(), is((int) page2.getContent().stream().distinct().count()));
+
 		assertThat(page2.getContent().size(), is(10));
 		assertThat(page2.getContent().get(0).getName(), is("PRODUCT 16 PRODUCT  5"));
 		assertThat(page2.getContent().get(0).getNumberOfDownloads(), is(5L));
@@ -379,6 +451,8 @@ public class ProductEntityRepositoryTest extends AbstractTransactionalJUnit4Spri
 
 		final Pageable pageableSortByDownloadsDesc = new PageRequest(0, 10, new Sort(Direction.DESC, "numberOfDownloads", "name"));
 		Page<ProductEntity> page3 = repository.findAllByTagNameFromTagEntity("promoted", pageableSortByDownloadsDesc);
+		assertThat("the list size should be equals to a distinct list size", page3.getContent().size(), is((int) page3.getContent().stream().distinct().count()));
+
 		assertThat(page3.getContent().size(), is(10));
 		assertThat(page3.getContent().get(0).getName(), is("PRODUCT 31 PRODUCT  8"));
 		assertThat(page3.getContent().get(0).getNumberOfDownloads(), is(99123L));
@@ -410,21 +484,25 @@ public class ProductEntityRepositoryTest extends AbstractTransactionalJUnit4Spri
 		filterToList.add(jee);
 		Page<ProductEntity> page0 = repository.findAllByTagNameFromTagEntityLimitByKeywords("featured", filterToList, pageableSortByDateDesc);
 		assertThat(page0.getContent().size(), is(4));
+		assertThat("the list size should be equals to a distinct list size", page0.getContent().size(), is((int) page0.getContent().stream().distinct().count()));
 
 		filterToList.add(jpa);
 		Page<ProductEntity> page1 = repository.findAllByTagNameFromTagEntityLimitByKeywords("featured", filterToList, pageableSortByDateDesc);
-		assertThat(page1.getContent().size(), is(8));
+		assertThat(page1.getContent().size(), is(6));
+		assertThat("the list size should be equals to a distinct list size", page1.getContent().size(), is((int) page1.getContent().stream().distinct().count()));
 
 		filterToList.clear();
 		filterToList.add(spring);
 		filterToList.add(hibernate);
 		Page<ProductEntity> page2 = repository.findAllByTagNameFromTagEntityLimitByKeywords("promoted", filterToList, pageableSortByDownloadsAsc);
-		assertThat(page2.getContent().size(), is(8));
+		assertThat(page2.getContent().size(), is(7));
+		assertThat("the list size should be equals to a distinct list size", page2.getContent().size(), is((int) page2.getContent().stream().distinct().count()));
 
 		filterToList.add(jee);
 		filterToList.add(jpa);
 		Page<ProductEntity> page3 = repository.findAllByTagNameFromTagEntityLimitByKeywords("promoted", filterToList, pageableSortByDownloadsAsc);
-		assertThat(page3.getContent().size(), is(16));
+		assertThat(page3.getContent().size(), is(9));
+		assertThat("the list size should be equals to a distinct list size", page3.getContent().size(), is((int) page3.getContent().stream().distinct().count()));
 	}
 
 	/**
@@ -469,6 +547,7 @@ public class ProductEntityRepositoryTest extends AbstractTransactionalJUnit4Spri
 		final List<String> keywordList = new ArrayList<>();
 
 		final Page<ProductEntity> emptyPage = repository.findAllByKeywordEntityNameIn(null, null);
+		assertThat("the list size should be equals to a distinct list size", emptyPage.getContent().size(), is((int) emptyPage.getContent().stream().distinct().count()));
 		assertThat(emptyPage.getTotalPages(), is(1));
 		assertThat(emptyPage.getSize(), is(0));
 		assertThat(emptyPage.getContent().size(), is(0));
@@ -476,34 +555,36 @@ public class ProductEntityRepositoryTest extends AbstractTransactionalJUnit4Spri
 		keywordList.add(jpaKeyword);
 		keywordList.add(springKeyword);
 		final Page<ProductEntity> page1 = repository.findAllByKeywordEntityNameIn(keywordList, new PageRequest(0, 10000, sortByNumberOfDownloadsDesc));
+		assertThat("the list size should be equals to a distinct list size", page1.getContent().size(), is((int) page1.getContent().stream().distinct().count()));
 		assertThat(page1.getTotalPages(), is(1));
 		assertThat(page1.getSize(), is(10000));
-		assertThat(page1.getContent().size(), is(8));
+		assertThat(page1.getContent().size(), is(7));
 		assertThat(page1.getContent().get(0).getNumberOfDownloads(), is(99125L));
 		assertThat(page1.getContent().get(0).getCreationDate().toString(), is("2014-02-13 19:15:34.372"));
 		assertThat(page1.getContent().get(0).getName(), is("product  8"));
-		assertThat(page1.getContent().get(7).getNumberOfDownloads(), is(5L));
-		assertThat(page1.getContent().get(7).getCreationDate().toString(), is("2017-02-11 17:45:34.372"));
-		assertThat(page1.getContent().get(7).getName(), is("product  5"));
+		assertThat(page1.getContent().get(6).getNumberOfDownloads(), is(5L));
+		assertThat(page1.getContent().get(6).getCreationDate().toString(), is("2017-02-11 17:45:34.372"));
+		assertThat(page1.getContent().get(6).getName(), is("product  5"));
 
 		keywordList.clear();
 		keywordList.add(jeeKeyword);
 		keywordList.add(springKeyword);
 		keywordList.add(hibernateKeyword);
 		final Page<ProductEntity> page2 = repository.findAllByKeywordEntityNameIn(keywordList, new PageRequest(0, 5, sortByCreationDateAsc));
-		assertThat(page2.getTotalPages(), is(3));
+		assertThat("the list size should be equals to a distinct list size", page2.getContent().size(), is((int) page2.getContent().stream().distinct().count()));
+		assertThat(page2.getTotalPages(), is(2));
 		assertThat(page2.getSize(), is(5));
 		assertThat(page2.getContent().size(), is(5));
 		assertThat(page2.getContent().get(0).getNumberOfDownloads(), is(8025L));
 		assertThat(page2.getContent().get(0).getCreationDate().toString(), is("2012-02-13 21:12:34.372"));
 		assertThat(page2.getContent().get(0).getName(), is("product  9"));
-		assertThat(page2.getContent().get(4).getNumberOfDownloads(), is(12L));
-		assertThat(page2.getContent().get(4).getCreationDate().toString(), is("2015-12-13 18:08:34.372"));
-		assertThat(page2.getContent().get(4).getName(), is("product  6"));
+		assertThat(page2.getContent().get(4).getNumberOfDownloads(), is(125L));
+		assertThat(page2.getContent().get(4).getCreationDate().toString(), is("2016-02-13 03:21:34.372"));
+		assertThat(page2.getContent().get(4).getName(), is("product  1"));
 	}
 
 	@Test
-	public void testFindAllUuidByKeywords() throws  Exception {
+	public void testFindAllUuidByKeywords() throws Exception {
 		final String jpaKeyword = "jpa";
 		final String springKeyword = "spring";
 		final List<String> keywordList = new ArrayList<>();
@@ -515,7 +596,6 @@ public class ProductEntityRepositoryTest extends AbstractTransactionalJUnit4Spri
 		keywordList.add(springKeyword);
 		final List<UUID> list = repository.findAllUuidByKeywords(keywordList);
 		assertThat(list.size(), is(8));
-
 	}
 
 }

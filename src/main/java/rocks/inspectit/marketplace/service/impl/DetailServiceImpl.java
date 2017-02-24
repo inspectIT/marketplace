@@ -19,11 +19,22 @@ public class DetailServiceImpl implements DetailService {
 
 	private final ProductService service;
 
+	/**
+	 * constructor injection.
+	 *
+	 * @param service {@link ProductService}
+	 */
 	@Autowired
-	public DetailServiceImpl(ProductService service) {
+	public DetailServiceImpl(final ProductService service) {
 		this.service = service;
 	}
 
+	/**
+	 * ## todo : describe
+	 *
+	 * @param productId {@link UUID}
+	 * @return {@link ProductEntity}
+	 */
 	@Override
 	public ProductEntity getProductEntityById(final UUID productId) {
 		return this.service.getProductByProductUuid(productId);

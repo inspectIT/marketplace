@@ -22,7 +22,7 @@ export class NavigationComponent implements OnInit {
   }
 
   searchForItem(param: string): void {
-    console.log(param);
+    console.log(`NavigationComponent:searchForItem - param: ${param}`);
     this.router.navigate(['/search', param]);
   }
 }

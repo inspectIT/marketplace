@@ -12,7 +12,7 @@ import rocks.inspectit.marketplace.dao.repository.jpa.entity.ProductEntity;
 public interface DetailService {
 
 	/**
-	 * ## todo describe
+	 * ## todo describe.
 	 *
 	 * @param productId {@link UUID}
 	 * @return {@link ProductEntity}
