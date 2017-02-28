@@ -1,49 +1,41 @@
-<hr/>
-
 <div class="container">
-  <h2>Show all {{primarySortOption}} items</h2>
-</div>
+  <h2>{{primarySortOption}} Product Overview</h2>
 
-<div class="container">
-  <nav class="navbar">
-    <div class="container">
-      <ul class="nav nav-pills nav-justified">
-        <li>Sort Direction:</li>
-        <li class="navbar-nav" *ngFor="let sortDirection of overviewFilterModel.sortOrderList"
-            [class.active]="overviewFilterModel.sortOrder===sortDirection"><a (click)="updateSortOrder(sortDirection)">{{sortDirection}}</a></li>
-        <li class="navbar-nav" [class.active]="sortOrder==='DESC'"><a (click)="updateSortOrder('DESC')">DESC</a></li>
-      </ul>
-    </div>
-  </nav>
+  <div class="row" id="filter">
+    <nav class="navbar">
+      <div class="container">
+        <ul class="nav nav-pills nav-justified">
+          <li>Sort Direction:</li>
+          <li class="navbar-nav" *ngFor="let sortDirection of overviewFilterModel.sortOrderList"
+              [class.active]="overviewFilterModel.sortOrder===sortDirection"><a (click)="updateSortOrder(sortDirection)">{{sortDirection}}</a></li>
+        </ul>
+      </div>
+    </nav>
 
-  <nav class="navbar">
-    <div class="container">
-      <ul class="nav nav-pills nav-justified">
-        <li>Order result:</li>
-        <li class="navbar-nav" *ngFor="let sortOption of overviewFilterModel.sortOptionList"
-            [class.active]="overviewFilterModel.primarySortOption === sortOption || overviewFilterModel.additionalSortOption == sortOption">
-          <a (click)="addAndUpdateSortOption(sortOption)">Order by {{sortOption}}</a>
-        </li>
-      </ul>
-    </div>
-  </nav>
+    <nav class="navbar">
+      <div class="container">
+        <ul class="nav nav-pills nav-justified">
+          <li>Order result:</li>
+          <li class="navbar-nav" *ngFor="let sortOption of overviewFilterModel.sortOptionList"
+              [class.active]="overviewFilterModel.primarySortOption === sortOption || overviewFilterModel.additionalSortOption == sortOption">
+            <a (click)="addAndUpdateSortOption(sortOption)">Order by {{sortOption}}</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
 
-  <nav class="navbar">
-    <div class="container">
-      <ul class="nav nav-pills nav-justified">
-        <li>Limit Result by Keywords:</li>
-        <li class="navbar-nav" *ngFor="let limitTo of overviewFilterModel.limitToList" [class.active]="overviewFilterModel.limitToArray.indexOf(limitTo) !== -1">
-          <a (click)="updateLimitToArray(limitTo)">{{limitTo}}</a></li>
-      </ul>
-    </div>
-  </nav>
-</div>
+    <nav class="navbar">
+      <div class="container">
+        <ul class="nav nav-pills nav-justified">
+          <li>Limit Result by Keywords:</li>
+          <li class="navbar-nav" *ngFor="let limitTo of overviewFilterModel.limitToList" [class.active]="overviewFilterModel.limitToArray.indexOf(limitTo) !== -1">
+            <a (click)="updateLimitToArray(limitTo)">{{limitTo}}</a></li>
+        </ul>
+      </div>
+    </nav>
+  </div>
 
-<hr/>
-
-<div class="container">
-  <div class="container">
-
+  <div class="row">
     <ul class="list-unstyled">
       <li *ngFor="let item of overviewItemList?.content">
         <div class="col-md-2">
@@ -68,6 +60,8 @@
         </div>
       </li>
     </ul>
+
   </div>
-  <button class="btn btn-primary" [disabled]="overviewItemList?.last" (click)="updateResultList(overviewItemList?.number)">Load More</button>
+
+  <button class="btn btn-primary pull-right" [disabled]="overviewItemList?.last" (click)="updateResultList(overviewItemList?.number)">Load More</button>
 </div>

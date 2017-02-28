@@ -85,4 +85,11 @@ public interface ProductService {
 	 */
 	Page<ProductEntity> getPagedProductsFilteredByKeywordsByPageable(final List<String> limitToList, final Pageable pageable);
 
+	/**
+	 * ## todo : describe
+	 *
+	 * @param productEntity {@link ProductEntity}
+	 * @return {@link ProductEntity}
+	 */
+	ProductEntity persistProductEntity(final ProductEntity productEntity);
 }

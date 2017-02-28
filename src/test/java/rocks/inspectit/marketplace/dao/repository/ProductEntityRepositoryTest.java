@@ -598,4 +598,20 @@ public class ProductEntityRepositoryTest extends AbstractTransactionalJUnit4Spri
 		assertThat(list.size(), is(8));
 	}
 
+	@Test
+	public void testSave() throws Exception {
+		assertThat(((List) repository.findAll()).size(), is(47));
+
+		final ProductEntity loaded = repository.findOne(UUID.fromString("8650caf1-f023-4808-95f7-322af55fb163"));
+		final ProductEntity p = new ProductEntity();
+		p.setName("p_1");
+		p.setDescription("p_1 description");
+		p.setNumberOfDownloads(0L);
+		p.setUserEntity(loaded.getUserEntity());
+
+		repository.save(p);
+		assertThat(((List) repository.findAll()).size(), is(48));
+
+	}
+
 }

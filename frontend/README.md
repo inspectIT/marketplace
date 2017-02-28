@@ -25,6 +25,7 @@ Also following routes are defined
 ## Tools 
 1. Bootstrap V3.XX
 2. jQuery latest
+3. valor-software - ng2-file-upload
 
 
 ## TODO

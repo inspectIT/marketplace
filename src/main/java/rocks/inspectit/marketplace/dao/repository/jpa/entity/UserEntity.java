@@ -4,6 +4,7 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.util.Date;
 import java.util.List;
@@ -11,10 +12,13 @@ import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 
@@ -24,17 +28,22 @@ import javax.validation.constraints.NotNull;
  * @since 1.0.4-SNAPSHOT
  */
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 public class UserEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@GenericGenerator(name = "system-uuid", strategy = "uuid")
 	private UUID userUuid;
 
+	/**
+	 * username is unique
+	 */
 	@NotEmpty
+	@Column(unique = true)
 	private String name;
 
 	/**
-	 * every email is only allowed once.
+	 * email is unique
 	 */
 	@NotEmpty
 	@Column(unique = true)
@@ -42,6 +51,10 @@ public class UserEntity {
 
 	@NotEmpty
 	private String ip;
+
+	private String avatarUrl;
+	private String company;
+	private String location;
 
 	/**
 	 * new date to today on insert.
@@ -52,7 +65,7 @@ public class UserEntity {
 	 */
 	@NotNull
 	@CreatedDate
-	@Column(name = "CREATION_DATE", updatable = false)
+	@Column(name = "CREATION_DATE", nullable = false, updatable = false)
 	private Date creationDate = new Date();
 
 	/**
@@ -62,7 +75,7 @@ public class UserEntity {
 	 * there will be a {@link org.springframework.dao.DataIntegrityViolationException},
 	 * therefore we have to leave it out, for now
 	 */
-	@NotNull
+	//	@NotNull
 	@LastModifiedDate
 	@Column(name = "LAST_LOGIN_DATE", insertable = false)
 	private Date lastLoginDate = new Date();
@@ -74,7 +87,7 @@ public class UserEntity {
 	private Integer version;
 
 	@NotNull
-	private boolean active;
+	private boolean active = true;
 
 	/**
 	 * one user can have one or many products.
@@ -87,6 +100,13 @@ public class UserEntity {
 	 */
 	@OneToMany(mappedBy = "userEntity", targetEntity = RatingEntity.class)
 	private List<RatingEntity> ratingEntityList;
+
+	/**
+	 * one user has one role.
+	 */
+	@OneToOne
+	@JoinColumn(name = "roleUuid", referencedColumnName = "roleUuid")
+	private RoleEntity roleEntity;
 
 	public UUID getUserUuid() {
 		return userUuid;
@@ -118,6 +138,30 @@ public class UserEntity {
 
 	public void setIp(String ip) {
 		this.ip = ip;
+	}
+
+	public String getAvatarUrl() {
+		return avatarUrl;
+	}
+
+	public void setAvatarUrl(String avatarUrl) {
+		this.avatarUrl = avatarUrl;
+	}
+
+	public String getCompany() {
+		return company;
+	}
+
+	public void setCompany(String company) {
+		this.company = company;
+	}
+
+	public String getLocation() {
+		return location;
+	}
+
+	public void setLocation(String location) {
+		this.location = location;
 	}
 
 	public Date getCreationDate() {
@@ -166,5 +210,13 @@ public class UserEntity {
 
 	public void setRatingEntityList(List<RatingEntity> ratingEntityList) {
 		this.ratingEntityList = ratingEntityList;
+	}
+
+	public RoleEntity getRoleEntity() {
+		return roleEntity;
+	}
+
+	public void setRoleEntity(RoleEntity roleEntity) {
+		this.roleEntity = roleEntity;
 	}
 }

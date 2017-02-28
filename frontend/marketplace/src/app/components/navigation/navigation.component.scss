@@ -1,24 +1,28 @@
-.custom {
-  background: rgba(255, 255, 255, 0.2) url("assets/images/grid-new.png");
-  margin-top: 32px;
-  margin-bottom: 32px;
-}
-
-.logo {
-  float: left;
-  margin-right: 10px;
-}
-
-.logo img {
-  width: 173px;
-  height: 50px;
-}
-
-.separator {
-  font-size: 25px;
-  margin-right: 10px;
-}
-
 .navbar {
-  margin: 0px 20px;
+  margin-bottom: 0;
+
+  background: transparent linear-gradient(to right, #402d63 0%, #931a17 100%) repeat scroll 0 0;
+
+  z-index: 9999;
+  border: 0;
+  font-size: 12px !important;
+  line-height: 1.42857143 !important;
+  letter-spacing: 2px;
+  border-radius: 0;
+}
+
+.navbar li a,
+.navbar .navbar-brand {
+  color: #fff !important;
+}
+
+.navbar-nav li a:hover,
+.navbar-nav li.active a {
+  color: #f4511e !important;
+  background-color: #fff !important;
+}
+
+.navbar-default .navbar-toggle {
+  border-color: transparent;
+  color: #fff !important;
 }

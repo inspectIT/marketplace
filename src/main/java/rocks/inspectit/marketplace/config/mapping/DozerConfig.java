@@ -8,9 +8,11 @@ import org.springframework.context.annotation.Configuration;
 
 import rocks.inspectit.marketplace.dao.repository.jpa.entity.ProductEntity;
 import rocks.inspectit.marketplace.dao.repository.jpa.entity.RatingEntity;
+import rocks.inspectit.marketplace.dao.repository.jpa.entity.UserEntity;
 import rocks.inspectit.marketplace.mvc.app.model.DetailModel;
 import rocks.inspectit.marketplace.mvc.app.model.OverviewItemModel;
 import rocks.inspectit.marketplace.mvc.app.model.RatingItemModel;
+import rocks.inspectit.marketplace.mvc.app.model.UserDetailModel;
 
 /**
  * @author Nikita Kolytschew
@@ -44,6 +46,7 @@ public class DozerConfig {
 				mapProductEntityToOverviewItemModel();
 				mapProductEntityToDetailItemModel();
 				mapRatingEntityToRatingItemModel();
+				mapUserEntityToUserDetailModel();
 			}
 
 			/**
@@ -60,6 +63,9 @@ public class DozerConfig {
 						.exclude("ratingsEntityList");
 			}
 
+			/**
+			 * ## todo: describe
+			 */
 			private void mapProductEntityToDetailItemModel() {
 				mapping(ProductEntity.class, DetailModel.class)
 						.fields("productUuid", "productId", FieldsMappingOptions.copyByReference())
@@ -75,6 +81,9 @@ public class DozerConfig {
 						.exclude("ratingsEntityList");
 			}
 
+			/**
+			 * ## todo: describe
+			 */
 			private void mapRatingEntityToRatingItemModel() {
 				mapping(RatingEntity.class, RatingItemModel.class)
 						.fields("ratingUuid", "ratingId", FieldsMappingOptions.copyByReference())
@@ -84,7 +93,24 @@ public class DozerConfig {
 						.fields("active", "active")
 
 						.fields("UserEntity.userUuid", "userId", FieldsMappingOptions.copyByReference())
-						.fields("UserEntity.name", "userName");
+						.fields("UserEntity.name", "userName")
+						.fields("UserEntity.avatarUrl", "userAvatarUrl");
+			}
+
+			/**
+			 * ## todo: describe
+			 */
+			private void mapUserEntityToUserDetailModel() {
+				mapping(UserEntity.class, UserDetailModel.class)
+						//.fields("userUuid", "id", FieldsMappingOptions.copyByReference())
+						.fields("name", "userName")
+						.fields("avatarUrl", "avatarUrl")
+						.fields("email", "userEmail")
+						.fields("company", "userCompany")
+						.fields("location", "userLocation")
+						.fields("ip", "ip")
+						.fields("RoleEntity.role", "role")
+						.fields("lastLoginDate", "loginDate");
 			}
 		};
 	}

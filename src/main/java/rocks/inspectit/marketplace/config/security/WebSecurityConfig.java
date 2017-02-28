@@ -1,7 +1,6 @@
 package rocks.inspectit.marketplace.config.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.security.oauth2.resource.ResourceServerProperties;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.UserInfoTokenServices;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
@@ -14,14 +13,19 @@ import org.springframework.security.oauth2.client.OAuth2ClientContext;
 import org.springframework.security.oauth2.client.OAuth2RestTemplate;
 import org.springframework.security.oauth2.client.filter.OAuth2ClientAuthenticationProcessingFilter;
 import org.springframework.security.oauth2.client.filter.OAuth2ClientContextFilter;
-import org.springframework.security.oauth2.client.token.grant.code.AuthorizationCodeResourceDetails;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableOAuth2Client;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import org.springframework.web.filter.CompositeFilter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.Filter;
+
+import rocks.inspectit.marketplace.config.security.helper.ClientResources;
 
 /**
  * Custom Security Configuration, to override default Spring-Security behavior.
@@ -65,27 +69,33 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(final HttpSecurity http) throws Exception {
 		http
-				.antMatcher("/**").addFilterBefore(customSSOFilter(), BasicAuthenticationFilter.class).authorizeRequests()
-				.antMatchers(
-						"/**",
-						"/login**",
-						"/index.html",
-						"/**.js",
-						"/assets/**",
-						"/api**").permitAll()
+				.antMatcher("/**")
+				.authorizeRequests().antMatchers("/", "/app/get/**", "/login**", "/index.html", "/**.js", "/assets/**", "/api**").permitAll()
 				.anyRequest().authenticated()
-				.and()
-				.exceptionHandling().authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/"))
-				.and()
-				.logout().logoutSuccessUrl("/").permitAll()
-				.and()
-				.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()).ignoringAntMatchers("/nocsrf", "/console/**")
-				.and()
-				.headers().frameOptions().disable();
+				.and().logout().logoutSuccessUrl("/").permitAll()
+				.and().csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()).ignoringAntMatchers("/nocsrf", "/console/**")
+				.and().exceptionHandling().authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/"))
+				.and().headers().frameOptions().disable()
+				.and().addFilterBefore(ssoFilter(), BasicAuthenticationFilter.class);
 		/**
 		 * limit access to amazonaws domain
 		 */
 		// .addHeaderWriter(new StaticHeadersWriter("X-FRAME-OPTIONS", "ALLOW-FROM amazonaws.com"));
+	}
+
+	/**
+	 * Use {@link ConfigurationProperties} Annotation to inject configuration with prefix <i>github.client</i>, <i>github.resource</i>.
+	 * <p/>
+	 * It's not necessary to keep this <b>data object</b> within this configuration class.
+	 * If you want to reuse this Bean, you can make this Bean public and inject it with the {@link Autowired} annotation.
+	 *
+	 * @return {@link ClientResources}
+	 * @since 1.1.0-SNAPSHOT
+	 */
+	@Bean
+	@ConfigurationProperties("github")
+	public ClientResources github() {
+		return new ClientResources();
 	}
 
 	/**
@@ -105,39 +115,29 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	}
 
 	/**
-	 * Create custom SSO Filter for GitHub.
+	 * Create custom SSO Filter for oauth providers, like GitHub.
 	 *
 	 * @return Filter {@link Filter}
 	 */
-	private Filter customSSOFilter() {
-		final OAuth2ClientAuthenticationProcessingFilter gitHubFilter = new OAuth2ClientAuthenticationProcessingFilter("/login/github");
-		gitHubFilter.setRestTemplate(new OAuth2RestTemplate(getGitHubResourceDetails(), oauth2ClientContext));
-		gitHubFilter.setTokenServices(new UserInfoTokenServices(getGitHubResourceServerProperties().getUserInfoUri(), getGitHubResourceDetails().getClientId()));
-		return gitHubFilter;
+	private Filter ssoFilter() {
+		final CompositeFilter filter = new CompositeFilter();
+		final List<Filter> filters = new ArrayList<>();
+		filters.add(customSSOFilter(github(), "/login/github"));
+		filter.setFilters(filters);
+		return filter;
 	}
 
-	/**
-	 * Use {@link ConfigurationProperties} Annotation to inject configuration with prefix <i>github.client</i>
-	 * <p/>
-	 * It's not necessary to keep this <b>data object</b> within this configuration class.
-	 * If you want to reuse this Bean, you can make this Bean public and inject it with the {@link Autowired} annotation.
-	 *
-	 * @return AuthorizationCodeResourceDetails {@link AuthorizationCodeResourceDetails}
-	 */
-	@Bean
-	@ConfigurationProperties("github.client")
-	public AuthorizationCodeResourceDetails getGitHubResourceDetails() {
-		return new AuthorizationCodeResourceDetails();
+	private Filter customSSOFilter(final ClientResources client, final String processUrl) {
+		final OAuth2ClientAuthenticationProcessingFilter filter = new OAuth2ClientAuthenticationProcessingFilter(processUrl);
+
+		final OAuth2RestTemplate template = new OAuth2RestTemplate(client.getClient(), oauth2ClientContext);
+		filter.setRestTemplate(template);
+
+		final UserInfoTokenServices tokenServices = new UserInfoTokenServices(client.getResource().getUserInfoUri(), client.getClient().getClientId());
+		tokenServices.setRestTemplate(template);
+		filter.setTokenServices(tokenServices);
+
+		return filter;
 	}
 
-	/**
-	 * Use {@link ConfigurationProperties} Annotation to inject configuration with prefix <i>github.resource</i>.
-	 *
-	 * @return ResourceServerProperties {@link ResourceServerProperties}
-	 */
-	@Bean
-	@ConfigurationProperties("github.resource")
-	public ResourceServerProperties getGitHubResourceServerProperties() {
-		return new ResourceServerProperties();
-	}
 }

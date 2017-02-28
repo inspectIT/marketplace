@@ -7,7 +7,6 @@
 import {ComponentFixture, TestBed, async} from "@angular/core/testing";
 import {Http} from "@angular/http";
 import {LoginComponent} from "./login.component";
-import {GithubOAuthService} from "../../services/auth/github.oauth.service";
 
 xdescribe('Component: Login', () => {
   let fixture: ComponentFixture<LoginComponent>;
@@ -16,8 +15,7 @@ xdescribe('Component: Login', () => {
     TestBed.configureTestingModule({
       declarations: [LoginComponent],
       providers: [
-        Http,
-        GithubOAuthService
+        Http
       ]
     });
 

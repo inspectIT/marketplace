@@ -159,4 +159,13 @@ public class ProductServiceImpl implements ProductService {
 						.collect(Collectors.toList()),
 				pageable);
 	}
+
+	/**
+	 * @param productEntity {@link ProductEntity}
+	 * @return {@link ProductEntity}
+	 */
+	@Override
+	public ProductEntity persistProductEntity(final ProductEntity productEntity) {
+		return this.productRepository.save(productEntity);
+	}
 }

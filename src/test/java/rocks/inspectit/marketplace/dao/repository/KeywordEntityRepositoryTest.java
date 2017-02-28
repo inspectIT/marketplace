@@ -9,6 +9,7 @@ import org.springframework.test.context.junit4.AbstractTransactionalJUnit4Spring
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -47,6 +48,15 @@ public class KeywordEntityRepositoryTest extends AbstractTransactionalJUnit4Spri
 		assertThat(entity.getProductEntityList().get(1).getName(), is("product  2"));
 		assertThat(entity.getProductEntityList().get(2).getName(), is("product  6"));
 		assertThat(entity.getProductEntityList().get(3).getName(), is("product  8"));
+	}
+
+	@Test
+	public void findByAliasIn() throws Exception {
+		List<String> aliasList = new ArrayList<>();
+		aliasList.add("hibernate");
+		aliasList.add("jee");
+
+		assertThat(repository.findByAliasIn(aliasList).size(), is(2));
 	}
 
 }

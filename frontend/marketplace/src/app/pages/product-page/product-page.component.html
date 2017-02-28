@@ -1,0 +1,46 @@
+<div>
+  <form (ngSubmit)="saveProduct()" [formGroup]="productForm" role="form">
+    <br style="clear:both">
+    <h3 style="margin-bottom: 25px; text-align: center;">Create or Update Product</h3>
+    <div class="form-group">
+      <label for="productName">Product Name:</label>
+      <input id="productName" formControlName="productName" class="form-control">
+      <span *ngIf="productNameCtrl.dirty && productNameCtrl.hasError('required')">Product Name is required!</span>
+      <span *ngIf="productNameCtrl.dirty && productNameCtrl.hasError('minlength')">Product Name have to be at least 3 chars long </span>
+    </div>
+
+    <div class="form-group">
+      <label for="description">Description:</label>
+      <textarea id="description" type="text" formControlName="description" class="form-control"></textarea>
+      <span *ngIf="descriptionCtrl.dirty && descriptionCtrl.hasError('description')">Description is required!</span>
+    </div>
+
+    <div class="form-group">
+      <label for="previewImage">Choose your preview Image: </label>
+      <input id="previewImage" type="file" formControlName="previewImage" class="form-control" (change)="checkAndAddImageFileOnChangeEvent($event)"/>
+      <span *ngIf="previewImageCtrl.dirty && previewImageCtrl.hasError('required')">Preview Image is required and make sure to choose JPG!</span>
+    </div>
+
+    <div class="form-group">
+      <label for="productItem">Choose your Configuration file: </label>
+      <input id="productItem" type="file" formControlName="productItem" class="form-control" (change)="checkAndAddXmlFileOnChangeEvent($event)"/>
+      <span *ngIf="productItemCtrl.dirty && productItemCtrl.hasError('required')">Product item is required and make sure to choose XML!</span>
+    </div>
+
+    <div>
+      <label>Choose Keywords</label>
+
+      <div class="btn-group btn-group-justified">
+        <div class="btn-group" *ngFor="let limitTo of limitToList">
+          <button type="button" class="btn" (click)="updateLimitToArray(limitTo)" [class.btn-default]="limitToArray.indexOf(limitTo) === -1" [class.btn-primary]="limitToArray.indexOf(limitTo) !== -1">
+            {{limitTo}}
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <button type="reset" class="btn btn-primary pull-right" (click)="reset()" style="margin-left: 15px;">Reset</button>
+    <button type="submit" class="btn btn-primary pull-right" [disabled]="!productForm.valid">Erstelle Produkt</button>
+
+  </form>
+</div>

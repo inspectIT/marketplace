@@ -1,5 +1,3 @@
-<hr/>
-
 <div class="container">
   <h2>{{productDetail?.productName}}</h2>
 </div>
@@ -9,21 +7,19 @@
     <table>
       <tr>
         <td class="item-image">
-          <img src="http://placehold.it/500x200" class="img-rounded"></td>
+          <img src="http://lorempixel.com/output/abstract-q-c-500-200-3.jpg" width="500" height="200" class="img-rounded"></td>
         <td class="item-content" style="padding-left: 15px;">
           <div>
             <div>
               <div>
                 <h2>
-                  <a routerLink="/profile/{{productDetail?.userId}}">{{productDetail?.userName}} Profile </a>
+                  By <a routerLink="/profile/{{productDetail?.userName}}">{{productDetail?.userName}} </a>
                 </h2>
               </div>
               <div>
-                <span>{{productDetail?.numberOfDownloads}} total downloads</span>
-                <span class="divider"> | </span>
-                <span>{{productDetail?.rating}} Average Rating</span>
-                <span class="divider"> | </span>
-                <span>{{productDetail?.ratingList.length}} total Ratings</span>
+                <span>{{productDetail?.numberOfDownloads}} downloads</span><span class="divider"> | </span>
+                <span class="glyphicon" aria-hidden="true" *ngFor="let i of getPopulatedArray(10); let i = index"
+                      [class.glyphicon-star]="i <= productDetail?.rating" [class.glyphicon-star-empty]="i >= productDetail?.rating"></span>({{productDetail?.ratingList.length}})
               </div>
               <div style="padding-top: 15px;">
                 <button class="btn btn-primary">Download Konfiguration</button>
@@ -48,28 +44,31 @@
         <h2>User Reviews</h2>
       </div>
       <div>
-        <span>Avg Rating: <span class="rating-control">{{productDetail?.rating}}</span></span>
-        <div> # of Ratings: {{productDetail?.ratingList.length}}</div>
+        <span class="glyphicon glyphicon-star" aria-hidden="true" *ngFor="let i of getPopulatedArray(10); let i = index"
+              [class.glyphicon-star]="i <= productDetail?.rating" [class.glyphicon-star-empty]="i >= productDetail?.rating"></span>({{productDetail?.ratingList.length}})
+
+        <a routerLink="/addComment/{{productDetail?.productId}}/{{productDetail?.userName}}" class="btn btn-primary pull-right">Add rating</a>
       </div>
 
       <hr>
       <div class="table-responsive">
-        <table class="table">
-          <tbody>
-          <tr class="separator" *ngFor="let rating of productDetail?.ratingList">
-            <td><a routerLink="/profile/{{rating.userId}}">{{rating.userName}} Profile </a></td>
-            <td>
-              <div>
-                <div>
-                  <div class="left">User Rating: {{rating.rating}}<span style="margin-left: 65%;"><a>Flag Rating</a></span></div>
-                </div>
-                <div>Created on {{rating.creationDate | toDate | date: 'medium'}}</div>
-                <hr/>
-                <div><span>{{rating.ratingDescription}}</span></div>
-              </div>
-            </td>
-          </tr>
-        </table>
+
+        <!-- Left-aligned -->
+        <div class="media" *ngFor="let rating of productDetail?.ratingList">
+          <div class="media-left">
+            <img src="{{rating.userAvatarUrl}}" class="media-object" style="width:60px" alt="user avatar">
+          </div>
+          <div class="media-body">
+            <h4 class="media-heading">
+              <a routerLink="/profile/{{rating.userName}}">{{rating.userName}} Profile </a> {{rating.rating}}
+              <span class="glyphicon glyphicon-star" aria-hidden="true" *ngFor="let i of getPopulatedArray(10); let i = index"
+                    [class.glyphicon-star]="i <= rating.rating" [class.glyphicon-star-empty]="i >= rating.rating"></span><br/>
+              <small><i>Posted on {{rating.creationDate | date: 'medium'}}</i></small>
+            </h4>
+            <p>{{rating.ratingDescription}}</p>
+          </div>
+        </div>
+
       </div>
     </div>
   </div>

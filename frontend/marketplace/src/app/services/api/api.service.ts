@@ -6,11 +6,12 @@
 import {Injectable} from "@angular/core";
 import {Http, Response} from "@angular/http";
 import {Observable} from "rxjs/Observable";
+import {PagedOverviewResultModel} from "../../pages/shared/model/paged.overview.result.model";
+import {DashboardItemModel} from "../../pages/dashboard/model/dashboard.item.model";
+import {User} from "../../domain/user.domain.class";
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/catch";
 import "rxjs/add/observable/throw";
-import {PagedOverviewResultModel} from "../../pages/shared/model/paged.overview.result.model";
-import {DashboardItemModel} from "../../pages/dashboard/model/dashboard.item.model";
 
 @Injectable()
 export class ApiService {
@@ -103,6 +104,60 @@ export class ApiService {
       .map((res: Response) => this.extractData(res))
       //...errors if any
       .catch((error: any) => this.handleError(error));
+  }
+
+  persistProduct(username: string, imagesToUpload: Array<File>, productsToUpload: Array<File>, productName: string, productDescription: string, limitToArray: Array<string>) {
+    const url = `${this.applicationUrl}/app/add/product`;
+    const formData: any = new FormData();
+
+    // set user
+    formData.append('username', username);
+    for (let i = 0; i < imagesToUpload.length; i++) {
+      formData.append("images", imagesToUpload[i], imagesToUpload[i].name);
+    }
+    for (let i = 0; i < productsToUpload.length; i++) {
+      formData.append("products", productsToUpload[i], productsToUpload[i].name);
+    }
+    // set form values
+    formData.append('name', productName);
+    formData.append('description', productDescription);
+
+    // set keywords
+    formData.append('keywords', limitToArray);
+
+    return this.http.post(url, formData)
+    // ...and calling .json() on the response to return data
+      .map((res: Response) => this.extractData(res))
+      //...errors if any
+      .catch((error: any) => this.handleError(error));
+  }
+
+  getUser(): Observable<User> {
+    const url = `${this.applicationUrl}/app/get/user`;
+    return this.http.get(url)
+    // ...and calling .json() on the response to return data
+      .map((res: Response) => this.extractData(res))
+      //...errors if any
+      .catch((error: any) => this.handleError(error));
+  }
+
+  login() {
+    const url = `${this.applicationUrl}//login/github`;
+    this.http.get(url).subscribe(
+      () => console.log("login successfull"),
+      err => this.handleError(err),
+      () => console.log('Fetching complete for Server Metrics')
+    );
+
+  }
+
+  logout() {
+    const url = `${this.applicationUrl}/logout`;
+    this.http.post(url, {}).subscribe(
+      () => console.log("logout successfull"),
+      err => this.handleError(err),
+      () => console.log('Fetching complete for Server Metrics')
+    );
   }
 
   private extractData(data: Response) {

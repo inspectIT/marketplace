@@ -26,6 +26,7 @@ public class DetailModel {
 	 */
 	private UUID userId;
 	private String userName;
+	private String userAvatarUrl;
 
 	/**
 	 * rating information.
@@ -95,6 +96,14 @@ public class DetailModel {
 
 	public void setUserName(String userName) {
 		this.userName = userName;
+	}
+
+	public String getUserAvatarUrl() {
+		return userAvatarUrl;
+	}
+
+	public void setUserAvatarUrl(String userAvatarUrl) {
+		this.userAvatarUrl = userAvatarUrl;
 	}
 
 	public Double getRating() {

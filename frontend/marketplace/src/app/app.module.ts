@@ -5,12 +5,10 @@
  */
 import {BrowserModule} from "@angular/platform-browser";
 import {NgModule} from "@angular/core";
-import {FormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {Http, HttpModule} from "@angular/http";
 import {RouterModule} from "@angular/router";
 import {AppComponent} from "./app.component";
-import {GithubOAuthService} from "./services/auth/github.oauth.service";
-import {AuthManagerService} from "./services/auth/auth.manager.service";
 import {ApiService} from "./services/api/api.service";
 import {environment} from "../environments/environment";
 import {FooterComponent} from "./components/footer/footer.component";
@@ -27,7 +25,9 @@ import {SearchResultComponent} from "./pages/search-result/search-result.compone
 import {ItemDetailComponent} from "./pages/item-detail/item-detail.component";
 import {RemoveSpacesPipe} from "./pipes/remove.spaces.pipe";
 import {OverviewComponent} from "./pages/overview/overview.component";
-import {FormatStringToDatePipe} from "./pipes/format-string-to-date.pipe";
+import {CommentPageComponent} from "./pages/comment-page/comment-page.component";
+import {ProductPageComponent} from "./pages/product-page/product-page.component";
+import {LogoutComponent} from "./components/logout/logout.component";
 
 @NgModule({
   declarations: [
@@ -47,11 +47,14 @@ import {FormatStringToDatePipe} from "./pipes/format-string-to-date.pipe";
     ItemDetailComponent,
     RemoveSpacesPipe,
     OverviewComponent,
-    FormatStringToDatePipe
+    CommentPageComponent,
+    ProductPageComponent,
+    LogoutComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
+    ReactiveFormsModule,
     HttpModule,
     RouterModule.forRoot(APP_ROUTES)
   ],
@@ -66,18 +69,11 @@ import {FormatStringToDatePipe} from "./pipes/format-string-to-date.pipe";
       useFactory: (IS_PROD) => IS_PROD ? '' : 'http://localhost:8080',
       deps: ['IS_PROD']
     },
-    // custom config for conditional DI
-    {
-      provide: GithubOAuthService,
-      useFactory: (IS_PROD, http, APPLICATION_URL) => /** IS_PROD ?: */ new GithubOAuthService(http, APPLICATION_URL),
-      deps: ['IS_PROD', Http, 'APPLICATION_URL']
-    },
     {
       provide: ApiService,
       useFactory: (IS_PROD, http, APPLICATION_URL) => /** IS_PROD ?: */ new ApiService(http, APPLICATION_URL),
       deps: ['IS_PROD', Http, 'APPLICATION_URL']
-    },
-    AuthManagerService
+    }
   ],
   bootstrap: [AppComponent]
 })

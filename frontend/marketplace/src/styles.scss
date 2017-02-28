@@ -7,8 +7,10 @@
 body{
   margin: 0 auto;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  line-height: 1.5;
+  font-size: 16px !important;
+  line-height: 1.42857143 !important;
   background: transparent linear-gradient(to right, #402d63 0%, #931a17 100%) repeat scroll 0 0;
   color: #eee !important;
-  font-size: 16px;
+
+  border-radius: 0;
 }

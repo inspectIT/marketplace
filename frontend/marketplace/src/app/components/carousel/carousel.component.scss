@@ -10,8 +10,23 @@
   font-size: 12px;
 }
 
-
 .carousel-control {
-  padding-top:10%;
-  width:5%;
+  padding-top: 10%;
+  width: 5%;
+}
+
+.carousel-control.left,
+.carousel-control.right {
+  background: none;
+  border: none;
+  margin-top: -45px;
+  color: white;
+}
+
+.carousel-control.left {
+  margin-left: -45px;
+}
+
+.carousel-control.right {
+  margin-right: -45px;
 }

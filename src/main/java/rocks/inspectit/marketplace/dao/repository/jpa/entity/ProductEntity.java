@@ -5,8 +5,6 @@ import org.hibernate.validator.constraints.Length;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
-import java.sql.Blob;
-import java.sql.Clob;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -19,6 +17,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -85,10 +84,12 @@ public class ProductEntity {
 	@NotNull
 	private Boolean active = true;
 
-	private Long numberOfDownloads;
+	private Long numberOfDownloads = 0L;
 
-	private Blob previewImage;
-	private Clob productItem;
+	@Lob
+	private byte[] previewImage;
+	@Lob
+	private byte[] productItem;
 
 	/**
 	 * user relationship.
@@ -191,19 +192,19 @@ public class ProductEntity {
 		this.numberOfDownloads = numberOfDownloads;
 	}
 
-	public Optional<Blob> getPreviewImage() {
+	public Optional<byte[]> getPreviewImage() {
 		return Optional.ofNullable(previewImage);
 	}
 
-	public void setPreviewImage(Blob previewImage) {
+	public void setPreviewImage(byte[] previewImage) {
 		this.previewImage = previewImage;
 	}
 
-	public Clob getProductItem() {
+	public byte[] getProductItem() {
 		return productItem;
 	}
 
-	public void setProductItem(Clob productItem) {
+	public void setProductItem(byte[] productItem) {
 		this.productItem = productItem;
 	}
 

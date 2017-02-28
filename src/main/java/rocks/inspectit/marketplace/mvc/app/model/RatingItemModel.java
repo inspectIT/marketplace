@@ -15,12 +15,12 @@ public class RatingItemModel {
 
 	private String userName;
 	private String ratingDescription;
+	private String userAvatarUrl;
 
 	private Integer rating;
 
 	private Date creationDate;
 	private Boolean active;
-
 
 	public UUID getRatingId() {
 		return ratingId;
@@ -52,6 +52,14 @@ public class RatingItemModel {
 
 	public void setRatingDescription(String ratingDescription) {
 		this.ratingDescription = ratingDescription;
+	}
+
+	public String getUserAvatarUrl() {
+		return userAvatarUrl;
+	}
+
+	public void setUserAvatarUrl(String userAvatarUrl) {
+		this.userAvatarUrl = userAvatarUrl;
 	}
 
 	public Integer getRating() {

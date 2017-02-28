@@ -41,6 +41,7 @@ public class KeywordEntity {
 	private String name;
 
 	@NotNull
+	@Column(unique = true)
 	private String alias;
 
 	/**

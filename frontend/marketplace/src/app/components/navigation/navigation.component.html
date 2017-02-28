@@ -1,39 +1,34 @@
-<hr/>
-<nav class="navbar navbar-default custom" role="navigation">
-  <!-- brand and toggle get grouped for better mobile display -->
-  <div class="navbar-header">
-    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
-      <span class="sr-only">Toggle navigation</span>
-      <span class="icon-bar"></span>
-      <span class="icon-bar"></span>
-      <span class="icon-bar"></span>
-    </button>
-    <a href="http://www.inspectit.rocks/" title="inspectIT Homepage" class="logo">
-      <img src="assets/images/logo.png" alt="inspectIT Logo">
-    </a>
-    <span class="separator">|</span>
-  </div>
-  <!-- collapse the nav links for toggling -->
-  <div class="collapse navbar-collapse navbar-ex1-collapse">
-    <ul class="nav navbar-nav">
-      <li routerLinkActive="active"><a routerLink="" class="navbar-nav">Home</a></li>
-
-      <li routerLinkActive="active">
-        <form class="navbar-form" role="search" (ngSubmit)="searchForItem(searchTerm)" #searchForm="ngForm">
-          <div class="input-group">
-            <input id="srch-term" type="text" class="form-control" placeholder="Search" name="searchTerm" [(ngModel)]="searchTerm" minlength="3" required>
-            <div class="input-group-btn">
-              <button class="btn btn-default" type="submit" [disabled]="!searchForm.valid"><i class="glyphicon glyphicon-search"></i></button>
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a href="http://www.inspectit.rocks/" title="inspectIT Homepage" class="navbar-brand">
+        <img src="assets/images/logo.png" alt="inspectIT Logo">
+      </a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav navbar-right">
+        <li routerLinkActive="active"><a routerLink="dashboard">Home</a></li>
+        <li routerLinkActive="active">
+          <form class="navbar-form" role="search" (ngSubmit)="searchForItem(searchTerm)" #searchForm="ngForm">
+            <div class="input-group">
+              <input id="srch-term" type="text" class="form-control" placeholder="Search" name="searchTerm" [(ngModel)]="searchTerm" minlength="3" required>
+              <div class="input-group-btn">
+                <button class="btn btn-default" type="submit" [disabled]="!searchForm.valid"><i class="glyphicon glyphicon-search"></i></button>
+              </div>
             </div>
-          </div>
-        </form>
-      </li>
-
-
-      <li routerLinkActive="active" *ngIf="true"><a routerLink="profile/##42" class="navbar-nav">Profil</a><span class="separator">|</span></li>
-      <li routerLinkActive="active" *ngIf="true"><a routerLink="login" class="navbar-nav">Login</a></li>
-      <li routerLinkActive="active" *ngIf="true"><a routerLink="logout" class="navbar-nav">Logout</a></li>
-    </ul>
+          </form>
+        </li>
+        <li routerLinkActive="active" *ngIf="user != null && user.userName != null"><a routerLink="addProduct/{{user.userName}}">Add Product</a></li>
+        <li routerLinkActive="active"><a routerLink="addProduct/42">Add Product</a></li>
+        <li routerLinkActive="active" *ngIf="user != null && user.userName != null"><a routerLink="profile/{{user.userName}}">Profil</a></li>
+        <li routerLinkActive="active" *ngIf="user == null || user.userName == null"><a routerLink="login">Login</a></li>
+        <li routerLinkActive="active" *ngIf="user != null && user.userName != null"><a routerLink="logout">Logout</a></li>
+      </ul>
+    </div>
   </div>
-
 </nav>

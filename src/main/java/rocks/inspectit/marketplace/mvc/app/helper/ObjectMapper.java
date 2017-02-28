@@ -1,24 +1,29 @@
 package rocks.inspectit.marketplace.mvc.app.helper;
 
 import org.dozer.DozerBeanMapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
+import org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationDetails;
 import org.springframework.stereotype.Service;
 
 import java.sql.Blob;
-import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Optional;
 
 import javax.xml.bind.DatatypeConverter;
 
 import rocks.inspectit.marketplace.dao.repository.jpa.entity.ProductEntity;
-import rocks.inspectit.marketplace.mvc.app.controller.DashBoardController;
+import rocks.inspectit.marketplace.dao.repository.jpa.entity.RoleEntity;
+import rocks.inspectit.marketplace.dao.repository.jpa.entity.UserEntity;
 import rocks.inspectit.marketplace.mvc.app.model.DetailModel;
 import rocks.inspectit.marketplace.mvc.app.model.OverviewItemModel;
+import rocks.inspectit.marketplace.mvc.app.model.ProductDetailModel;
 import rocks.inspectit.marketplace.mvc.app.model.RatingItemModel;
+import rocks.inspectit.marketplace.mvc.app.model.UserDetailModel;
+import rocks.inspectit.marketplace.service.dto.GitHubEmailDto;
 
 /**
  * ## todo describe.
@@ -31,8 +36,6 @@ import rocks.inspectit.marketplace.mvc.app.model.RatingItemModel;
  */
 @Service
 public class ObjectMapper {
-	private static final Logger LOG = LoggerFactory.getLogger(DashBoardController.class);
-
 	private final DozerBeanMapper mapper;
 
 	/**
@@ -55,8 +58,7 @@ public class ObjectMapper {
 	public List<OverviewItemModel> getListModelFromEntityList(final List<ProductEntity> productEntityList) {
 		final List<OverviewItemModel> returnModel = new ArrayList<>();
 		productEntityList.forEach(it -> {
-			final OverviewItemModel tmpModel = new OverviewItemModel();
-			this.mapper.map(it, tmpModel);
+			final OverviewItemModel tmpModel = this.mapper.map(it, OverviewItemModel.class);
 			tmpModel.setRating(it.getTotalRating().orElse(0.));
 			tmpModel.setPreviewImage(getBase64BinaryFromBlob(it.getPreviewImage()));
 			returnModel.add(tmpModel);
@@ -73,16 +75,66 @@ public class ObjectMapper {
 	public DetailModel getSimpleModelFromEntity(final ProductEntity productEntity) {
 		final List<RatingItemModel> ratingList = new ArrayList<>();
 		productEntity.getRatingEntityList().forEach(rating -> {
-			final RatingItemModel model = new RatingItemModel();
-			this.mapper.map(rating, model);
-			ratingList.add(model);
+			ratingList.add(this.mapper.map(rating, RatingItemModel.class));
 		});
 
-		final DetailModel model = new DetailModel();
-		this.mapper.map(productEntity, model);
+		final DetailModel model = this.mapper.map(productEntity, DetailModel.class);
 		model.setRatingList(ratingList);
 		model.setRating(productEntity.getTotalRating().orElse(0.));
 		model.setProductPreviewImage(this.getBase64BinaryFromBlob(productEntity.getPreviewImage()));
+
+		return model;
+	}
+
+	/**
+	 * ## todo : describe.
+	 *
+	 * @param userEntity {@link UserEntity}
+	 * @return {@link UserDetailModel}
+	 */
+	public UserDetailModel getUserDetailModelFromUserEntity(final UserEntity userEntity) {
+		final List<ProductDetailModel> productDetailModelList = new ArrayList<>();
+		userEntity.getProductEntityList().forEach(product -> {
+			final ProductDetailModel model = this.mapper.map(product, ProductDetailModel.class);
+			productDetailModelList.add(model);
+		});
+
+		final UserDetailModel model = this.mapper.map(userEntity, UserDetailModel.class);
+
+		model.setProductItemList(productDetailModelList);
+		return model;
+	}
+
+	/**
+	 * Map manually for prototype.
+	 * <p>
+	 * todo: add map configuration to dozer
+	 *
+	 * @param auth      {@link Authentication}
+	 * @param emailList {@link List} of {@link GitHubEmailDto}
+	 * @return {@link UserDetailModel}
+	 */
+	public UserDetailModel getUserDetailModelFromOAuth2Authentication(final Authentication auth, final List<GitHubEmailDto> emailList) {
+		final UserDetailModel model = new UserDetailModel();
+
+		model.setUserName(auth.getName());
+
+		model.setAvatarUrl(this.getValueFromDetailsByString(auth, "avatar_url"));
+		model.setUserCompany(this.getValueFromDetailsByString(auth, "company"));
+		model.setUserLocation(this.getValueFromDetailsByString(auth, "location"));
+
+		// populate email
+		final String userEmail = Optional
+				.ofNullable(this.getValueFromDetailsByString(auth, "email"))
+				.orElse(emailList.stream().filter(GitHubEmailDto::isPrimary).findFirst().get().getEmail());
+		model.setUserEmail(userEmail);
+
+		// set ip from {@link OAuth2AuthenticationDetails}
+		model.setIp(((OAuth2AuthenticationDetails) auth.getDetails()).getRemoteAddress());
+
+		// default role: user
+		// todo: check against user of organisation "inspectit" and if organisation has user; set role to "admin" or "mod"
+		model.setRole("user");
 
 		return model;
 	}
@@ -93,21 +145,38 @@ public class ObjectMapper {
 	 * @param optionalBlob {@link Optional} of {@link Blob}
 	 * @return {@link String}
 	 */
-	private String getBase64BinaryFromBlob(final Optional<Blob> optionalBlob) {
-		final byte[] blobAsBytes = optionalBlob
-				.map(blob -> {
-							byte[] bytes;
-							try {
-								bytes = blob.getBytes(1, (int) blob.length());
-								//release the blob and free up memory. (since JDBC 4.0)
-								blob.free();
-							} catch (SQLException e) {
-								bytes = new byte[0];
-								LOG.error(e.getMessage(), e);
-							}
-							return bytes;
-						}
-				).orElse(new byte[0]);
+	private String getBase64BinaryFromBlob(final Optional<byte[]> optionalBlob) {
+		final byte[] blobAsBytes = optionalBlob.orElse(new byte[0]);
 		return DatatypeConverter.printBase64Binary(blobAsBytes);
+	}
+
+	/**
+	 * cast auth to {@link OAuth2Authentication} to <em>getUserAuthentication</em>.
+	 * cast getDetails to {@link LinkedHashMap}.
+	 * cast value to {@link String}.
+	 *
+	 * @param auth {@link Authentication}
+	 * @param key  {@link String}
+	 * @return {@link String}
+	 */
+	private String getValueFromDetailsByString(final Authentication auth, final String key) {
+		return (String) ((LinkedHashMap) ((OAuth2Authentication) auth).getUserAuthentication().getDetails()).get(key);
+	}
+
+	/**
+	 * update {@link UserEntity} with values from {@link UserDetailModel}.
+	 *
+	 * @param userEntity {@link Optional} of {@link UserEntity}
+	 * @param role       {@link RoleEntity}
+	 * @param user       {@link UserDetailModel}
+	 * @return {@link UserEntity}
+	 */
+	public UserEntity getUpdatedUserEntityFromUserDetailModel(final Optional<UserEntity> userEntity, final RoleEntity role, final UserDetailModel user) {
+		// use option for one line
+		final UserEntity entity = userEntity.orElse(new UserEntity());
+		entity.setRoleEntity(role);
+
+		this.mapper.map(user, entity);
+		return entity;
 	}
 }

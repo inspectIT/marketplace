@@ -7,6 +7,8 @@ import {Component, OnInit} from "@angular/core";
 import {Router} from "@angular/router";
 import "rxjs/add/operator/debounceTime";
 import "rxjs/add/operator/distinctUntilChanged";
+import {ApiService} from "../../services/api/api.service";
+import {User} from "../../domain/user.domain.class";
 
 @Component({
   selector: 'app-navigation',
@@ -15,14 +17,29 @@ import "rxjs/add/operator/distinctUntilChanged";
 })
 export class NavigationComponent implements OnInit {
 
-  constructor(private router: Router) {
+  user: User;
+
+  constructor(private router: Router, private service: ApiService) {
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
+    this.getUser();
   }
 
   searchForItem(param: string): void {
     console.log(`NavigationComponent:searchForItem - param: ${param}`);
     this.router.navigate(['/search', param]);
   }
+
+
+  getUser() {
+    this.service.getUser().subscribe(
+      data => {
+        this.user = data;
+      },
+      error => console.log(error)
+    );
+
+  }
+
 }

@@ -24,5 +24,13 @@ public interface UserEntityRepository extends CrudRepository<UserEntity, UUID> {
 	 * @return a single User of {@link UserEntity}
 	 */
 	UserEntity findUserEntityByUserUuid(final UUID uuid);
+
+	/**
+	 * Finds a user by his unique user name.
+	 *
+	 * @param name {@link String}
+	 * @return {@link UserEntity}
+	 */
+	UserEntity findOneByName(final String name);
 }
 

@@ -7,10 +7,10 @@ export class OverviewResultItemModel {
   id: string;
   name: string;
   author: string;
+  description: string;
 
   //thumbnailImage: string;
   previewImage: string;
-
 
   rating: number;
   numberDownloads: number;

@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -53,7 +54,7 @@ public class SearchController {
 	 */
 	@GetMapping("/get/search/{searchTerm}")
 	public Page<OverviewItemModel> getSearchResultByTerm(@PathVariable final String searchTerm,
-			final Pageable pageable) {
+			@PageableDefault(size = 48) final Pageable pageable) {
 
 		final Page<ProductEntity> productEntitiesPage = this.service.getAllProductEntitiesBySearchTerm(searchTerm, pageable);
 		List<OverviewItemModel> overviewItemModelList = this.mapper.getListModelFromEntityList(productEntitiesPage.getContent());

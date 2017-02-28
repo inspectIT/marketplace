@@ -34,4 +34,15 @@ export class ItemDetailComponent implements OnInit {
     );
   }
 
+  /**
+   * return an array to iterate over.
+   *
+   * @param value{@link number} determine the size of the array
+   * @returns {any[]} generated array
+   * @since 1.1.0-SNAPSHOT
+   */
+  getPopulatedArray(value: number): Array<any> {
+    return Array(value).fill(0);
+  }
+
 }

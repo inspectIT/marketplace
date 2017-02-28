@@ -15,7 +15,7 @@ CREATE TABLE user_entity (
 	email           VARCHAR2(255) NOT NULL UNIQUE,
 	ip              VARCHAR2(255),
 	creation_date   DATETIME      NOT NULL DEFAULT now(),
-	last_login_date DATETIME      NOT NULL DEFAULT now(),
+	last_login_date DATETIME, --      NOT NULL DEFAULT now(),
 	version         INTEGER       NOT NULL DEFAULT 1,
 	active          BOOLEAN       NOT NULL DEFAULT TRUE,
 );
@@ -39,7 +39,7 @@ CREATE TABLE product_entity (
 
 	number_of_downloads BIGINT         NOT NULL DEFAULT 1,
 	preview_image       BLOB,
-	product_item        CLOB,
+	product_item        BLOB,
 
 	user_uuid           UUID,
 	tag_uuid            UUID,
