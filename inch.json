@@ -1,8 +1,8 @@
 {
 	"files": {
 		"excluded": [
-			"src/main/resources/gradle/**/*.js",
-			"src/main/resources/public/**/*.js"
+			"/src/main/resources/gradle/**/*.js",
+			"/src/main/resources/public/**/*.js"
 		]
 	}
 }
