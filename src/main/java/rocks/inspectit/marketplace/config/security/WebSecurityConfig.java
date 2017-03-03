@@ -61,6 +61,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	 * <li>show index.html Landing page</li>
 	 * <li>allow loading of compiled JS and CSS</li>
 	 * <li>allow loading of files in assets folder, e.g. BootsTrap CSS and BootsTrap or jQuery JS</li>
+	 * <li>API requests</li>
 	 * </ul>
 	 *
 	 * @param http {@link HttpSecurity}

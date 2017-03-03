@@ -13,7 +13,7 @@
             <div>
               <div>
                 <h2>
-                  By <a routerLink="/profile/{{productDetail?.userName}}">{{productDetail?.userName}} </a>
+                  By <a routerLink="/user/{{productDetail?.userName}}">{{productDetail?.userName}} </a>
                 </h2>
               </div>
               <div>
@@ -60,7 +60,7 @@
           </div>
           <div class="media-body">
             <h4 class="media-heading">
-              <a routerLink="/profile/{{rating.userName}}">{{rating.userName}} Profile </a> {{rating.rating}}
+              <a routerLink="/user/{{rating.userName}}">{{rating.userName}} Profile </a> {{rating.rating}}
               <span class="glyphicon glyphicon-star" aria-hidden="true" *ngFor="let i of getPopulatedArray(10); let i = index"
                     [class.glyphicon-star]="i <= rating.rating" [class.glyphicon-star-empty]="i >= rating.rating"></span><br/>
               <small><i>Posted on {{rating.creationDate | date: 'medium'}}</i></small>

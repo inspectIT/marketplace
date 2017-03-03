@@ -1,0 +1,60 @@
+<div class="container">
+  <h2>User Detail</h2>
+</div>
+
+<div class="container">
+  <div class="col-md-12">
+    <div class="well">
+      <div class="row">
+        <div>
+          <ul class="nav nav-tabs col-lg-12" role="tablist">
+            <li class="active"><a href="#profile_main" role="tab" data-toggle="tab">Main</a></li>
+            <li class=""><a href="#profile_uploads" role="tab" data-toggle="tab">All uploads</a></li>
+          </ul>
+        </div>
+        <div class="tab-content">
+          <div id="profile_main" class="tab-pane panel active">
+
+            <div class="col-lg-7" style="margin-top: 15px;">
+              <div class="media">
+                <span class="pull-left" href="#">
+                  <img class="media-object dp img-circle" src="{{user?.avatarUrl}}" style="width: 100px; height:100px;">
+                </span>
+                <div class="media-body">
+                  <h4 class="media-heading">
+                    {{user?.userName}}
+                    <small>{{user?.userLocation}}</small>
+                  </h4>
+                  <h5>Company {{user?.userCompany}}</h5>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+          <div id="profile_uploads" class="tab-pane panel">
+            <div class="col-lg-6" *ngFor="let product of user?.productItemList" style="margin-top: 15px;">
+              <div class="media">
+                <a class="pull-left" routerLink="/details/{{product.productId}}">
+                  <img class="media-object dp img-circle" src="{{product.productPreviewImage}}" style="width: 100px; height:100px;">
+                </a>
+                <div class="media-body">
+                  <h4 class="media-heading">
+                    <a class="pull-left" routerLink="/details/{{product.productId}}">{{product.productName}}</a>
+                    <small>
+                      <span class="glyphicon glyphicon-star" aria-hidden="true" *ngFor="let i of getPopulatedArray(10); let i = index"
+                            [class.glyphicon-star]="i <= product.rating" [class.glyphicon-star-empty]="i >= product.rating" style="margin-left: 15px;"></span>
+                      | {{product.numberOfDownloads | formatNumber}} Downloads
+                    </small>
+                  </h4>
+                  <h5>Description</h5>
+                  <p>{{product.productDescription | limitTo: 140}}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

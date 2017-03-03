@@ -26,16 +26,15 @@ export class ProfileComponent implements OnInit {
     const param: string = this.route.snapshot.params['name'];
     console.log("profile component user name: " + param);
 
-    if(param == null){
-      this.authenticated = false;
-    } else {
-      this.authenticated = true;
-      this.service.getUser().subscribe(
-        data => {
-          this.user = data;
-        },
-        error => console.log(error)
-      );
-    }
+    this.service.getUser().subscribe(
+      data => {
+        this.user = data;
+        this.authenticated = true;
+      },
+      error => {
+        console.log(error)
+        this.authenticated = false;
+      }
+    );
   }
 }

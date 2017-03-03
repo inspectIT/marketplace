@@ -24,7 +24,6 @@
           </form>
         </li>
         <li routerLinkActive="active" *ngIf="user != null && user.userName != null"><a routerLink="addProduct/{{user.userName}}">Add Product</a></li>
-        <li routerLinkActive="active"><a routerLink="addProduct/42">Add Product</a></li>
         <li routerLinkActive="active" *ngIf="user != null && user.userName != null"><a routerLink="profile/{{user.userName}}">Profil</a></li>
         <li routerLinkActive="active" *ngIf="user == null || user.userName == null"><a routerLink="login">Login</a></li>
         <li routerLinkActive="active" *ngIf="user != null && user.userName != null"><a routerLink="logout">Logout</a></li>

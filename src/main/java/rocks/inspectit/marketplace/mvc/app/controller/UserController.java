@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationDetails;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -73,5 +74,11 @@ public class UserController {
 		// update user entity from user detail model and persist
 		this.service.persistUserEntity(this.mapper.getUpdatedUserEntityFromUserDetailModel(userEntity, roleEntity, user));
 		return user;
+	}
+
+	@RequestMapping("/get/user/{userName}/detail")
+	public UserDetailModel user(@PathVariable final String userName) {
+		final UserEntity userEntity = this.service.getUserEntityByUsername(userName);
+		return this.mapper.getUserDetailModelFromUserEntity(userEntity);
 	}
 }

@@ -141,6 +141,16 @@ export class ApiService {
       .catch((error: any) => this.handleError(error));
   }
 
+  getUserDetailByUserName(userName: string): Observable<User> {
+    const url = `${this.applicationUrl}/app/get/user/${userName}/detail`;
+    console.log("get user from " + url);
+    return this.http.get(url)
+    // ...and calling .json() on the response to return data
+      .map((res: Response) => this.extractData(res))
+      //...errors if any
+      .catch((error: any) => this.handleError(error));
+  }
+
   login() {
     const url = `${this.applicationUrl}//login/github`;
     this.http.get(url).subscribe(

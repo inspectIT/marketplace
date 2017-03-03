@@ -22,9 +22,9 @@ INSERT INTO role_entity (role_uuid, role) VALUES ('a2e1353ccd6944a783205cf29fcb1
 /**
  * update user
  */
-UPDATE user_entity SET role_uuid='a2e1353ccd6944a783205cf29fcb160a', avatar_url='http://lorempixel.com/output/people-q-c-640-480-9.jpg' where user_uuid = 'c848cad7c3b2499a96888fb2a261313b';
-UPDATE user_entity SET role_uuid='725727b967bf4ef195d815ad3ee8d159', avatar_url='http://lorempixel.com/output/people-q-c-640-480-9.jpg' where user_uuid = '23c61362911e4438876507b019949570';
-UPDATE user_entity SET role_uuid='725727b967bf4ef195d815ad3ee8d159', avatar_url='http://lorempixel.com/output/people-q-c-640-480-9.jpg' where user_uuid = '6dd1c1473c53404386932f106b368a2e';
-UPDATE user_entity SET role_uuid='725727b967bf4ef195d815ad3ee8d159', avatar_url='http://lorempixel.com/output/people-q-c-640-480-9.jpg' where user_uuid = 'f804b83fbb8744a4be7aa3f6d5507bb3';
-UPDATE user_entity SET role_uuid='725727b967bf4ef195d815ad3ee8d159', avatar_url='http://lorempixel.com/output/people-q-c-640-480-9.jpg' where user_uuid = '68f17babe606498dbd7ad237bef72967';
+UPDATE user_entity SET role_uuid='a2e1353ccd6944a783205cf29fcb160a', avatar_url='http://lorempixel.com/output/people-q-c-640-480-9.jpg', company='NovaTec GmbH', location='Reutlingen' where user_uuid = 'c848cad7c3b2499a96888fb2a261313b';
+UPDATE user_entity SET role_uuid='725727b967bf4ef195d815ad3ee8d159', avatar_url='http://lorempixel.com/output/people-q-c-640-480-9.jpg', company='Hochschule der Medien', location='Stuttgart' where user_uuid = '23c61362911e4438876507b019949570';
+UPDATE user_entity SET role_uuid='725727b967bf4ef195d815ad3ee8d159', avatar_url='http://lorempixel.com/output/people-q-c-640-480-9.jpg', company='Hochschule Albstadt-Sigmaringen', location='72488 Sigmaringen' where user_uuid = '6dd1c1473c53404386932f106b368a2e';
+UPDATE user_entity SET role_uuid='725727b967bf4ef195d815ad3ee8d159', avatar_url='http://lorempixel.com/output/people-q-c-640-480-9.jpg', company='Reutlingen-University', location='Hamburg' where user_uuid = 'f804b83fbb8744a4be7aa3f6d5507bb3';
+UPDATE user_entity SET role_uuid='725727b967bf4ef195d815ad3ee8d159', avatar_url='http://lorempixel.com/output/people-q-c-640-480-9.jpg', company='NovaTec GmbH', location='San Fran' where user_uuid = '68f17babe606498dbd7ad237bef72967';
 

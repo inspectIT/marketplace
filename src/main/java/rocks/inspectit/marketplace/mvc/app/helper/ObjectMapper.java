@@ -94,9 +94,11 @@ public class ObjectMapper {
 	 */
 	public UserDetailModel getUserDetailModelFromUserEntity(final UserEntity userEntity) {
 		final List<ProductDetailModel> productDetailModelList = new ArrayList<>();
-		userEntity.getProductEntityList().forEach(product -> {
-			final ProductDetailModel model = this.mapper.map(product, ProductDetailModel.class);
-			productDetailModelList.add(model);
+		userEntity.getProductEntityList().forEach(it -> {
+			final ProductDetailModel tmpModel = this.mapper.map(it, ProductDetailModel.class);
+			tmpModel.setRating(it.getTotalRating().orElse(0.));
+			tmpModel.setProductPreviewImage(getBase64BinaryFromBlob(it.getPreviewImage()));
+			productDetailModelList.add(tmpModel);
 		});
 
 		final UserDetailModel model = this.mapper.map(userEntity, UserDetailModel.class);

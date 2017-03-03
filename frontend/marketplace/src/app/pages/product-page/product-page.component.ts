@@ -25,7 +25,7 @@ import "rxjs/add/operator/switchMap";
 })
 export class ProductPageComponent implements OnInit {
 
-  username: String;
+  username: string;
 
   readonly limitToList: Array<string> = ["JEE", 'Spring', 'JPA', 'Hibernate'];
   limitToArray: Array<string> = [];

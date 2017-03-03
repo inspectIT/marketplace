@@ -11,6 +11,7 @@ import rocks.inspectit.marketplace.dao.repository.jpa.entity.RatingEntity;
 import rocks.inspectit.marketplace.dao.repository.jpa.entity.UserEntity;
 import rocks.inspectit.marketplace.mvc.app.model.DetailModel;
 import rocks.inspectit.marketplace.mvc.app.model.OverviewItemModel;
+import rocks.inspectit.marketplace.mvc.app.model.ProductDetailModel;
 import rocks.inspectit.marketplace.mvc.app.model.RatingItemModel;
 import rocks.inspectit.marketplace.mvc.app.model.UserDetailModel;
 
@@ -47,6 +48,7 @@ public class DozerConfig {
 				mapProductEntityToDetailItemModel();
 				mapRatingEntityToRatingItemModel();
 				mapUserEntityToUserDetailModel();
+				mapProductEntityToProductDetailModel();
 			}
 
 			/**
@@ -112,6 +114,22 @@ public class DozerConfig {
 						.fields("RoleEntity.role", "role")
 						.fields("lastLoginDate", "loginDate");
 			}
+
+			/**
+			 * ## todo : describe.
+			 */
+			private void mapProductEntityToProductDetailModel() {
+				mapping(ProductEntity.class, ProductDetailModel.class)
+						.fields("productUuid", "productId", FieldsMappingOptions.copyByReference())
+						.fields("name", "productName")
+						.fields("description", "productDescription")
+						.fields("numberOfDownloads", "numberOfDownloads")
+
+						.exclude("previewImage") // exclude and map blob to string manually
+						.exclude("ratingsEntityList"); // exclude and map manually
+
+			}
+
 		};
 	}
 }

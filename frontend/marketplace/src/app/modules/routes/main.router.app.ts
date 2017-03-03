@@ -13,6 +13,7 @@ import {OverviewComponent} from "../../pages/overview/overview.component";
 import {CommentPageComponent} from "../../pages/comment-page/comment-page.component";
 import {ProductPageComponent} from "../../pages/product-page/product-page.component";
 import {LogoutComponent} from "../../components/logout/logout.component";
+import {UserDetailComponent} from "../../pages/user-detail/user-detail.component";
 
 /**
  * generate routes configuration for the marketplace
@@ -21,6 +22,7 @@ import {LogoutComponent} from "../../components/logout/logout.component";
  */
 export const APP_ROUTES = [
   {path: 'profile/:name', component: ProfileComponent},
+  {path: 'user/:name', component: UserDetailComponent},
   {path: 'addProduct/:userId', component: ProductPageComponent},
   {path: 'search/:param', component: SearchResultComponent},
   {path: 'details/:id', component: ItemDetailComponent},

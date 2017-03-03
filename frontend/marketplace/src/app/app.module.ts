@@ -28,6 +28,7 @@ import {OverviewComponent} from "./pages/overview/overview.component";
 import {CommentPageComponent} from "./pages/comment-page/comment-page.component";
 import {ProductPageComponent} from "./pages/product-page/product-page.component";
 import {LogoutComponent} from "./components/logout/logout.component";
+import {UserDetailComponent} from "./pages/user-detail/user-detail.component";
 
 @NgModule({
   declarations: [
@@ -49,7 +50,8 @@ import {LogoutComponent} from "./components/logout/logout.component";
     OverviewComponent,
     CommentPageComponent,
     ProductPageComponent,
-    LogoutComponent
+    LogoutComponent,
+    UserDetailComponent
   ],
   imports: [
     BrowserModule,
