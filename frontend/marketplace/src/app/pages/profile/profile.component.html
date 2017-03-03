@@ -11,8 +11,6 @@
   </div>
   <div *ngIf="authenticated">
 
-    a {{user | json}}
-
     <div class="col-md-12">
       <div class="well">
         <div class="row">
@@ -36,7 +34,7 @@
                       {{user?.userName}}
                       <small>{{user?.userLocation}}</small>
                     </h4>
-                    <h5>Company {{user?.userCompany}}</h5>
+                    <h5>Company: {{user?.userCompany}}</h5>
                   </div>
                 </div>
 

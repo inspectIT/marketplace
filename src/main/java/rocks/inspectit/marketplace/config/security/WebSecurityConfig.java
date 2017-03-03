@@ -18,6 +18,7 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import org.springframework.security.web.header.writers.StaticHeadersWriter;
 import org.springframework.web.filter.CompositeFilter;
 
 import java.util.ArrayList;
@@ -77,11 +78,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.and().csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()).ignoringAntMatchers("/nocsrf", "/console/**")
 				.and().exceptionHandling().authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/"))
 				.and().headers().frameOptions().disable()
+
+				/**
+				 * limit access to amazonaws domain
+				 */
+				.addHeaderWriter(new StaticHeadersWriter("X-FRAME-OPTIONS", "ALLOW-FROM amazonaws.com"))
 				.and().addFilterBefore(ssoFilter(), BasicAuthenticationFilter.class);
-		/**
-		 * limit access to amazonaws domain
-		 */
-		// .addHeaderWriter(new StaticHeadersWriter("X-FRAME-OPTIONS", "ALLOW-FROM amazonaws.com"));
 	}
 
 	/**
