@@ -51,7 +51,7 @@ apply from: "$projectDir/gradle/properties/custom_properties.gradle"
 
 // set spring profile
 // use native type to avoid boxing
-ext.activeProfile = System.properties['spring.profiles.active'] ?: "dev,h2,copy,locale"
+ext.activeProfile = System.properties['spring.profiles.active'] ?: "dev,h2,copy"
 
 
 // plugins
