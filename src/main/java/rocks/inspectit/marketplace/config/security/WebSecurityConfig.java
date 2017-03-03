@@ -71,7 +71,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(final HttpSecurity http) throws Exception {
 		http
 				.antMatcher("/**")
-				.authorizeRequests().antMatchers("/", "/app/get/**", "/login**", "/index.html", "/**.js", "/assets/**", "/api**").permitAll()
+				.authorizeRequests().antMatchers("/**", "/app/get/**", "/login**", "/index.html", "/**.js", "/assets/**", "/api**").permitAll()
 				.anyRequest().authenticated()
 				.and().logout().logoutSuccessUrl("/").permitAll()
 				.and().csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()).ignoringAntMatchers("/nocsrf", "/console/**")
