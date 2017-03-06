@@ -29,6 +29,8 @@ import {CommentPageComponent} from "./pages/comment-page/comment-page.component"
 import {ProductPageComponent} from "./pages/product-page/product-page.component";
 import {LogoutComponent} from "./components/logout/logout.component";
 import {UserDetailComponent} from "./pages/user-detail/user-detail.component";
+import {HelperService} from "./services/api/helper/helper.service";
+import {ApiUserService} from "./services/api/api.user.service";
 
 @NgModule({
   declarations: [
@@ -73,9 +75,15 @@ import {UserDetailComponent} from "./pages/user-detail/user-detail.component";
     },
     {
       provide: ApiService,
-      useFactory: (IS_PROD, http, APPLICATION_URL) => /** IS_PROD ?: */ new ApiService(http, APPLICATION_URL),
-      deps: ['IS_PROD', Http, 'APPLICATION_URL']
-    }
+      useFactory: (IS_PROD, http, APPLICATION_URL, helperService) => /** IS_PROD ?: */ new ApiService(http, APPLICATION_URL, helperService),
+      deps: ['IS_PROD', Http, 'APPLICATION_URL', HelperService]
+    },
+    {
+      provide: ApiUserService,
+      useFactory: (IS_PROD, http, APPLICATION_URL, helperService) => /** IS_PROD ?: */ new ApiUserService(http, APPLICATION_URL, helperService),
+      deps: ['IS_PROD', Http, 'APPLICATION_URL', HelperService]
+    },
+    HelperService
   ],
   bootstrap: [AppComponent]
 })

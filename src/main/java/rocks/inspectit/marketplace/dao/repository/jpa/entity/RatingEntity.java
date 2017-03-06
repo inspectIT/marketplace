@@ -6,6 +6,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import java.util.Date;
+import java.util.Optional;
 import java.util.UUID;
 
 import javax.persistence.Column;
@@ -69,7 +70,7 @@ public class RatingEntity {
 	private Date modifyDate = new Date();
 
 	@NotNull
-	private Boolean active;
+	private Boolean active = true;
 
 	/**
 	 * user relationship.
@@ -129,8 +130,8 @@ public class RatingEntity {
 		this.creationDate = creationDate;
 	}
 
-	public Date getModifyDate() {
-		return modifyDate;
+	public Optional<Date> getModifyDate() {
+		return Optional.ofNullable(modifyDate);
 	}
 
 	public void setModifyDate(Date modifyDate) {

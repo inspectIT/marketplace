@@ -4,8 +4,8 @@
  * @since 1.0.4-SNAPSHOT
  */
 import {Component, OnInit} from "@angular/core";
-import {Router, ActivatedRoute} from "@angular/router";
-import {ApiService} from "../../services/api/api.service";
+import {ActivatedRoute} from "@angular/router";
+import {ApiUserService} from "../../services/api/api.user.service";
 
 @Component({
   selector: 'app-profile',
@@ -15,26 +15,35 @@ import {ApiService} from "../../services/api/api.service";
 export class ProfileComponent implements OnInit {
 
   user;
-
   authenticated: boolean;
 
-  constructor(private route: ActivatedRoute, private router: Router,
-    private service: ApiService) {
+  constructor(private route: ActivatedRoute, private service: ApiUserService) {
   }
 
   ngOnInit() {
     const param: string = this.route.snapshot.params['name'];
     console.log("profile component user name: " + param);
 
-    this.service.getUser().subscribe(
+    this.service.getUserDetailByUserName(param).subscribe(
       data => {
         this.user = data;
-        this.authenticated = true;
+        this.authenticated = this.user != null;
       },
       error => {
-        console.log(error)
+        console.log(error);
         this.authenticated = false;
       }
     );
+  }
+
+  /**
+   * return an array to iterate over.
+   *
+   * @param value{@link number} determine the size of the array
+   * @returns {any[]} generated array
+   * @since 1.1.0-SNAPSHOT
+   */
+  getPopulatedArray(value: number): Array<any> {
+    return Array(value).fill(0);
   }
 }

@@ -7,8 +7,8 @@ import {Component, OnInit} from "@angular/core";
 import {Router} from "@angular/router";
 import "rxjs/add/operator/debounceTime";
 import "rxjs/add/operator/distinctUntilChanged";
-import {ApiService} from "../../services/api/api.service";
 import {User} from "../../domain/user.domain.class";
+import {ApiUserService} from "../../services/api/api.user.service";
 
 @Component({
   selector: 'app-navigation',
@@ -19,7 +19,7 @@ export class NavigationComponent implements OnInit {
 
   user: User;
 
-  constructor(private router: Router, private service: ApiService) {
+  constructor(private router: Router, private service: ApiUserService) {
   }
 
   ngOnInit(): void {
@@ -31,7 +31,6 @@ export class NavigationComponent implements OnInit {
     this.router.navigate(['/search', param]);
   }
 
-
   getUser() {
     this.service.getUser().subscribe(
       data => {
@@ -39,7 +38,22 @@ export class NavigationComponent implements OnInit {
       },
       error => console.log(error)
     );
+  }
 
+  logout() {
+    console.log("logout and redirect to home");
+    this.service.logout().subscribe(
+      () => {
+        console.log("logout successful.\ncallback: ");
+        this.user = null;
+        this.router.navigateByUrl('/');
+      },
+      err => {
+        console.log("error:" + err);
+        this.user = null;
+        this.router.navigateByUrl('/');
+      }
+    );
   }
 
 }

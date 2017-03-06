@@ -4,8 +4,7 @@
  * @since 1.0.4-SNAPSHOT
  */
 import {Component, OnInit} from "@angular/core";
-import {ActivatedRoute} from "@angular/router";
-import {Http} from "@angular/http";
+import {ActivatedRoute, Router} from "@angular/router";
 import {FormBuilder, FormGroup, FormControl, Validators} from "@angular/forms";
 import {ApiService} from "../../services/api/api.service";
 import "rxjs/add/operator/debounceTime";
@@ -17,6 +16,7 @@ import "rxjs/add/operator/do";
 import "rxjs/add/operator/filter";
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/switchMap";
+import {ApiUserService} from "../../services/api/api.user.service";
 
 @Component({
   selector: 'app-product-page',
@@ -26,6 +26,7 @@ import "rxjs/add/operator/switchMap";
 export class ProductPageComponent implements OnInit {
 
   username: string;
+  isAuthenticated: boolean;
 
   readonly limitToList: Array<string> = ["JEE", 'Spring', 'JPA', 'Hibernate'];
   limitToArray: Array<string> = [];
@@ -41,7 +42,7 @@ export class ProductPageComponent implements OnInit {
   previewImageCtrl: FormControl;
   productItemCtrl: FormControl;
 
-  constructor(private route: ActivatedRoute, private http: Http, private service: ApiService, builder: FormBuilder) {
+  constructor(private route: ActivatedRoute, private router: Router, private service: ApiService, private userService: ApiUserService, builder: FormBuilder) {
     this.productNameCtrl = builder.control('', [Validators.required, Validators.minLength(3)]);
     this.descriptionCtrl = builder.control('', [Validators.required, Validators.minLength(5)]);
     this.productItemCtrl = builder.control('', [Validators.required]);
@@ -61,6 +62,16 @@ export class ProductPageComponent implements OnInit {
     const param: string = this.route.snapshot.params['name'];
     console.log("product component user name: " + param);
     this.username = param;
+
+    this.userService.getUser().subscribe(
+      data => {
+        this.isAuthenticated = data != null;
+      },
+      error => {
+        console.log(error);
+        this.isAuthenticated = false;
+      }
+    );
   }
 
   /**
@@ -78,9 +89,13 @@ export class ProductPageComponent implements OnInit {
     }
   }
 
+  /**
+   * create product only if there is an username
+   */
   saveProduct(): void {
-    console.log(this.productForm.value);
-    this.upload();
+    if (this.username != null) {
+      this.upload();
+    }
   }
 
   /**
@@ -138,7 +153,10 @@ export class ProductPageComponent implements OnInit {
 
   upload() {
     this.service.persistProduct(this.username, this.imagesToUpload, this.productsToUpload, JSON.stringify(this.productNameCtrl.value), JSON.stringify(this.descriptionCtrl.value), this.limitToArray)
-      .subscribe(() => console.log("login successfull"));
+      .subscribe(() => {
+        // redirect to product detail
+        this.router.navigate(['/']);
+      });
   }
 
 }

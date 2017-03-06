@@ -5,8 +5,11 @@
  */
 import {Component, OnInit} from "@angular/core";
 import {Router} from "@angular/router";
-import {ApiService} from "../../services/api/api.service";
+import {ApiUserService} from "../../services/api/api.user.service";
 
+/**
+ * @deprecated - delete soon
+ */
 @Component({
   selector: 'app-logout',
   templateUrl: './logout.component.html',
@@ -14,17 +17,10 @@ import {ApiService} from "../../services/api/api.service";
 })
 export class LogoutComponent implements OnInit {
 
-  constructor(private router: Router, private service: ApiService) {
+  constructor(private router: Router, private service: ApiUserService) {
   }
 
   ngOnInit() {
-    console.log("logout and redirect to home");
-    this.service.logout();
 
-    this.redirectToHome();
-  }
-
-  private redirectToHome(): void {
-    this.router.navigateByUrl('/');
   }
 }

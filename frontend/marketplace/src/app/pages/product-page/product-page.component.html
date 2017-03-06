@@ -1,4 +1,4 @@
-<div>
+<div *ngIf="isAuthenticated == true">
   <form (ngSubmit)="saveProduct()" [formGroup]="productForm" role="form">
     <br style="clear:both">
     <h3 style="margin-bottom: 25px; text-align: center;">Create or Update Product</h3>
@@ -43,4 +43,9 @@
     <button type="submit" class="btn btn-primary pull-right" [disabled]="!productForm.valid">Erstelle Produkt</button>
 
   </form>
+</div>
+
+<div *ngIf="isAuthenticated == false || username == null" class="info">
+  <h2>Error</h2>
+  <p>You have to log in before you can submit a new Product.</p>
 </div>

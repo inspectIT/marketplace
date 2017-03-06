@@ -12,7 +12,9 @@ import rocks.inspectit.marketplace.dao.repository.jpa.entity.UserEntity;
 import rocks.inspectit.marketplace.mvc.app.model.DetailModel;
 import rocks.inspectit.marketplace.mvc.app.model.OverviewItemModel;
 import rocks.inspectit.marketplace.mvc.app.model.ProductDetailModel;
+import rocks.inspectit.marketplace.mvc.app.model.RatingDetailModel;
 import rocks.inspectit.marketplace.mvc.app.model.RatingItemModel;
+import rocks.inspectit.marketplace.mvc.app.model.RatingModel;
 import rocks.inspectit.marketplace.mvc.app.model.UserDetailModel;
 
 /**
@@ -49,6 +51,8 @@ public class DozerConfig {
 				mapRatingEntityToRatingItemModel();
 				mapUserEntityToUserDetailModel();
 				mapProductEntityToProductDetailModel();
+				mapRatingModelToRatingEntity();
+				mapRatingEntityToRatingDetailModel();
 			}
 
 			/**
@@ -128,6 +132,28 @@ public class DozerConfig {
 						.exclude("previewImage") // exclude and map blob to string manually
 						.exclude("ratingsEntityList"); // exclude and map manually
 
+			}
+
+			/**
+			 * ## todo : describe
+			 */
+			private void mapRatingModelToRatingEntity() {
+				mapping(RatingModel.class, RatingEntity.class)
+						.fields("rating", "ratingAsNumber")
+						.fields("comment", "ratingDescription");
+			}
+
+			/**
+			 * ## todo : describe
+			 */
+			private void mapRatingEntityToRatingDetailModel() {
+				mapping(RatingEntity.class, RatingDetailModel.class)
+						.fields("ratingUuid", "ratingId", FieldsMappingOptions.copyByReference())
+						.fields("ratingAsNumber", "rating")
+						.fields("ratingDescription", "ratingDescription")
+
+						.fields("ProductEntity.productUuid", "productId", FieldsMappingOptions.copyByReference())
+						.fields("ProductEntity.name", "productName");
 			}
 
 		};

@@ -27,8 +27,7 @@ public class UserDetailModel {
 	private Date loginDate = new Date();
 
 	private List<ProductDetailModel> productItemList = new ArrayList<>();
-	private List<RatingItemModel> ratingItemList = new ArrayList<>();
-
+	private List<RatingDetailModel> ratingItemList = new ArrayList<>();
 
 	public UUID getId() {
 		return id;
@@ -110,11 +109,11 @@ public class UserDetailModel {
 		this.productItemList = productItemList;
 	}
 
-	public List<RatingItemModel> getRatingItemList() {
+	public List<RatingDetailModel> getRatingItemList() {
 		return ratingItemList;
 	}
 
-	public void setRatingItemList(List<RatingItemModel> ratingItemList) {
+	public void setRatingItemList(List<RatingDetailModel> ratingItemList) {
 		this.ratingItemList = ratingItemList;
 	}
 }

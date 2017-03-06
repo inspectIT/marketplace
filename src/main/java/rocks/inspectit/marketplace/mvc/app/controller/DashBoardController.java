@@ -62,7 +62,7 @@ public class DashBoardController {
 	@GetMapping(value = "/get/dashboard/simple/{sortOption}")
 	public List<OverviewItemModel> getSimpleDashboardOverview(@PathVariable final SortOptionEnum sortOption) {
 		final Page<ProductEntity> productEntitiesPage = this.getProductsBySortOption(sortOption);
-		final List<OverviewItemModel> modelList = this.mapper.getListModelFromEntityList(productEntitiesPage.getContent());
+		final List<OverviewItemModel> modelList = this.mapper.getOverviewItemModelListFromProductEntityList(productEntitiesPage.getContent());
 		return modelList;
 	}
 
@@ -84,7 +84,7 @@ public class DashBoardController {
 			@RequestParam(required = false) final List<String> limitTo,
 			@PageableDefault(size = 24) final Pageable pageable) {
 		final Page<ProductEntity> productEntitiesPage = this.getProductsBySortOptionAndSortOrderAndLimitToAndPageable(sortOrder, preSortOption, limitTo, pageable, additionSortOption);
-		List<OverviewItemModel> overviewItemModelList = this.mapper.getListModelFromEntityList(productEntitiesPage.getContent());
+		List<OverviewItemModel> overviewItemModelList = this.mapper.getOverviewItemModelListFromProductEntityList(productEntitiesPage.getContent());
 		return new PageImpl<>(overviewItemModelList, pageable, productEntitiesPage.getTotalElements());
 	}
 

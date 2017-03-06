@@ -4,10 +4,15 @@ import org.apache.poi.util.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -15,17 +20,22 @@ import org.springframework.web.multipart.support.StandardMultipartHttpServletReq
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
 import rocks.inspectit.marketplace.dao.repository.jpa.entity.KeywordEntity;
 import rocks.inspectit.marketplace.dao.repository.jpa.entity.ProductEntity;
+import rocks.inspectit.marketplace.dao.repository.jpa.entity.RatingEntity;
 import rocks.inspectit.marketplace.dao.repository.jpa.entity.UserEntity;
 import rocks.inspectit.marketplace.mvc.advice.GeneralControllerAdvice;
 import rocks.inspectit.marketplace.mvc.app.helper.ObjectMapper;
 import rocks.inspectit.marketplace.mvc.app.model.DetailModel;
+import rocks.inspectit.marketplace.mvc.app.model.RatingModel;
 import rocks.inspectit.marketplace.service.DetailService;
 
 /**
@@ -62,23 +72,9 @@ public class DetailsController {
 	 */
 	@GetMapping("get/product/{productId}")
 	public DetailModel getDetailModelById(@PathVariable final UUID productId) {
-		final DetailModel detailModel = this.mapper.getSimpleModelFromEntity(this.service.getProductEntityById(productId));
+		final DetailModel detailModel = this.mapper.getDetailModelFromProductEntity(this.service.getProductEntityById(productId));
 		return detailModel;
 	}
-
-	//	private UUID productId;
-	//	private String productName;
-	//	private String productDescription;
-	//	private String productPreviewImage;
-	//	private String productCreationDate;
-	//	private Long numberOfDownloads;
-	//
-	//	private UUID userId;
-	//	private String userName;
-	//	private String userAvatarUrl;
-	//
-	//	private Double rating;
-	//	private List<RatingItemModel> ratingList = new ArrayList<>();
 
 	/**
 	 * ## todo : add proper mapping.
@@ -86,19 +82,21 @@ public class DetailsController {
 	 * @param request {@link HttpServletRequest}
 	 */
 	@PostMapping("add/product")
-	public void addAndPersistProduct(final HttpServletRequest request) {
+	public Map<String, Boolean> addAndPersistProduct(final HttpServletRequest request) {
 		final MultipartFile product = ((StandardMultipartHttpServletRequest) request).getMultiFileMap().getFirst("products");
 		final MultipartFile image = ((StandardMultipartHttpServletRequest) request).getMultiFileMap().getFirst("images");
 
-		final String commaSeperatedKeywords = request.getParameter("keywords");
+		// manually replace quote char
+		final String commaSeparatedKeywords = request.getParameter("keywords").replaceAll("\"", "");
 		final String userName = request.getParameter("username");
 
 		final UserEntity userEntity = this.service.getUserByUserName(userName);
-		final List<KeywordEntity> keywordEntityList = this.service.getKeywordEntityListByAlias(commaSeperatedKeywords);
+		final List<KeywordEntity> keywordEntityList = this.service.getKeywordEntityListByAlias(commaSeparatedKeywords);
 		final ProductEntity productEntity = new ProductEntity();
 
-		productEntity.setName(request.getParameter("name"));
-		productEntity.setDescription(request.getParameter("description"));
+		// manually replace quote char
+		productEntity.setName(request.getParameter("name").replaceAll("\"", ""));
+		productEntity.setDescription(request.getParameter("description").replaceAll("\"", ""));
 
 		try (final InputStream imgInput = image.getInputStream();
 				final InputStream cntInput = product.getInputStream()) {
@@ -115,6 +113,67 @@ public class DetailsController {
 		productEntity.setKeywordEntityList(keywordEntityList);
 
 		this.service.persistProductEntity(productEntity);
+		final Map<String, Boolean> returnMap = new HashMap<>();
+		returnMap.put("success", productEntity.getProductUuid() != null);
+		return returnMap;
 	}
 
+	/**
+	 * simple update function. update download counter and modify date.
+	 *
+	 * @param productId {@link UUID}
+	 * @return {@link DetailModel}
+	 * @since 1.1.1-SNAPSHOT
+	 */
+	@GetMapping("update/product/{productId}/download")
+	public DetailModel getUpdatedProductEntity(@PathVariable final UUID productId) {
+		final ProductEntity productEntity = this.service.getProductEntityById(productId);
+		productEntity.setNumberOfDownloads(productEntity.getNumberOfDownloads() + 1);
+		productEntity.setModifyDate(new Date());
+		this.service.persistProductEntity(productEntity);
+
+		final DetailModel detailModel = this.mapper.getDetailModelFromProductEntity(productEntity);
+		return detailModel;
+	}
+
+	/**
+	 * ## todo describe.
+	 *
+	 * @param productId {@link UUID}
+	 * @param userName  {@link String}
+	 * @param rating    {@link RatingEntity}
+	 * @return {@link Map} of {@link String} and {@link Boolean}
+	 * @since 1.1.1-SNAPSHOT
+	 */
+	@PostMapping("add/rating/{productId}/{userName}")
+	public Map<String, Boolean> addAndPersistRating(@PathVariable final UUID productId,
+			@PathVariable final String userName,
+			@RequestBody RatingModel rating) {
+		final UserEntity userEntity = this.service.getUserByUserName(userName);
+		final ProductEntity productEntity = this.service.getProductEntityById(productId);
+
+		final RatingEntity entity = this.mapper.getRatingEntityFromRatingModel(rating);
+		entity.setProductEntity(productEntity);
+		entity.setUserEntity(userEntity);
+
+		this.service.persistRatingEntity(entity);
+		final Map<String, Boolean> returnMap = new HashMap<>();
+		returnMap.put("success", entity.getRatingUuid() != null);
+		return returnMap;
+	}
+
+	@GetMapping("/download/product/{productId}")
+	public ResponseEntity<byte[]> getFile(@PathVariable final UUID productId) {
+		final ProductEntity entity = service.getProductEntityById(productId);
+		final byte[] content = entity.getProductItem();
+		final String filename = entity.getName() + ".xml";
+
+		final HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.parseMediaType("application/xml"));
+		headers.setContentDispositionFormData(filename, filename);
+//		headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
+
+		final ResponseEntity<byte[]> response = new ResponseEntity<>(content, headers, HttpStatus.OK);
+		return response;
+	}
 }

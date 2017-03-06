@@ -10,5 +10,12 @@ import rocks.inspectit.marketplace.dao.repository.jpa.entity.KeywordEntity;
  * @since 1.1.0-SNAPSHOT
  */
 public interface KeywordService {
+
+	/**
+	 * ## todo : describe.
+	 *
+	 * @param strings {@link List} of {@link String}
+	 * @return {@link List} of {@link KeywordEntity}
+	 */
 	List<KeywordEntity> getKeywordEntityListByAliasList(final List<String> strings);
 }

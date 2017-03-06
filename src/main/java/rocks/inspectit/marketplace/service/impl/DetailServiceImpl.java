@@ -9,9 +9,11 @@ import java.util.UUID;
 
 import rocks.inspectit.marketplace.dao.repository.jpa.entity.KeywordEntity;
 import rocks.inspectit.marketplace.dao.repository.jpa.entity.ProductEntity;
+import rocks.inspectit.marketplace.dao.repository.jpa.entity.RatingEntity;
 import rocks.inspectit.marketplace.dao.repository.jpa.entity.UserEntity;
 import rocks.inspectit.marketplace.dao.service.KeywordService;
 import rocks.inspectit.marketplace.dao.service.ProductService;
+import rocks.inspectit.marketplace.dao.service.RatingService;
 import rocks.inspectit.marketplace.dao.service.UserService;
 import rocks.inspectit.marketplace.service.DetailService;
 
@@ -26,6 +28,7 @@ public class DetailServiceImpl implements DetailService {
 	private final ProductService productService;
 	private final UserService userService;
 	private final KeywordService keywordService;
+	private final RatingService ratingService;
 
 	/**
 	 * constructor injection.
@@ -33,12 +36,14 @@ public class DetailServiceImpl implements DetailService {
 	 * @param productService {@link ProductService}
 	 * @param userService    {@link UserService}
 	 * @param keywordService {@link KeywordService}
+	 * @param ratingService  {@link RatingService}
 	 */
 	@Autowired
-	public DetailServiceImpl(final ProductService productService, final UserService userService, final KeywordService keywordService) {
+	public DetailServiceImpl(final ProductService productService, final UserService userService, final KeywordService keywordService, final RatingService ratingService) {
 		this.productService = productService;
 		this.userService = userService;
 		this.keywordService = keywordService;
+		this.ratingService = ratingService;
 	}
 
 	/**
@@ -73,7 +78,7 @@ public class DetailServiceImpl implements DetailService {
 	}
 
 	/**
-	 * ## todo : describe
+	 * ## todo : describe.
 	 *
 	 * @param productEntity {@link ProductEntity}
 	 * @return {@link ProductEntity}
@@ -81,5 +86,17 @@ public class DetailServiceImpl implements DetailService {
 	@Override
 	public ProductEntity persistProductEntity(final ProductEntity productEntity) {
 		return this.productService.persistProductEntity(productEntity);
+	}
+
+	/**
+	 * ## todo : describe.
+	 *
+	 * @param entity {@link RatingEntity}
+	 * @return {@link RatingEntity}
+	 * @since 1.1.1-SNAPSHOT
+	 */
+	@Override
+	public RatingEntity persistRatingEntity(RatingEntity entity) {
+		return this.ratingService.persistRatingEntity(entity);
 	}
 }

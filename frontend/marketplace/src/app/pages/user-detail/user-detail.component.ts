@@ -4,8 +4,8 @@
  * @since 1.1.0-SNAPSHOT
  */
 import {Component, OnInit} from "@angular/core";
-import {Router, ActivatedRoute} from "@angular/router";
-import {ApiService} from "../../services/api/api.service";
+import {ActivatedRoute} from "@angular/router";
+import {ApiUserService} from "../../services/api/api.user.service";
 
 @Component({
   selector: 'app-user-detail',
@@ -18,8 +18,7 @@ export class UserDetailComponent implements OnInit {
 
   authenticated: boolean;
 
-  constructor(private route: ActivatedRoute, private router: Router,
-    private service: ApiService) {
+  constructor(private route: ActivatedRoute, private service: ApiUserService) {
   }
 
   ngOnInit() {
@@ -48,6 +47,5 @@ export class UserDetailComponent implements OnInit {
   getPopulatedArray(value: number): Array<any> {
     return Array(value).fill(0);
   }
-
 
 }

@@ -1,3 +1,36 @@
-<p>
-  comment-page works!
-</p>
+<div *ngIf="!isPermitted || isPermitted?.ratingExists == true">
+  <div class="info" *ngIf="!hasError || hasError == false">
+    <h3>You have already left a comment.</h3>
+    <p>You are not allowed to add more than one comment per product.</p>
+  </div>
+  <div *ngIf="hasError && hasError == true">
+    <h3>An error occured.</h3>
+    <p>Seems like you are not logged in. Please log in and try again.</p>
+  </div>
+</div>
+<div *ngIf="isPermitted && isPermitted?.ratingExists == false">
+  <form (ngSubmit)="saveComment()" [formGroup]="commentForm" role="form">
+    <br style="clear:both">
+    <h3 style="margin-bottom: 25px; text-align: center;">Add comment to product</h3>
+    <div class="form-group">
+      <label for="comment">Comment:</label>
+      <textarea id="comment" formControlName="comment" class="form-control"></textarea>
+      <span *ngIf="commentCtrl.dirty && commentCtrl.hasError('required')">Comment is required!</span>
+      <span *ngIf="commentCtrl.dirty && commentCtrl.hasError('minlength')">Comment has to be at least 10 characters long.</span>
+    </div>
+
+    <div>
+      <label>Choose Rating</label>
+      <div>
+        <i class="glyphicon" aria-hidden="true" *ngFor="let rating of ratingRangeArray" (click)="updateRating(rating)"
+           [class.glyphicon-star]="rating <= currentRating" [class.glyphicon-star-empty]="rating > currentRating"></i>
+      </div>
+      <input id="rating" formControlName="rating" class="form-control" type="hidden" value="{{currentRating}}">
+      <span *ngIf="ratingCtrl.dirty && ratingCtrl.hasError('required')">Rating is required!</span>
+    </div>
+
+    <button type="reset" class="btn btn-primary pull-right" (click)="reset()" style="margin-left: 15px;">Reset</button>
+    <button type="submit" class="btn btn-primary pull-right" [disabled]="!commentForm.valid">Erstelle Produkt</button>
+
+  </form>
+</div>

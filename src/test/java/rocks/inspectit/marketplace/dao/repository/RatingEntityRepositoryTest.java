@@ -14,6 +14,7 @@ import java.util.UUID;
 
 import rocks.inspectit.marketplace.dao.repository.jpa.entity.RatingEntity;
 
+import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
@@ -43,4 +44,16 @@ public class RatingEntityRepositoryTest extends AbstractTransactionalJUnit4Sprin
 		assertThat(entity.getRatingAsNumber(), is(5));
 	}
 
+	@Test
+	public void findAllByUserEntityUserUuidAndProductEntityProductUuid() throws Exception {
+		final List<RatingEntity> entity = repository.findAllByUserEntityUserUuidAndProductEntityProductUuid(
+				UUID.fromString("c848cad7-c3b2-499a-9688-8fb2a261313b"), UUID.fromString("8650caf1-f023-4808-95f7-322af55fb163"));
+		assertThat(entity.size(), greaterThan(0));
+	}
+
+	@Test
+	public void findAllByUserEntityNameAndProductEntityProductUuid() throws Exception {
+		final List<RatingEntity> entity = repository.findAllByUserEntityNameAndProductEntityProductUuid("nik n", UUID.fromString("8650caf1-f023-4808-95f7-322af55fb163"));
+		assertThat(entity.size(), greaterThan(0));
+	}
 }

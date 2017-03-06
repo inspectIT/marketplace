@@ -36,7 +36,7 @@
             <div class="col-lg-6" *ngFor="let product of user?.productItemList" style="margin-top: 15px;">
               <div class="media">
                 <a class="pull-left" routerLink="/details/{{product.productId}}">
-                  <img class="media-object dp img-circle" src="{{product.productPreviewImage}}" style="width: 100px; height:100px;">
+                  <img [src]="'data:image/jpg;base64,'+product.productPreviewImage" width="100" height="100" class="media-object dp img-circle">
                 </a>
                 <div class="media-body">
                   <h4 class="media-heading">

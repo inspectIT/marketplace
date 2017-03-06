@@ -23,10 +23,10 @@ import {UserDetailComponent} from "../../pages/user-detail/user-detail.component
 export const APP_ROUTES = [
   {path: 'profile/:name', component: ProfileComponent},
   {path: 'user/:name', component: UserDetailComponent},
-  {path: 'addProduct/:userId', component: ProductPageComponent},
+  {path: 'addProduct/:name', component: ProductPageComponent},
   {path: 'search/:param', component: SearchResultComponent},
-  {path: 'details/:id', component: ItemDetailComponent},
-  {path: 'addComment/:productId/:userId', component: CommentPageComponent},
+  {path: 'details/:productId', component: ItemDetailComponent},
+  {path: 'addComment/:productId', component: CommentPageComponent},
   {path: 'overview/:tag', component: OverviewComponent},
   {path: 'login', component: LoginComponent},
   {path: 'logout', component: LogoutComponent},

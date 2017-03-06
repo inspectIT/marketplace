@@ -3,11 +3,12 @@
 </div>
 
 <div class="container" style="color: black">
-  <div class="jumbotron">
-    <table>
+  <div class="jumbotron table-responsive">
+    <table class="table">
       <tr>
         <td class="item-image">
-          <img src="http://lorempixel.com/output/abstract-q-c-500-200-3.jpg" width="500" height="200" class="img-rounded"></td>
+          <img [src]="'data:image/jpg;base64,'+productDetail?.productPreviewImage" width="500" height="200" class="img-rounded"/>
+        </td>
         <td class="item-content" style="padding-left: 15px;">
           <div>
             <div>
@@ -22,7 +23,8 @@
                       [class.glyphicon-star]="i <= productDetail?.rating" [class.glyphicon-star-empty]="i >= productDetail?.rating"></span>({{productDetail?.ratingList.length}})
               </div>
               <div style="padding-top: 15px;">
-                <button class="btn btn-primary">Download Konfiguration</button>
+                <button class="btn btn-primary" (click)="updateProductDownloads()">Download Konfiguration</button>
+                <!--<a target="_self" href="app/download/product/{{productDetail?.productId}}" download="{{productDetail?.productName}}.pdf">Download Konfiguration</a>-->
               </div>
             </div>
           </div>
@@ -39,15 +41,14 @@
   </div>
 
   <div class="panel panel-default">
-    <div>
+    <div style="margin-left: 15px; margin-right: 15px;">
       <div>
         <h2>User Reviews</h2>
       </div>
       <div>
         <span class="glyphicon glyphicon-star" aria-hidden="true" *ngFor="let i of getPopulatedArray(10); let i = index"
               [class.glyphicon-star]="i <= productDetail?.rating" [class.glyphicon-star-empty]="i >= productDetail?.rating"></span>({{productDetail?.ratingList.length}})
-
-        <a routerLink="/addComment/{{productDetail?.productId}}/{{productDetail?.userName}}" class="btn btn-primary pull-right">Add rating</a>
+        <a routerLink="/addComment/{{productDetail?.productId}}" class="btn btn-primary pull-right" *ngIf="isUserLoggedIn == true">Add rating</a>
       </div>
 
       <hr>
@@ -60,7 +61,7 @@
           </div>
           <div class="media-body">
             <h4 class="media-heading">
-              <a routerLink="/user/{{rating.userName}}">{{rating.userName}} Profile </a> {{rating.rating}}
+              <a routerLink="/user/{{rating.userName}}">{{rating.userName}}</a>
               <span class="glyphicon glyphicon-star" aria-hidden="true" *ngFor="let i of getPopulatedArray(10); let i = index"
                     [class.glyphicon-star]="i <= rating.rating" [class.glyphicon-star-empty]="i >= rating.rating"></span><br/>
               <small><i>Posted on {{rating.creationDate | date: 'medium'}}</i></small>

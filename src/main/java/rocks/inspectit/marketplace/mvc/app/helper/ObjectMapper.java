@@ -16,12 +16,15 @@ import java.util.Optional;
 import javax.xml.bind.DatatypeConverter;
 
 import rocks.inspectit.marketplace.dao.repository.jpa.entity.ProductEntity;
+import rocks.inspectit.marketplace.dao.repository.jpa.entity.RatingEntity;
 import rocks.inspectit.marketplace.dao.repository.jpa.entity.RoleEntity;
 import rocks.inspectit.marketplace.dao.repository.jpa.entity.UserEntity;
 import rocks.inspectit.marketplace.mvc.app.model.DetailModel;
 import rocks.inspectit.marketplace.mvc.app.model.OverviewItemModel;
 import rocks.inspectit.marketplace.mvc.app.model.ProductDetailModel;
+import rocks.inspectit.marketplace.mvc.app.model.RatingDetailModel;
 import rocks.inspectit.marketplace.mvc.app.model.RatingItemModel;
+import rocks.inspectit.marketplace.mvc.app.model.RatingModel;
 import rocks.inspectit.marketplace.mvc.app.model.UserDetailModel;
 import rocks.inspectit.marketplace.service.dto.GitHubEmailDto;
 
@@ -55,7 +58,7 @@ public class ObjectMapper {
 	 * @param productEntityList as {@link List} of {@link ProductEntity}
 	 * @return {@link List} of {@link OverviewItemModel}
 	 */
-	public List<OverviewItemModel> getListModelFromEntityList(final List<ProductEntity> productEntityList) {
+	public List<OverviewItemModel> getOverviewItemModelListFromProductEntityList(final List<ProductEntity> productEntityList) {
 		final List<OverviewItemModel> returnModel = new ArrayList<>();
 		productEntityList.forEach(it -> {
 			final OverviewItemModel tmpModel = this.mapper.map(it, OverviewItemModel.class);
@@ -72,7 +75,7 @@ public class ObjectMapper {
 	 * @param productEntity {@link ProductEntity}
 	 * @return {@link DetailModel}
 	 */
-	public DetailModel getSimpleModelFromEntity(final ProductEntity productEntity) {
+	public DetailModel getDetailModelFromProductEntity(final ProductEntity productEntity) {
 		final List<RatingItemModel> ratingList = new ArrayList<>();
 		productEntity.getRatingEntityList().forEach(rating -> {
 			ratingList.add(this.mapper.map(rating, RatingItemModel.class));
@@ -101,9 +104,17 @@ public class ObjectMapper {
 			productDetailModelList.add(tmpModel);
 		});
 
+		final List<RatingDetailModel> ratingDetailModelList = new ArrayList<>();
+		userEntity.getRatingEntityList().forEach(it -> {
+			final RatingDetailModel tmpModel = this.mapper.map(it, RatingDetailModel.class);
+			tmpModel.setRatingCreationDate(it.getModifyDate().orElse(it.getCreationDate()));
+			ratingDetailModelList.add(tmpModel);
+		});
+
 		final UserDetailModel model = this.mapper.map(userEntity, UserDetailModel.class);
 
 		model.setProductItemList(productDetailModelList);
+		model.setRatingItemList(ratingDetailModelList);
 		return model;
 	}
 
@@ -180,5 +191,16 @@ public class ObjectMapper {
 
 		this.mapper.map(user, entity);
 		return entity;
+	}
+
+	/**
+	 * Simple mapper.
+	 *
+	 * @param rating {@link RatingModel}
+	 * @return {@link RatingEntity}
+	 * @since 1.1.1-SNAPSHOT
+	 */
+	public RatingEntity getRatingEntityFromRatingModel(final RatingModel rating) {
+		return this.mapper.map(rating, RatingEntity.class);
 	}
 }

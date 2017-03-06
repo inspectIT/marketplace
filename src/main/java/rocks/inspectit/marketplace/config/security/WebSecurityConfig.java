@@ -18,7 +18,6 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
-import org.springframework.security.web.header.writers.StaticHeadersWriter;
 import org.springframework.web.filter.CompositeFilter;
 
 import java.util.ArrayList;
@@ -67,12 +66,21 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	 *
 	 * @param http {@link HttpSecurity}
 	 * @throws Exception {@link Exception} if something goes wrong
+	 * @since 1.1.1-SNAPSHOT
 	 */
 	@Override
 	protected void configure(final HttpSecurity http) throws Exception {
 		http
 				.antMatcher("/**")
-				.authorizeRequests().antMatchers("/**", "/app/get/**", "/login**", "/index.html", "/**.js", "/assets/**", "/api**").permitAll()
+				.authorizeRequests()
+				.antMatchers(
+						"/", // allow request to root
+						"/login**", // allow login request
+						"/app/get/**",  // allow default "get" requests
+						"/app/update/product/**/download", // allow updates to product, if it gets downloaded
+						"/app/download/product/**", // allow product downloads
+						"/index.html", "/**.js", "/**.css", "/**.woff", "/**.woff2", "/**.ttf", "/assets/**", // static resources
+						"/api**").permitAll()
 				.anyRequest().authenticated()
 				.and().logout().logoutSuccessUrl("/").permitAll()
 				.and().csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()).ignoringAntMatchers("/nocsrf", "/console/**")
@@ -82,7 +90,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				/**
 				 * limit access to amazonaws domain
 				 */
-				.addHeaderWriter(new StaticHeadersWriter("X-FRAME-OPTIONS", "ALLOW-FROM amazonaws.com"))
+				//				.addHeaderWriter(new StaticHeadersWriter("X-FRAME-OPTIONS", "ALLOW-FROM amazonaws.com"))
 				.and().addFilterBefore(ssoFilter(), BasicAuthenticationFilter.class);
 	}
 
@@ -130,6 +138,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		return filter;
 	}
 
+	/**
+	 * ## todo : describe.
+	 *
+	 * @param client     {@link ClientResources}
+	 * @param processUrl {@link String}
+	 * @return {@link Filter}
+	 */
 	private Filter customSSOFilter(final ClientResources client, final String processUrl) {
 		final OAuth2ClientAuthenticationProcessingFilter filter = new OAuth2ClientAuthenticationProcessingFilter(processUrl);
 

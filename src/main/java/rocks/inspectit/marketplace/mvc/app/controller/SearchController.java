@@ -57,7 +57,7 @@ public class SearchController {
 			@PageableDefault(size = 48) final Pageable pageable) {
 
 		final Page<ProductEntity> productEntitiesPage = this.service.getAllProductEntitiesBySearchTerm(searchTerm, pageable);
-		List<OverviewItemModel> overviewItemModelList = this.mapper.getListModelFromEntityList(productEntitiesPage.getContent());
+		List<OverviewItemModel> overviewItemModelList = this.mapper.getOverviewItemModelListFromProductEntityList(productEntitiesPage.getContent());
 		return new PageImpl<>(overviewItemModelList, pageable, productEntitiesPage.getTotalElements());
 	}
 }

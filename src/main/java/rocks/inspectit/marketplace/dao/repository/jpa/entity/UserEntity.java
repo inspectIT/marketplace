@@ -36,14 +36,14 @@ public class UserEntity {
 	private UUID userUuid;
 
 	/**
-	 * username is unique
+	 * username is unique.
 	 */
 	@NotEmpty
 	@Column(unique = true)
 	private String name;
 
 	/**
-	 * email is unique
+	 * email is unique.
 	 */
 	@NotEmpty
 	@Column(unique = true)

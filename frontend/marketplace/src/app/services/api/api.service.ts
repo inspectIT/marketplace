@@ -4,20 +4,21 @@
  * @since 1.0.5-SNAPSHOT
  */
 import {Injectable} from "@angular/core";
-import {Http, Response} from "@angular/http";
+import {Http, Response, Headers, RequestOptions} from "@angular/http";
 import {Observable} from "rxjs/Observable";
 import {PagedOverviewResultModel} from "../../pages/shared/model/paged.overview.result.model";
 import {DashboardItemModel} from "../../pages/dashboard/model/dashboard.item.model";
-import {User} from "../../domain/user.domain.class";
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/catch";
 import "rxjs/add/observable/throw";
+import {PermissionModel} from "../../pages/comment-page/model/permission.model";
+import {HelperService} from "./helper/helper.service";
 
 @Injectable()
 export class ApiService {
   private applicationUrl: string;
 
-  constructor(private http: Http, private url: string) {
+  constructor(private http: Http, private url: string, private helperService: HelperService) {
     this.applicationUrl = url;
   }
 
@@ -33,9 +34,9 @@ export class ApiService {
     // ...using get request
     return this.http.get(url)
     // ...and calling .json() on the response to return data
-      .map((res: Response) => this.extractData(res))
+      .map((res: Response) => this.helperService.extractData(res))
       //...errors if any
-      .catch((error: any) => this.handleError(error));
+      .catch((error: any) => this.helperService.handleError(error));
   }
 
   /**
@@ -93,17 +94,17 @@ export class ApiService {
 
     return this.http.get(url)
     // ...and calling .json() on the response to return data
-      .map((res: Response) => this.extractData(res))
+      .map((res: Response) => this.helperService.extractData(res))
       //...errors if any
-      .catch((error: any) => this.handleError(error));
+      .catch((error: any) => this.helperService.handleError(error));
   }
 
   getPagedOverviewResultFromRESTResource(url: string): Observable<PagedOverviewResultModel> {
     return this.http.get(url)
     // ...and calling .json() on the response to return data
-      .map((res: Response) => this.extractData(res))
+      .map((res: Response) => this.helperService.extractData(res))
       //...errors if any
-      .catch((error: any) => this.handleError(error));
+      .catch((error: any) => this.helperService.handleError(error));
   }
 
   persistProduct(username: string, imagesToUpload: Array<File>, productsToUpload: Array<File>, productName: string, productDescription: string, limitToArray: Array<string>) {
@@ -127,66 +128,47 @@ export class ApiService {
 
     return this.http.post(url, formData)
     // ...and calling .json() on the response to return data
-      .map((res: Response) => this.extractData(res))
+      .map((res: Response) => this.helperService.extractData(res))
       //...errors if any
-      .catch((error: any) => this.handleError(error));
+      .catch((error: any) => this.helperService.handleError(error));
   }
 
-  getUser(): Observable<User> {
-    const url = `${this.applicationUrl}/app/get/user`;
+  updateProductDownloadCounter(productId: string) {
+    const url = `${this.applicationUrl}/app/update/product/${productId}/download`;
     return this.http.get(url)
     // ...and calling .json() on the response to return data
-      .map((res: Response) => this.extractData(res))
+      .map((res: Response) => this.helperService.extractData(res))
       //...errors if any
-      .catch((error: any) => this.handleError(error));
+      .catch((error: any) => this.helperService.handleError(error));
   }
 
-  getUserDetailByUserName(userName: string): Observable<User> {
-    const url = `${this.applicationUrl}/app/get/user/${userName}/detail`;
-    console.log("get user from " + url);
+  persistComment(username: string, productId: string, formValueJson: string) {
+    const url = `${this.applicationUrl}/app/add/rating/${productId}/${username}`;
+    const body = formValueJson;
+    const headers = new Headers({'Content-Type': 'application/json'});
+    const options = new RequestOptions({headers: headers});
+
+    return this.http.post(url, body, options)
+    // ...and calling .json() on the response to return data
+      .map((res: Response) => this.helperService.extractData(res))
+      //...errors if any
+      .catch((error: any) => this.helperService.handleError(error));
+  }
+
+  /**
+   * check if user is allowed to add comment to product
+   *
+   * @param userName {@link string}
+   * return true if user is allowed to comment; else false
+   */
+  userHasPermissionToComment(userName: string, productId: string): Observable<PermissionModel> {
+    const url = `${this.applicationUrl}/app/get/userHasPermission/${userName}/${productId}/comment`;
+    console.log("get user permission for comment by url " + url);
     return this.http.get(url)
     // ...and calling .json() on the response to return data
-      .map((res: Response) => this.extractData(res))
+      .map((res: Response) => this.helperService.extractData(res))
       //...errors if any
-      .catch((error: any) => this.handleError(error));
-  }
-
-  login() {
-    const url = `${this.applicationUrl}//login/github`;
-    this.http.get(url).subscribe(
-      () => console.log("login successfull"),
-      err => this.handleError(err),
-      () => console.log('Fetching complete for Server Metrics')
-    );
-
-  }
-
-  logout() {
-    const url = `${this.applicationUrl}/logout`;
-    this.http.post(url, {}).subscribe(
-      () => console.log("logout successfull"),
-      err => this.handleError(err),
-      () => console.log('Fetching complete for Server Metrics')
-    );
-  }
-
-  private extractData(data: Response) {
-    let body = data.json();
-    return body || {};
-  }
-
-  private handleError(error: Response | any) {
-    // In a real world app, we might use a remote logging infrastructure
-    let errMsg: string;
-    if (error instanceof Response) {
-      const body = error.json() || '';
-      const err = body.error || JSON.stringify(body);
-      errMsg = `${error.status} - ${error.statusText || ''} ${err}`;
-    } else {
-      errMsg = error.message ? error.message : error.toString();
-    }
-    console.error(errMsg);
-    return Observable.throw(errMsg);
+      .catch((error: any) => this.helperService.handleError(error));
   }
 
 }

@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import rocks.inspectit.marketplace.dao.repository.jpa.entity.KeywordEntity;
 import rocks.inspectit.marketplace.dao.repository.jpa.entity.ProductEntity;
+import rocks.inspectit.marketplace.dao.repository.jpa.entity.RatingEntity;
 import rocks.inspectit.marketplace.dao.repository.jpa.entity.UserEntity;
 
 /**
@@ -41,4 +42,13 @@ public interface DetailService {
 	 * @return {@link ProductEntity}
 	 */
 	ProductEntity persistProductEntity(final ProductEntity productEntity);
+
+	/**
+	 * ## todo : describe
+	 *
+	 * @param entity {@link RatingEntity}
+	 * @return {@link RatingEntity}
+	 * @since 1.1.1-SNAPSHOT
+	 */
+	RatingEntity persistRatingEntity(final RatingEntity entity);
 }

@@ -9,7 +9,7 @@ import {RatingResultItemModel} from "../pages/shared/model/rating.result.item.mo
 export class User {
 
   id: string;
-  username: string;
+  userName: string;
   avatarUrl: string;
   userCompany: string;
   userLocation: string;
@@ -22,7 +22,7 @@ export class User {
 
   public printValues(): string {
     return "id: " + this.id +
-      " :: username: " + this.username +
+      " :: username: " + this.userName +
       " :: avatar: " + this.avatarUrl +
       " :: company: " + this.userCompany +
       " :: location:" + this.userLocation;
