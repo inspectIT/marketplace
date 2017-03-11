@@ -49,10 +49,10 @@
                   </span>
                   <div class="media-body">
                     <h4 class="media-heading">
-                      <a class="pull-left" routerLink="/details/{{rating.productId}}">{{rating.productName}}</a>
+                      <a class="pull-left" routerLink="/details/{{rating.productId}}">{{rating.productName}}</a><br/>
                       <small>
-                      <span class="glyphicon glyphicon-star" aria-hidden="true" *ngFor="let i of getPopulatedArray(10); let i = index"
-                            [class.glyphicon-star]="i <= rating.rating" [class.glyphicon-star-empty]="i >= rating.rating" style="margin-left: 15px;"></span>
+                        <span class="glyphicon glyphicon-star" aria-hidden="true" *ngFor="let i of getPopulatedArray(10); let i = index"
+                              [class.glyphicon-star]="i <= rating.rating" [class.glyphicon-star-empty]="i >= rating.rating" style="margin-left: 15px;"></span>
                         | Posted on {{rating.ratingCreationDate | date: 'medium'}}
                       </small>
                     </h4>

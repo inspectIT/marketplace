@@ -31,6 +31,6 @@ public interface UserEntityRepository extends CrudRepository<UserEntity, UUID> {
 	 * @param name {@link String}
 	 * @return {@link UserEntity}
 	 */
-	UserEntity findOneByName(final String name);
+	UserEntity findOneByNameOrderByRatingEntityListCreationDateDesc(final String name);
 }
 

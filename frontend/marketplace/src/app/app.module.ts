@@ -27,7 +27,6 @@ import {RemoveSpacesPipe} from "./pipes/remove.spaces.pipe";
 import {OverviewComponent} from "./pages/overview/overview.component";
 import {CommentPageComponent} from "./pages/comment-page/comment-page.component";
 import {ProductPageComponent} from "./pages/product-page/product-page.component";
-import {LogoutComponent} from "./components/logout/logout.component";
 import {UserDetailComponent} from "./pages/user-detail/user-detail.component";
 import {HelperService} from "./services/api/helper/helper.service";
 import {ApiUserService} from "./services/api/api.user.service";
@@ -52,7 +51,6 @@ import {ApiUserService} from "./services/api/api.user.service";
     OverviewComponent,
     CommentPageComponent,
     ProductPageComponent,
-    LogoutComponent,
     UserDetailComponent
   ],
   imports: [
@@ -70,17 +68,17 @@ import {ApiUserService} from "./services/api/api.user.service";
     },
     {
       provide: 'APPLICATION_URL',
-      useFactory: (IS_PROD) => IS_PROD ? '' : 'http://localhost:8080',
+      useFactory: applicationUrl,
       deps: ['IS_PROD']
     },
     {
       provide: ApiService,
-      useFactory: (IS_PROD, http, APPLICATION_URL, helperService) => /** IS_PROD ?: */ new ApiService(http, APPLICATION_URL, helperService),
+      useFactory: apiServiceCreation,
       deps: ['IS_PROD', Http, 'APPLICATION_URL', HelperService]
     },
     {
       provide: ApiUserService,
-      useFactory: (IS_PROD, http, APPLICATION_URL, helperService) => /** IS_PROD ?: */ new ApiUserService(http, APPLICATION_URL, helperService),
+      useFactory: apiUserServiceCreation,
       deps: ['IS_PROD', Http, 'APPLICATION_URL', HelperService]
     },
     HelperService
@@ -88,4 +86,16 @@ import {ApiUserService} from "./services/api/api.user.service";
   bootstrap: [AppComponent]
 })
 export class AppModule {
+}
+
+export function applicationUrl(IS_PROD: string) {
+  return IS_PROD ? '' : 'http://localhost:8080';
+}
+
+export function apiServiceCreation(IS_PROD: string, http: Http, APPLICATION_URL: string, helperService: HelperService) {
+  return /** IS_PROD ?: */ new ApiService(http, APPLICATION_URL, helperService);
+}
+
+export function apiUserServiceCreation(IS_PROD: string, http: Http, APPLICATION_URL: string, helperService: HelperService) {
+  return /** IS_PROD ?: */ new ApiUserService(http, APPLICATION_URL, helperService);
 }

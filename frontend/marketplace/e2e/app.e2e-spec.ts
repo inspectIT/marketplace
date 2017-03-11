@@ -1,6 +1,6 @@
 import {MarketplacePage} from "./app.po";
 
-describe('marketplace App', function() {
+describe('marketplace App', ()=> {
   let page: MarketplacePage;
 
   beforeEach(() => {

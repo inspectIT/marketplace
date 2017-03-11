@@ -31,7 +31,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public UserEntity getUserEntityByUsername(final String userName) {
-		return this.repository.findOneByName(userName);
+		return this.repository.findOneByNameOrderByRatingEntityListCreationDateDesc(userName);
 	}
 
 	@Override

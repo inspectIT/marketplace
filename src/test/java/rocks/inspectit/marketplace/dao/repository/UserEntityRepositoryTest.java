@@ -69,7 +69,7 @@ public class UserEntityRepositoryTest extends AbstractTransactionalJUnit4SpringC
 
 	@Test
 	public void findUserEntityWithRole() throws Exception {
-		final UserEntity entity = repository.findOneByName("nik n");
+		final UserEntity entity = repository.findOneByNameOrderByRatingEntityListCreationDateDesc("nik n");
 		assertThat(entity.getRoleEntity().getRole(), not("user"));
 		assertThat(entity.getRoleEntity().getRole(), is("admin"));
 	}
@@ -90,7 +90,7 @@ public class UserEntityRepositoryTest extends AbstractTransactionalJUnit4SpringC
 		entity.setIp("192");
 		this.repository.save(entity);
 
-		final UserEntity testEntity = repository.findOneByName("awesome o");
+		final UserEntity testEntity = repository.findOneByNameOrderByRatingEntityListCreationDateDesc("awesome o");
 		assertNotNull(testEntity.getLastLoginDate());
 	}
 
