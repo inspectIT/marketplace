@@ -27,8 +27,8 @@
               <div class="col-lg-7" style="margin-top: 15px;">
                 <div class="media">
                 <span class="pull-left" href="#">
-                  <img class="media-object dp img-circle" src="{{user?.avatarUrl}}" width="100" height="100" *ngIf="user?.userAvatarUrl != null"/>
-                  <img class="media-object dp img-circle" src="assets/images/no_image.png" width="100" height="100" *ngIf="user?.userAvatarUrl == null"/>
+                  <img class="media-object dp img-circle" src="{{user?.avatarUrl}}" width="100" height="100" *ngIf="user?.userAvatarUrl != ''"/>
+                  <img class="media-object dp img-circle" src="assets/images/no_image.png" width="100" height="100" *ngIf="user?.userAvatarUrl == ''"/>
                 </span>
                   <div class="media-body">
                     <h4 class="media-heading">
@@ -46,8 +46,8 @@
               <div class="col-lg-6" *ngFor="let rating of user?.ratingItemList" style="margin-top: 15px;">
                 <div class="media">
                   <span class="pull-left">
-                    <img class="media-object dp img-circle" src="{{user?.avatarUrl}}" width="100" height="100" *ngIf="user?.userAvatarUrl != null"/>
-                    <img class="media-object dp img-circle" src="assets/images/no_image.png" width="100" height="100" *ngIf="user?.userAvatarUrl == null"/>
+                    <img class="media-object dp img-circle" src="{{user?.avatarUrl}}" width="100" height="100" *ngIf="user?.userAvatarUrl != ''"/>
+                    <img class="media-object dp img-circle" src="assets/images/no_image.png" width="100" height="100" *ngIf="user?.userAvatarUrl == ''"/>
                   </span>
                   <div class="media-body">
                     <h4 class="media-heading">
@@ -68,8 +68,8 @@
               <div class="col-lg-6" *ngFor="let product of user?.productItemList" style="margin-top: 15px;">
                 <div class="media">
                   <a class="pull-left" routerLink="/details/{{product.productId}}">
-                    <img [src]="'data:image/jpg;base64,'+product.productPreviewImage" width="100" height="100" class="media-object dp img-circle" *ngIf="product.productPreviewImage != null"/>
-                    <img [src]="assets/images/no_image.png" width="100" height="100" class="media-object dp img-circle" *ngIf="product.productPreviewImage == null"/>
+                    <img [src]="'data:image/jpg;base64,'+product.productPreviewImage" width="100" height="100" class="media-object dp img-circle" *ngIf="product.productPreviewImage != ''"/>
+                    <img src="assets/images/no_image.png" width="100" height="100" class="media-object dp img-circle" *ngIf="product.productPreviewImage == ''"/>
                   </a>
                   <div class="media-body">
                     <h4 class="media-heading">

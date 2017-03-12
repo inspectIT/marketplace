@@ -7,8 +7,8 @@
     <table class="table">
       <tr>
         <td class="item-image">
-          <img [src]="'data:image/jpg;base64,'+productDetail?.productPreviewImage" width="500" height="200" class="img-rounded" *ngIf="productDetail?.productPreviewImage != null"/>
-          <img [src]="assets/images/no_image.png" width="500" height="200" class="img-rounded" *ngIf="productDetail?.productPreviewImage == null"/>
+          <img [src]="'data:image/jpg;base64,'+productDetail?.productPreviewImage" width="500" height="200" class="img-rounded" *ngIf="productDetail?.productPreviewImage != ''"/>
+          <img src="assets/images/no_image.png" width="500" height="200" class="img-rounded" *ngIf="productDetail?.productPreviewImage == ''"/>
         </td>
         <td class="item-content" style="padding-left: 15px;">
           <div>
@@ -58,8 +58,8 @@
         <!-- Left-aligned -->
         <div class="media" *ngFor="let rating of productDetail?.ratingList">
           <div class="media-left">
-            <img src="{{rating.userAvatarUrl}}" class="media-object" width="60" alt="user avatar" *ngIf="rating.userAvatarUrl != null"/>
-            <img [src]="assets/images/no_image.png" class="media-object" width="60" alt="user avatar" *ngIf="rating.userAvatarUrl == null"/>
+            <img src="{{rating.userAvatarUrl}}" class="media-object" width="60" alt="user avatar" *ngIf="rating.userAvatarUrl != ''"/>
+            <img src="assets/images/no_image.png" class="media-object" width="60" alt="user avatar" *ngIf="rating.userAvatarUrl == ''"/>
           </div>
           <div class="media-body">
             <h4 class="media-heading">
