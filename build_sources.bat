@@ -4,7 +4,7 @@ cd frontend
 cd marketplace
 dir
 echo build angular app with prod-profile
-call ng build -prod
+call ng build --prod
 cd ..
 cd ..
 dir
