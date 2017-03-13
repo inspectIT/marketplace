@@ -34,7 +34,7 @@ public class MainRedirectController {
 	 *
 	 * @return redirect:index.html as {@link String}
 	 */
-	@RequestMapping("/")
+	@RequestMapping({ "/", "profile/**", "user/**", "addProduct/**", "search/**", "details/**", "addComment/**", "overview/**", "login", "dashboard" })
 	public String getLandingPage() {
 		return "redirect:" + LANDING_PAGE_VIEW;
 	}
