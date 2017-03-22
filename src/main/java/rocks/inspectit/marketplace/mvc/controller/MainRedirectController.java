@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 public class MainRedirectController {
 
-	private static final String LANDING_PAGE_VIEW = "index.html";
+	private static final String LANDING_PAGE_VIEW = "/index.html";
 
 	/**
 	 * Build the application context path.
