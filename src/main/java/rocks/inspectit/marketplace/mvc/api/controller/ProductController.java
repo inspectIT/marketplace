@@ -40,19 +40,19 @@ public class ProductController {
 		this.mapper = mapper;
 	}
 
-	@GetMapping("get/product/list")
+	@GetMapping("product/list")
 	public List<OverviewItemModel> getProductList(@PageableDefault(size = Integer.MAX_VALUE, direction = Sort.Direction.DESC) final Pageable pageable) {
 		List<OverviewItemModel> overviewItemModelList = mapper.getOverviewItemModelListFromProductEntityList(productService.getPagedProductsByPageable(pageable).getContent());
 		return overviewItemModelList;
 	}
 
-	@GetMapping("get/product/{productId}")
+	@GetMapping("product/{productId}")
 	public DetailModel getProductByProductId(@PathVariable final UUID productId) {
 		final DetailModel detailModel = this.mapper.getDetailModelFromProductEntity(this.productService.getProductByProductUuid(productId));
 		return detailModel;
 	}
 
-	@GetMapping("get/product/{productId}/download")
+	@GetMapping("product/{productId}/download")
 	public ResponseEntity<byte[]> downloadProductItemByProductId(@PathVariable final UUID productId) {
 		final ProductEntity entity = this.productService.getProductByProductUuid(productId);
 		final byte[] content = entity.getProductItem();
@@ -67,7 +67,7 @@ public class ProductController {
 		return response;
 	}
 
-	@GetMapping("/get/product/search/{searchTerm}")
+	@GetMapping("product/search/{searchTerm}")
 	public List<OverviewItemModel> getSearchResultByTerm(@PathVariable final String searchTerm,
 			@PageableDefault(size = Integer.MAX_VALUE, direction = Sort.Direction.DESC) final Pageable pageable) {
 		final List<OverviewItemModel> overviewItemModelList = mapper.getOverviewItemModelListFromProductEntityList(productService.getAllProductsBySearchTerm(searchTerm, pageable).getContent());

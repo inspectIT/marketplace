@@ -32,11 +32,9 @@ public class ProfileController {
 		this.mapper = mapper;
 	}
 
-	@GetMapping("get/user/{userId}")
+	@GetMapping("user/{userId}")
 	public UserDetailModel getUserByUserId(@PathVariable final UUID userId) {
-
 		final UserDetailModel model = this.mapper.getUserDetailModelFromUserEntity(this.service.getUserEntityByUserUuid(userId));
-
 		return model;
 	}
 }

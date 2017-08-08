@@ -59,7 +59,7 @@ public class DashBoardController {
 	 * @return list of {@link OverviewItemModel} as JSON
 	 * @since 1.0.4-SNAPSHOT
 	 */
-	@GetMapping(value = "/get/dashboard/simple/{sortOption}")
+	@GetMapping(value = "dashboard/simple/{sortOption}")
 	public List<OverviewItemModel> getSimpleDashboardOverview(@PathVariable final SortOptionEnum sortOption) {
 		final Page<ProductEntity> productEntitiesPage = this.getProductsBySortOption(sortOption);
 		final List<OverviewItemModel> modelList = this.mapper.getOverviewItemModelListFromProductEntityList(productEntitiesPage.getContent());
@@ -77,7 +77,7 @@ public class DashBoardController {
 	 * @return {@link Page} of {@link OverviewItemModel}
 	 * @since 1.0.8-SNAPSHOT
 	 */
-	@GetMapping("/get/overview/{preSortOption}")
+	@GetMapping("overview/{preSortOption}")
 	public Page<OverviewItemModel> getOverviewItemListByFilter(@PathVariable final SortOptionEnum preSortOption,
 			@RequestParam(defaultValue = DEFAULT_SORT_ORDER) final String sortOrder,
 			@RequestParam(required = false) final SortOptionEnum additionSortOption,

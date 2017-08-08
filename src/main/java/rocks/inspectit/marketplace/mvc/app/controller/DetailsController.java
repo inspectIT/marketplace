@@ -21,7 +21,6 @@ import org.springframework.web.multipart.support.StandardMultipartHttpServletReq
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -70,7 +69,7 @@ public class DetailsController {
 	 * @param productId {@link String}
 	 * @return {@link DetailModel}
 	 */
-	@GetMapping("get/product/{productId}")
+	@GetMapping("product/{productId}")
 	public DetailModel getDetailModelById(@PathVariable final UUID productId) {
 		final DetailModel detailModel = this.mapper.getDetailModelFromProductEntity(this.service.getProductEntityById(productId));
 		return detailModel;
@@ -81,8 +80,8 @@ public class DetailsController {
 	 *
 	 * @param request {@link HttpServletRequest}
 	 */
-	@PostMapping("add/product")
-	public Map<String, Boolean> addAndPersistProduct(final HttpServletRequest request) {
+	@PostMapping("product")
+	public ResponseEntity addAndPersistProduct(final HttpServletRequest request) {
 		final MultipartFile product = ((StandardMultipartHttpServletRequest) request).getMultiFileMap().getFirst("products");
 		final MultipartFile image = ((StandardMultipartHttpServletRequest) request).getMultiFileMap().getFirst("images");
 
@@ -112,10 +111,7 @@ public class DetailsController {
 		productEntity.setUserEntity(userEntity);
 		productEntity.setKeywordEntityList(keywordEntityList);
 
-		this.service.persistProductEntity(productEntity);
-		final Map<String, Boolean> returnMap = new HashMap<>();
-		returnMap.put("success", productEntity.getProductUuid() != null);
-		return returnMap;
+		return new ResponseEntity(this.service.persistProductEntity(productEntity), HttpStatus.CREATED);
 	}
 
 	/**
@@ -145,8 +141,8 @@ public class DetailsController {
 	 * @return {@link Map} of {@link String} and {@link Boolean}
 	 * @since 1.1.1-SNAPSHOT
 	 */
-	@PostMapping("add/rating/{productId}/{userName}")
-	public Map<String, Boolean> addAndPersistRating(@PathVariable final UUID productId,
+	@PostMapping("rating/{productId}/{userName}")
+	public ResponseEntity addAndPersistRating(@PathVariable final UUID productId,
 			@PathVariable final String userName,
 			@RequestBody RatingModel rating) {
 		final UserEntity userEntity = this.service.getUserByUserName(userName);
@@ -156,10 +152,7 @@ public class DetailsController {
 		entity.setProductEntity(productEntity);
 		entity.setUserEntity(userEntity);
 
-		this.service.persistRatingEntity(entity);
-		final Map<String, Boolean> returnMap = new HashMap<>();
-		returnMap.put("success", entity.getRatingUuid() != null);
-		return returnMap;
+		return new ResponseEntity(this.service.persistRatingEntity(entity), HttpStatus.CREATED);
 	}
 
 	@GetMapping("/download/product/{productId}")

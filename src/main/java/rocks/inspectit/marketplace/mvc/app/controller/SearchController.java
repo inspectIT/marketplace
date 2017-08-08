@@ -52,7 +52,7 @@ public class SearchController {
 	 * @param pageable   {@link Pageable}
 	 * @return {@link Page} of {@link OverviewItemModel}
 	 */
-	@GetMapping("/get/search/{searchTerm}")
+	@GetMapping("search/{searchTerm}")
 	public Page<OverviewItemModel> getSearchResultByTerm(@PathVariable final String searchTerm,
 			@PageableDefault(size = 48) final Pageable pageable) {
 

@@ -4,7 +4,7 @@
  * @since 1.0.5-SNAPSHOT
  */
 import {Injectable} from "@angular/core";
-import {Http, Response, Headers, RequestOptions} from "@angular/http";
+import {Headers, Http, RequestOptions, Response} from "@angular/http";
 import {Observable} from "rxjs/Observable";
 import {PagedOverviewResultModel} from "../../pages/shared/model/paged.overview.result.model";
 import {DashboardItemModel} from "../../pages/dashboard/model/dashboard.item.model";
@@ -24,13 +24,13 @@ export class ApiService {
 
   /**
    * return dashboard items by parameter
-   *  uri for localhost: <a href="http://localhost:8080/app/get/dashboard/simple/NAME">get top 20 Products ordered by name</a>
+   *  uri for localhost: <a href="http://localhost:8080/app/dashboard/simple/NAME">get top 20 Products ordered by name</a>
    *
    * @param tag {@link string}
    * @returns {Promise<TResult|T>|Promise<T>}
    */
   getDashboardCarouselItem(tag: string): Observable<Array<DashboardItemModel>> {
-    const url: string = `${this.applicationUrl}/app/get/dashboard/simple/${tag}`;
+    const url: string = `${this.applicationUrl}/app/dashboard/simple/${tag}`;
     // ...using get request
     return this.http.get(url)
     // ...and calling .json() on the response to return data
@@ -41,14 +41,14 @@ export class ApiService {
 
   /**
    * return paged search results by search term.
-   *  uri for localhost: <a href="http://localhost:8080/app/get/search/product">get all products, whose name or author contains 'product'</a>
+   *  uri for localhost: <a href="http://localhost:8080/app/search/product">get all products, whose name or author contains 'product'</a>
    *
    *
    * @param searchTerm {@link string}
    * @returns {Observable<PagedOverviewResultModel>}
    */
   getSearchResultItem(searchTerm: string): Observable<PagedOverviewResultModel> {
-    const url: string = `${this.applicationUrl}/app/get/search/${searchTerm}`;
+    const url: string = `${this.applicationUrl}/app/search/${searchTerm}`;
     console.log("getSearchResultItem :: " + url);
 
     return this.getPagedOverviewResultFromRESTResource(url);
@@ -67,7 +67,7 @@ export class ApiService {
    */
   getOverviewResultItemWithFilter(tag: string, page: number, size: number, orderBy?: string, sortOption?: string, limitTo?: Array<string>): Observable<PagedOverviewResultModel> {
     // default url; set sort direction to desc if undefined
-    let url: string = `${this.applicationUrl}/app/get/overview/${tag}?sortOrder=${orderBy || 'DESC'}&page=${page}&size=${size}`;
+    let url: string = `${this.applicationUrl}/app/overview/${tag}?sortOrder=${orderBy || 'DESC'}&page=${page}&size=${size}`;
 
     // populate params
     if (sortOption && sortOption !== '') {
@@ -89,7 +89,7 @@ export class ApiService {
    * @returns {Promise<TResult|T>|Promise<T>}
    */
   getProductDetailById(productId: string) {
-    const url = `${this.applicationUrl}/app/get/product/${productId}`;
+    const url = `${this.applicationUrl}/app/product/${productId}`;
     console.log("getProductDetailById :: " + url);
 
     return this.http.get(url)
@@ -108,7 +108,7 @@ export class ApiService {
   }
 
   persistProduct(username: string, imagesToUpload: Array<File>, productsToUpload: Array<File>, productName: string, productDescription: string, limitToArray: Array<string>) {
-    const url = `${this.applicationUrl}/app/add/product`;
+    const url = `${this.applicationUrl}/app/product`;
     const formData: any = new FormData();
 
     // set user
@@ -143,7 +143,7 @@ export class ApiService {
   }
 
   persistComment(username: string, productId: string, formValueJson: string) {
-    const url = `${this.applicationUrl}/app/add/rating/${productId}/${username}`;
+    const url = `${this.applicationUrl}/app/rating/${productId}/${username}`;
     const body = formValueJson;
     const headers = new Headers({'Content-Type': 'application/json'});
     const options = new RequestOptions({headers: headers});
@@ -162,7 +162,7 @@ export class ApiService {
    * return true if user is allowed to comment; else false
    */
   userHasPermissionToComment(userName: string, productId: string): Observable<PermissionModel> {
-    const url = `${this.applicationUrl}/app/get/userHasPermission/${userName}/${productId}/comment`;
+    const url = `${this.applicationUrl}/app/userHasPermission/${userName}/${productId}/comment`;
     console.log("get user permission for comment by url " + url);
     return this.http.get(url)
     // ...and calling .json() on the response to return data
