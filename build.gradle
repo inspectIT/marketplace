@@ -7,7 +7,7 @@
 // default spring-boot build-script
 buildscript {
 	ext {
-		springBootVersion = '1.4.3.RELEASE'
+		springBootVersion = '1.5.6.RELEASE'
 		gradleDockerVersion = '1.2'
 		// coberturaVersion = '2.3.2'
 	}
@@ -144,11 +144,14 @@ dependencies {
 
 }
 
-// define wrapper version to 3.1
-task wrapper(type: Wrapper) {
-	description = 'Generates gradlew[.bat] scripts'
-	gradleVersion = '3.1'
-}
+
+println("execute wrapper on console with 'gradle wrapper --gradle-version 3.5'")
+// define wrapper version to 3.5
+//task wrapper(type: Wrapper) {
+//	description = 'Generates gradlew[.bat] scripts'
+//	gradleVersion = '3.5'
+//}
+
 
 // replace placeholder in application.properties only, since application-dev.properties container hard coded values
 processResources {

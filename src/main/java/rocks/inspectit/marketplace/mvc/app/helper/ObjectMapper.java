@@ -184,9 +184,9 @@ public class ObjectMapper {
 	 * @param user       {@link UserDetailModel}
 	 * @return {@link UserEntity}
 	 */
-	public UserEntity getUpdatedUserEntityFromUserDetailModel(final Optional<UserEntity> userEntity, final RoleEntity role, final UserDetailModel user) {
+	public UserEntity getUpdatedUserEntityFromUserDetailModel(final UserEntity userEntity, final RoleEntity role, final UserDetailModel user) {
 		// use option for one line
-		final UserEntity entity = userEntity.orElse(new UserEntity());
+		final UserEntity entity = userEntity != null ? userEntity : new UserEntity();
 		entity.setRoleEntity(role);
 
 		this.mapper.map(user, entity);

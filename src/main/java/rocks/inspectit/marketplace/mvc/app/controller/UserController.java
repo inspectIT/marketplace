@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.Optional;
 
 import rocks.inspectit.marketplace.dao.repository.jpa.entity.RoleEntity;
 import rocks.inspectit.marketplace.dao.repository.jpa.entity.UserEntity;
@@ -61,12 +60,12 @@ public class UserController {
 		final UserDetailModel user = this.mapper.getUserDetailModelFromOAuth2Authentication(auth, emailList);
 
 		// find user entity by username
-		final Optional<UserEntity> userEntity = Optional.ofNullable(this.service.getUserEntityByUsername(user.getUserName()));
+		final UserEntity userEntity = this.service.getUserEntityByUsername(user.getUserName());
 
 		// get Role from repository if userEntity is null
 		final RoleEntity roleEntity;
-		if (userEntity.isPresent()) {
-			roleEntity = userEntity.get().getRoleEntity();
+		if (userEntity != null) {
+			roleEntity = userEntity.getRoleEntity();
 		} else {
 			roleEntity = this.roleService.getRoleEntityByName(user.getRole());
 		}
