@@ -1,0 +1,58 @@
+/**
+ * @author Nikita Kolytschew
+ * @version %I%, %G%
+ * @since 1.0.0-SNAPSHOT
+ */
+
+buildscript {
+	ext {
+		springBootVersion = '1.5.6.RELEASE'
+	}
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+	}
+}
+
+apply plugin: 'java'
+
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+
+apply plugin: 'org.springframework.boot'
+
+sourceCompatibility = 1.8
+
+version = '1.0.0-SNAPSHOT'
+group = "inspectit.rocks"
+description = "Marketplace Eureka Service Discovery"
+project.ext.finalName = jar.baseName
+
+// add jar information
+jar {
+	baseName = 'service-discovery'
+}
+
+repositories {
+	mavenCentral()
+}
+
+
+ext {
+	springCloudVersion = 'Dalston.SR2'
+}
+
+dependencies {
+	compile('org.springframework.boot:spring-boot-starter-actuator')
+	compile('org.springframework.cloud:spring-cloud-starter-config')
+	compile('org.springframework.cloud:spring-cloud-starter-eureka-server')
+	testCompile('org.springframework.boot:spring-boot-starter-test')
+}
+
+dependencyManagement {
+	imports {
+		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+	}
+}

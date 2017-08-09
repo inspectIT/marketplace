@@ -1,0 +1,17 @@
+
+
+# spring cloud config-server set up
+## uri to spring cloud config server
+## if you want to change it, add bootstrap.yml file and override default
+# default
+# spring:
+#	cloud:
+#		config:
+#			uri: http://localhost:8888
+
+# set application name for cloud-config
+spring:
+    application:
+        name: marketplace-service-discovery
+
+# don't add/change properties here; add properties in config-file
