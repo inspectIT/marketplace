@@ -1,0 +1,92 @@
+/**
+ * @author Nikita Kolytschew
+ * @version %I%, %G%
+ * @since 1.0.0-SNAPSHOT
+ */
+
+buildscript {
+	ext {
+		springBootVersion = '1.5.6.RELEASE'
+	}
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+	}
+}
+
+apply plugin: 'java'
+
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+
+apply plugin: 'org.springframework.boot'
+
+sourceCompatibility = 1.8
+
+version = '1.0.0-SNAPSHOT'
+group = "inspectit.rocks"
+description = "Marketplace Configuration Service"
+project.ext.finalName = jar.baseName
+
+// add jar information
+jar {
+	baseName = 'configuration-service'
+}
+
+repositories {
+	mavenCentral()
+}
+
+
+// set spring profile
+// use native type to avoid boxing
+ext.activeProfile = System.properties['spring.profiles.active'] ?: "dev"
+
+ext {
+	springCloudVersion = 'Dalston.SR2'
+	mongobeeVersion = 0.12
+	javassistVersion = '3.18.2-GA'
+}
+
+dependencies {
+	// lombok
+	compileOnly('org.projectlombok:lombok')
+
+	// database migration
+	compile("org.javassist:javassist:${javassistVersion}") // workaround for ${javassist.version} placeholder issue*
+	compile("com.github.mongobee:mongobee:${mongobeeVersion}")
+
+	/**
+	 * spring starter
+	 **/
+
+	// cloud
+	compile('org.springframework.cloud:spring-cloud-starter-eureka')
+	compile('org.springframework.cloud:spring-cloud-starter-config')
+
+	// normal
+	compile('org.springframework.boot:spring-boot-starter-actuator')
+	compile('org.springframework.boot:spring-boot-starter-data-mongodb')
+	compile('org.springframework.boot:spring-boot-starter-data-rest')
+
+	//test
+	testCompile('org.springframework.boot:spring-boot-starter-test')
+}
+
+dependencyManagement {
+	imports {
+		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+	}
+}
+
+
+// bootRun will rely on the -P profile argument,
+// defaulting to the "dev" profile if no -P arguments are provided
+bootRun {
+	// pass command line options from gradle to bootRun
+	// usage: gradlew bootRun "-Dspring.profiles.active=dev"
+	println 'usage: gradlew bootRun "-Dspring.profiles.active=dev"'
+	systemProperty "spring.profiles.active", activeProfile
+}
