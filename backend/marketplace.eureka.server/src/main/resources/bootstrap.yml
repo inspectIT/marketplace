@@ -10,8 +10,8 @@
 #			uri: http://localhost:8888
 
 # set application name for cloud-config
-#spring:
-#    application:
-#        name: marketplace-service-discovery
+spring:
+    application:
+        name: marketplace-service-discovery
 
 # don't add/change properties here; add properties in config-file

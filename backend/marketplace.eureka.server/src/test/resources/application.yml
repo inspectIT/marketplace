@@ -1,0 +1,15 @@
+
+
+# default
+server:
+    port: 8762
+
+# eureka discovery properties
+eureka:
+    instance:
+        hostname: localhost
+    client:
+        registerWithEureka: false
+        fetchRegistry: false
+    server:
+        waitTimeInMsWhenSyncEmpty: 0
