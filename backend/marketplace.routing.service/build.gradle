@@ -23,7 +23,6 @@ apply plugin: 'idea'
 
 apply plugin: 'org.springframework.boot'
 
-version = '0.0.1-SNAPSHOT'
 sourceCompatibility = 1.8
 
 version = '1.0.0-SNAPSHOT'
@@ -41,8 +40,12 @@ repositories {
 }
 
 
+// set spring profile
+// use native type to avoid boxing
+ext.activeProfile = System.properties['spring.profiles.active'] ?: "dev"
+
 ext {
-	springCloudVersion = 'Dalston.SR2'
+	springCloudVersion = 'Dalston.SR3'
 }
 
 dependencies {
@@ -54,8 +57,10 @@ dependencies {
 	compile('org.springframework.cloud:spring-cloud-starter-eureka')
 	compile('org.springframework.cloud:spring-cloud-starter-zuul')
 
+	// normal
 	compile('org.springframework.boot:spring-boot-starter-actuator')
 
+	//test
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 }
 
@@ -63,4 +68,14 @@ dependencyManagement {
 	imports {
 		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
 	}
+}
+
+
+// bootRun will rely on the -P profile argument,
+// defaulting to the "dev" profile if no -P arguments are provided
+bootRun {
+	// pass command line options from gradle to bootRun
+	// usage: gradlew bootRun "-Dspring.profiles.active=dev"
+	println 'usage: gradlew bootRun "-Dspring.profiles.active=dev"'
+	systemProperty "spring.profiles.active", activeProfile
 }
