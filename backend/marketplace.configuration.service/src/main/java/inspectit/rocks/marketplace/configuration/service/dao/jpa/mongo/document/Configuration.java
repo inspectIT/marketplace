@@ -17,7 +17,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * Represents a MongoDB Document.
+ * Represents a database entity.
  * Using Lombok to reduce boilerplate.
  *
  * @author NKO

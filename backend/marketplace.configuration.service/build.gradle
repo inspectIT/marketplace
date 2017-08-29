@@ -45,7 +45,7 @@ repositories {
 ext.activeProfile = System.properties['spring.profiles.active'] ?: "dev"
 
 ext {
-	springCloudVersion = 'Dalston.SR2'
+	springCloudVersion = 'Dalston.SR3'
 	mongobeeVersion = 0.12
 	javassistVersion = '3.18.2-GA'
 }
@@ -61,7 +61,6 @@ dependencies {
 	/**
 	 * spring starter
 	 **/
-
 	// cloud
 	compile('org.springframework.cloud:spring-cloud-starter-eureka')
 	compile('org.springframework.cloud:spring-cloud-starter-config')
